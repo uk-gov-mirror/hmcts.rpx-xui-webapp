@@ -1,5 +1,8 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier"
+  ],
   "rulesDirectory": [
     "codelyzer"
   ],
@@ -17,10 +20,6 @@
     ],
     "interface-name": false,
     "max-classes-per-file": false,
-    "max-line-length": [
-      true,
-      3000
-    ],
     "member-access": { "severity": "warning", "options": ["check-accessor", "check-parameter-property"]},
     "member-ordering": [
       true,
@@ -49,16 +48,8 @@
     "no-use-before-declare": true,
     "no-var-requires": false,
     "no-string-literal": false,
-    "object-literal-key-quotes": [
-      true,
-      "as-needed"
-    ],
     "object-literal-sort-keys": false,
     "ordered-imports": { "severity": "warning" },
-    "quotemark": [
-      true,
-      "single"
-    ],
     "trailing-comma": false,
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
@@ -91,7 +82,6 @@
     "arrow-return-shorthand": { "severity": "warning" },
     "class-name": { "severity": "warning" },
     "prefer-method-signature": { "severity": "warning" },
-    "prefer-template": { "severity": "warning" },
-    "semicolon": { "severity": "warning" }
+    "prefer-template": { "severity": "warning" }
   }
 }
