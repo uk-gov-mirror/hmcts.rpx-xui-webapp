@@ -14,10 +14,8 @@ describe('CaseShareConfirmComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ CaseShareConfirmComponent ],
-      providers: [
-        provideMockStore(),
-      ]
+      declarations: [CaseShareConfirmComponent],
+      providers: [provideMockStore()],
     }).compileComponents();
     store = TestBed.get(Store);
     fixture = TestBed.createComponent(CaseShareConfirmComponent);

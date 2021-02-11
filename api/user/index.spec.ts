@@ -9,7 +9,6 @@ import { getUserDetails } from './index'
 
 chai.use(sinonChai)
 describe('getUserDetails', () => {
-
     let sandbox
     let next
     let req
@@ -26,62 +25,62 @@ describe('getUserDetails', () => {
     })
 
     it('should return a true response when case share permission is existent', async () => {
-      const reqQuery = {
-        session: {
-          passport: {
-            user: {
-              userinfo: {
-                roles: ['pui-case-manager'],
-              },
+        const reqQuery = {
+            session: {
+                passport: {
+                    user: {
+                        userinfo: {
+                            roles: ['pui-case-manager'],
+                        },
+                    },
+                },
             },
-          },
-        },
-      }
-      req = mockReq(reqQuery)
-      await getUserDetails(req, res, next)
-      const response = {
-        canShareCases: true,
-      }
-      expect(res.send).to.have.been.calledWith(sinon.match(response))
+        }
+        req = mockReq(reqQuery)
+        await getUserDetails(req, res, next)
+        const response = {
+            canShareCases: true,
+        }
+        expect(res.send).to.have.been.calledWith(sinon.match(response))
     })
 
     it('should return a false response when case share permission is non-existent', async () => {
-      const reqQuery = {
-        session: {
-          passport: {
-            user: {
-              userinfo: {
-                roles: ['dummy'],
-              },
+        const reqQuery = {
+            session: {
+                passport: {
+                    user: {
+                        userinfo: {
+                            roles: ['dummy'],
+                        },
+                    },
+                },
             },
-          },
-        },
-      }
-      req = mockReq(reqQuery)
-      await getUserDetails(req, res, next)
-      const response = {
-        canShareCases: false
-      }
-      expect(res.send).to.have.been.calledWith(sinon.match(response))
+        }
+        req = mockReq(reqQuery)
+        await getUserDetails(req, res, next)
+        const response = {
+            canShareCases: false,
+        }
+        expect(res.send).to.have.been.calledWith(sinon.match(response))
     })
 
     it('should catch an error', async () => {
-      const reqQuery = {
-        session: {
-          passport: {
-            user: {
-              userinfo: {
-                roles: [],
-              },
+        const reqQuery = {
+            session: {
+                passport: {
+                    user: {
+                        userinfo: {
+                            roles: [],
+                        },
+                    },
+                },
             },
-          },
-        },
-      }
-      req = mockReq(reqQuery)
-      res.send.throws()
+        }
+        req = mockReq(reqQuery)
+        res.send.throws()
 
-      await getUserDetails(req, res, next)
+        await getUserDetails(req, res, next)
 
-      expect(next).to.have.been.calledWith()
+        expect(next).to.have.been.calledWith()
     })
 })

@@ -4,15 +4,14 @@
  * Server.ts is used to run the application as it moves through the Jenkins pipelines, and on the Preview
  * and higher environments.
  */
-import 'source-map-support/register'
-import { app } from './application'
-
 import * as ejs from 'ejs'
 import * as express from 'express'
 import * as path from 'path'
+import 'source-map-support/register'
+import { app } from './application'
 import { appInsights } from './lib/appInsights'
 import errorHandler from './lib/error.handler'
-import {removeCacheHeaders} from './lib/middleware/removeCacheHeaders'
+import { removeCacheHeaders } from './lib/middleware/removeCacheHeaders'
 
 app.engine('html', ejs.renderFile)
 app.set('view engine', 'html')

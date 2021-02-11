@@ -15,7 +15,7 @@ const router = express.Router({ mergeParams: true })
 router.use('/healthCheck', healthCheck)
 
 router.get('/monitoring-tools', (req, res) => {
-    res.send({key: getConfigValue(APP_INSIGHTS_KEY)})
+    res.send({ key: getConfigValue(APP_INSIGHTS_KEY) })
 })
 
 router.get('/configuration', (req, res) => {

@@ -1,46 +1,44 @@
 const BrowserWaits = require('../../e2e/support/customWaits');
 
+class CaseEdit {
+  checkYourAnswersPageElement = $('.check-your-answers');
+  continueBtn = $('ccd-case-edit .form > .form-group button[type = "submit"]');
+  submitBtn = $(
+    'ccd-case-edit-submit form > .form-group button[type = "submit"]'
+  );
 
-class CaseEdit{
+  async inputCaseField(caseFieldId, inputtext) {
+    await $(`#${caseFieldId}`).clear();
+    await $(`#${caseFieldId}`).sendKeys(inputtext);
+  }
 
-    checkYourAnswersPageElement = $(".check-your-answers");
-    continueBtn = $('ccd-case-edit .form > .form-group button[type = "submit"]');
-    submitBtn = $('ccd-case-edit-submit form > .form-group button[type = "submit"]');
+  getSubmitButton() {
+    return this.submitBtn;
+  }
 
-    async  inputCaseField(caseFieldId, inputtext) {
-        await $(`#${caseFieldId}`).clear();
-        await $(`#${caseFieldId}`).sendKeys(inputtext);
-    }
+  async clickSubmit() {
+    await BrowserWaits.waitForElement(this.submitBtn);
+    await this.submitBtn.click();
+  }
 
-    getSubmitButton(){
-        return this.submitBtn;
-    }
+  async selectRadioYesOrNo(fieldId, value) {
+    let toSelect = value ? 'Yes' : 'No';
+    let inputToSelect = $(`#${fieldId} input[id$='${toSelect}']`);
+    await inputToSelect.click();
+  }
 
-    async  clickSubmit() {
-        await BrowserWaits.waitForElement(this.submitBtn);
-        await this.submitBtn.click();
-    }
+  async clickContinue() {
+    await BrowserWaits.waitForElement(this.continueBtn);
+    await this.continueBtn.click();
+  }
 
-    async  selectRadioYesOrNo(fieldId, value) {
-        let toSelect = value ? 'Yes' : 'No';
-        let inputToSelect = $(`#${fieldId} input[id$='${toSelect}']`);
-        await inputToSelect.click();
-    }
+  async waitForChecYourAnswersPage() {
+    await BrowserWaits.waitForElement(this.checkYourAnswersPageElement);
+  }
 
-    async  clickContinue() {
-        await BrowserWaits.waitForElement(this.continueBtn);
-        await this.continueBtn.click();
-    }
-
-    async waitForChecYourAnswersPage(){
-        await BrowserWaits.waitForElement(this.checkYourAnswersPageElement);
- 
-    }
-
-    async isCheckYourAnswersPagePresent(){
-        return await this.checkYourAnswersPageElement.isPresent(); 
-    }
-
+  async isCheckYourAnswersPagePresent() {
+    return await this.checkYourAnswersPageElement.isPresent();
+  }
 }
 
-module.exports = new CaseEdit(); 
+module.exports = new CaseEdit();

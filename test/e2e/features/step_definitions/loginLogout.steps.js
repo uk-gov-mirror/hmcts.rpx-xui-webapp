@@ -2,14 +2,19 @@
 
 const loginPage = require('../pageObjects/loginLogoutObjects');
 const { defineSupportCode } = require('cucumber');
-const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
+const {
+  AMAZING_DELAY,
+  SHORT_DELAY,
+  MID_DELAY,
+  LONG_DELAY,
+} = require('../../support/constants');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
-const BrowserWaits = require("../../support/customWaits");
+const BrowserWaits = require('../../support/customWaits');
 const CucumberReportLogger = require('../../support/reportLogger');
 
 async function waitForElement(el) {
-  await browser.wait(result => {
+  await browser.wait((result) => {
     return element(by.className(el)).isPresent();
   }, 20000);
 }
@@ -23,37 +28,41 @@ defineSupportCode(function ({ Given, When, Then }) {
     let loginAttemptRetryCounter = 1;
 
     while (loginAttemptRetryCounter < 5) {
-      let emailFieldValue = "";
+      let emailFieldValue = '';
 
       try {
         // await BrowserWaits.waitForstalenessOf(loginPage.emailAddress, 5);
         await BrowserWaits.waitForCondition(async () => {
-          let isEmailFieldDisplayed = await loginPage.emailAddress.isPresent() ;
+          let isEmailFieldDisplayed = await loginPage.emailAddress.isPresent();
           let credentialsErrorPresent = await loginPage.isLoginCredentialsErrorDisplayed();
           let isEmailValuePresent = false;
-          if (isEmailFieldDisplayed){
-            let isEmailValuePresent = (await loginPage.emailAddress.getText()) !== "";
+          if (isEmailFieldDisplayed) {
+            let isEmailValuePresent =
+              (await loginPage.emailAddress.getText()) !== '';
           }
-          let errorMessage = "";
-          if (credentialsErrorPresent){
+          let errorMessage = '';
+          if (credentialsErrorPresent) {
             invalidCredentialsCounter++;
-            errorMessage = testCounter + " Credentials error occured " + invalidCredentialsCounter;
+            errorMessage =
+              testCounter +
+              ' Credentials error occured ' +
+              invalidCredentialsCounter;
           }
 
-          if (isEmailFieldDisplayed && !isEmailValuePresent){
-            errorMessage = errorMessage +" : " +testCounter+" login page refresh ";
+          if (isEmailFieldDisplayed && !isEmailValuePresent) {
+            errorMessage =
+              errorMessage + ' : ' + testCounter + ' login page refresh ';
           }
           // console.log(testCounter +" : error message =>"+errorMessage+"<=");
-          if (errorMessage !== ""){
+          if (errorMessage !== '') {
             throw new Error(errorMessage);
-          } else if (isEmailFieldDisplayed && emailValuePresent){
-            console.log(testCounter + "  ");
+          } else if (isEmailFieldDisplayed && emailValuePresent) {
+            console.log(testCounter + '  ');
 
             return false;
-          }else{
+          } else {
             return true;
           }
- 
         });
 
         break;
@@ -66,12 +75,18 @@ defineSupportCode(function ({ Given, When, Then }) {
             secondAttemptFailedLogins++;
           }
 
-
-          console.log(err + " email field is still present with empty value indicating  Login page reloaded due to EUI-1856 : Login re attempt " + loginAttemptRetryCounter);
-          world.attach(err + " email field is still present with empty value indicating Login page reloaded due to EUI-1856 : Login re attempt " + loginAttemptRetryCounter);
-        console.log(err); 
-          await browser.driver.manage()
-            .deleteAllCookies();
+          console.log(
+            err +
+              ' email field is still present with empty value indicating  Login page reloaded due to EUI-1856 : Login re attempt ' +
+              loginAttemptRetryCounter
+          );
+          world.attach(
+            err +
+              ' email field is still present with empty value indicating Login page reloaded due to EUI-1856 : Login re attempt ' +
+              loginAttemptRetryCounter
+          );
+          console.log(err);
+          await browser.driver.manage().deleteAllCookies();
           await browser.get(config.config.baseUrl);
           await BrowserWaits.waitForElement(loginPage.emailAddress);
           await loginPage.loginWithCredentials(username, password);
@@ -79,192 +94,260 @@ defineSupportCode(function ({ Given, When, Then }) {
         }
       }
     }
-    console.log("ONE ATTEMPT:  EUI-1856 issue occured / total logins => " + firstAttemptFailedLogins + " / " + loginAttempts);
-    world.attach("ONE ATTEMPT:  EUI-1856 issue occured / total logins => " + firstAttemptFailedLogins + " / " + loginAttempts);
+    console.log(
+      'ONE ATTEMPT:  EUI-1856 issue occured / total logins => ' +
+        firstAttemptFailedLogins +
+        ' / ' +
+        loginAttempts
+    );
+    world.attach(
+      'ONE ATTEMPT:  EUI-1856 issue occured / total logins => ' +
+        firstAttemptFailedLogins +
+        ' / ' +
+        loginAttempts
+    );
 
-    console.log("TWO ATTEMPT: EUI-1856 issue occured / total logins => " + secondAttemptFailedLogins + " / " + loginAttempts);
-    world.attach("TWO ATTEMPT: EUI-1856 issue occured / total logins => " + secondAttemptFailedLogins + " / " + loginAttempts);
-
-
+    console.log(
+      'TWO ATTEMPT: EUI-1856 issue occured / total logins => ' +
+        secondAttemptFailedLogins +
+        ' / ' +
+        loginAttempts
+    );
+    world.attach(
+      'TWO ATTEMPT: EUI-1856 issue occured / total logins => ' +
+        secondAttemptFailedLogins +
+        ' / ' +
+        loginAttempts
+    );
   }
 
   let loginAttempts = 0;
   let firstAttemptFailedLogins = 0;
   let secondAttemptFailedLogins = 0;
 
-
   When('I navigate to Expert UI Url', async function () {
-    await browser.driver.manage()
-      .deleteAllCookies();
-    CucumberReportLogger.AddMessage("App base url : " + config.config.baseUrl);
+    await browser.driver.manage().deleteAllCookies();
+    CucumberReportLogger.AddMessage('App base url : ' + config.config.baseUrl);
     await browser.get(config.config.baseUrl);
 
     const world = this;
-    await BrowserWaits.retryForPageLoad(loginPage.signinTitle,function(message){
-      world.attach("Expert UI Url reload attempt : "+message);
-    });
+    await BrowserWaits.retryForPageLoad(
+      loginPage.signinTitle,
+      function (message) {
+        world.attach('Expert UI Url reload attempt : ' + message);
+      }
+    );
 
     expect(await loginPage.signinBtn.isDisplayed()).to.be.true;
-
   });
 
   Then(/^I should see failure error summary$/, async function () {
     await waitForElement('heading-large');
-    await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.failure_error_heading.getText())
-      .to
-      .eventually
-      .equal('Incorrect email or password');
+    await expect(
+      loginPage.failure_error_heading.isDisplayed()
+    ).to.eventually.be.true;
+    await expect(loginPage.failure_error_heading.getText()).to.eventually.equal(
+      'Incorrect email or password'
+    );
     browser.sleep(SHORT_DELAY);
   });
-
 
   Then(/^I am on Idam login page$/, async function () {
     await waitForElement('heading-large');
     await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.signinTitle.getText())
-      .to
-      .eventually
-      .equal('Sign in');
+    await expect(loginPage.signinTitle.getText()).to.eventually.equal(
+      'Sign in'
+    );
     await expect(loginPage.emailAddress.isDisplayed()).to.eventually.be.true;
     await expect(loginPage.password.isDisplayed()).to.eventually.be.true;
     browser.sleep(SHORT_DELAY);
-
   });
 
+  When(
+    /^I enter an valid email-address and password to login$/,
+    async function () {
+      await loginPage.emailAddress.sendKeys(this.config.username); //replace username and password
+      browser.sleep(MID_DELAY);
+      await loginPage.password.sendKeys(this.config.password);
+      // browser.sleep(SHORT_DELAY);
+      await loginPage.signinBtn.click();
+      browser.sleep(SHORT_DELAY);
 
-  When(/^I enter an valid email-address and password to login$/, async function () {
-    await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password
-    browser.sleep(MID_DELAY);
-    await loginPage.password.sendKeys(this.config.password);
-    // browser.sleep(SHORT_DELAY);
-    await loginPage.signinBtn.click();
-    browser.sleep(SHORT_DELAY);
+      loginAttempts++;
+      await loginattemptCheckAndRelogin(
+        this.config.username,
+        this.config.password,
+        this
+      );
+    }
+  );
 
-    loginAttempts++;
-    await loginattemptCheckAndRelogin(this.config.username, this.config.password, this);
-
-  });
-
-
-  When(/^I enter an Invalid email-address and password to login$/, async function () {
-    await loginPage.givenIAmUnauthenticatedUser();
-
-  });
-
+  When(
+    /^I enter an Invalid email-address and password to login$/,
+    async function () {
+      await loginPage.givenIAmUnauthenticatedUser();
+    }
+  );
 
   Given(/^I should be redirected to the Idam login page$/, async function () {
-
     const world = this;
-    await BrowserWaits.retryForPageLoad(loginPage.signinTitle, function(message){
-      world.attach("Idam login page load attempt : "+message)
-    });
+    await BrowserWaits.retryForPageLoad(
+      loginPage.signinTitle,
+      function (message) {
+        world.attach('Idam login page load attempt : ' + message);
+      }
+    );
 
-    await expect(loginPage.signinTitle.getText())
-      .to
-      .eventually
-      .equal('Sign in');
+    await expect(loginPage.signinTitle.getText()).to.eventually.equal(
+      'Sign in'
+    );
     browser.sleep(LONG_DELAY);
   });
-
 
   Then(/^I select the sign out link$/, async function () {
     browser.sleep(SHORT_DELAY);
     await expect(loginPage.signOutlink.isDisplayed()).to.eventually.be.true;
     browser.sleep(SHORT_DELAY);
-    try{
+    try {
       await loginPage.getSignOutLink().click();
-    }catch(err){
+    } catch (err) {
       await browser.sleep(SHORT_DELAY);
       await loginPage.getSignOutLink().click();
     }
     browser.sleep(SHORT_DELAY);
   });
 
-
   Then('I should be redirected to EUI dashboard page', async function () {
-
     const world = this;
-    await BrowserWaits.retryForPageLoad($("exui-header"), function(message){
-      world.attach("Redirected to EUI dashboard , attempt reload : "+message);
+    await BrowserWaits.retryForPageLoad($('exui-header'), function (message) {
+      world.attach('Redirected to EUI dashboard , attempt reload : ' + message);
     });
 
-    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.dashboard_header.getText())
-      .to
-      .eventually
-      .contains('Case List');
-
+    await expect(
+      loginPage.dashboard_header.isDisplayed()
+    ).to.eventually.be.true;
+    await expect(loginPage.dashboard_header.getText()).to.eventually.contains(
+      'Case List'
+    );
   });
 
-  Given('I am logged into Expert UI with valid user details', async function () {
-    await loginPage.givenIAmLoggedIn(config.config.params.username, config.config.params.password);
-    const world = this;
+  Given(
+    'I am logged into Expert UI with valid user details',
+    async function () {
+      await loginPage.givenIAmLoggedIn(
+        config.config.params.username,
+        config.config.params.password
+      );
+      const world = this;
 
-    loginAttempts++;
-    await loginattemptCheckAndRelogin(config.config.params.username, config.config.params.password, this);
+      loginAttempts++;
+      await loginattemptCheckAndRelogin(
+        config.config.params.username,
+        config.config.params.password,
+        this
+      );
 
-    await BrowserWaits.retryForPageLoad($("exui-app-header"), function (message) {
-      world.attach("Login success page load load attempt : " + message)
-    });
+      await BrowserWaits.retryForPageLoad(
+        $('exui-app-header'),
+        function (message) {
+          world.attach('Login success page load load attempt : ' + message);
+        }
+      );
+    }
+  );
 
-  });
+  Given(
+    'I am logged into Expert UI with non professional user details',
+    async function () {
+      await loginPage.givenIAmLoggedIn(
+        this.config.caseworkerUser,
+        this.config.caseworkerPassword
+      );
+      const world = this;
 
-  Given('I am logged into Expert UI with non professional user details', async function () {
-    await loginPage.givenIAmLoggedIn(this.config.caseworkerUser, this.config.caseworkerPassword);
-    const world = this;
+      loginAttempts++;
+      await loginattemptCheckAndRelogin(
+        this.config.caseworkerUser,
+        this.config.caseworkerPassword,
+        this
+      );
 
-    loginAttempts++;
-    await loginattemptCheckAndRelogin(this.config.caseworkerUser, this.config.caseworkerPassword, this);
-
-    await BrowserWaits.retryForPageLoad($("exui-app-header"), function (message) {
-      world.attach("Login success page load load attempt : " + message)
-    });
-  });
+      await BrowserWaits.retryForPageLoad(
+        $('exui-app-header'),
+        function (message) {
+          world.attach('Login success page load load attempt : ' + message);
+        }
+      );
+    }
+  );
 
   Given('I am logged into Expert UI with FPL user details', async function () {
-    await loginPage.givenIAmLoggedIn("kurt@swansea.gov.uk", "Password12");
+    await loginPage.givenIAmLoggedIn('kurt@swansea.gov.uk', 'Password12');
     const world = this;
 
     loginAttempts++;
-    await loginattemptCheckAndRelogin("kurt@swansea.gov.uk", "Password12", this);
+    await loginattemptCheckAndRelogin(
+      'kurt@swansea.gov.uk',
+      'Password12',
+      this
+    );
 
-    await BrowserWaits.retryForPageLoad($("exui-app-header"), function (message) {
-      world.attach("Login success page load load attempt : " + message)
-    });
+    await BrowserWaits.retryForPageLoad(
+      $('exui-app-header'),
+      function (message) {
+        world.attach('Login success page load load attempt : ' + message);
+      }
+    );
   });
 
-  Given('I am logged into Expert UI with valid Case Worker user details', async function () {
-    await loginPage.givenIAmLoggedIn(this.config.caseworkerUser, this.config.caseworkerPassword);
-    loginAttempts++;
-    await loginattemptCheckAndRelogin(this.config.caseworkerUser, this.config.caseworkerPassword, this);
-  })
+  Given(
+    'I am logged into Expert UI with valid Case Worker user details',
+    async function () {
+      await loginPage.givenIAmLoggedIn(
+        this.config.caseworkerUser,
+        this.config.caseworkerPassword
+      );
+      loginAttempts++;
+      await loginattemptCheckAndRelogin(
+        this.config.caseworkerUser,
+        this.config.caseworkerPassword,
+        this
+      );
+    }
+  );
 
-  Given(/^I am logged into Expert UI with Probate user details$/, async function () {
-    browser.sleep(MID_DELAY);
-    await loginPage.emailAddress.sendKeys(config.config.params.username);
-    browser.sleep(MID_DELAY);
-    await loginPage.password.sendKeys(config.config.params.password);
-    await loginPage.clickSignIn();
-    browser.sleep(LONG_DELAY);
+  Given(
+    /^I am logged into Expert UI with Probate user details$/,
+    async function () {
+      browser.sleep(MID_DELAY);
+      await loginPage.emailAddress.sendKeys(config.config.params.username);
+      browser.sleep(MID_DELAY);
+      await loginPage.password.sendKeys(config.config.params.password);
+      await loginPage.clickSignIn();
+      browser.sleep(LONG_DELAY);
 
-    loginAttempts++;
-    await loginattemptCheckAndRelogin(config.config.params.username, config.config.params.password, this);
-  });
+      loginAttempts++;
+      await loginattemptCheckAndRelogin(
+        config.config.params.username,
+        config.config.params.password,
+        this
+      );
+    }
+  );
 
   Given(/^I navigate to Expert UI Url direct link$/, async function () {
-    await browser.driver.manage()
-      .deleteAllCookies();
+    await browser.driver.manage().deleteAllCookies();
     await browser.get(config.config.baseUrl + '/cases/case-filter');
   });
 
-  Then(/^I should be redirected back to Login page after direct link$/, async function () {
-    await BrowserWaits.waitForElement(loginPage.signinBtn);
-    await expect(loginPage.signinTitle.getText())
-      .to
-      .eventually
-      .equal('Sign in');
-    browser.sleep(LONG_DELAY);
-  });
-
+  Then(
+    /^I should be redirected back to Login page after direct link$/,
+    async function () {
+      await BrowserWaits.waitForElement(loginPage.signinBtn);
+      await expect(loginPage.signinTitle.getText()).to.eventually.equal(
+        'Sign in'
+      );
+      browser.sleep(LONG_DELAY);
+    }
+  );
 });

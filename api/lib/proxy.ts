@@ -6,20 +6,16 @@
 // TODO: remove this entire file in favour of middleware/proxy.ts
 import * as express from 'express'
 import * as striptags from 'striptags'
-import {getConfigValue} from '../configuration'
-import {
-  SERVICES_CCD_COMPONENT_API_PATH,
-} from '../configuration/references'
-
+import { getConfigValue } from '../configuration'
+import { SERVICES_CCD_COMPONENT_API_PATH } from '../configuration/references'
 import { http } from './http'
 import { EnhancedRequest } from './models'
-import {exists} from './util'
+import { exists } from './util'
 
 export function setHeaders(req: express.Request) {
     const headers: any = {}
 
     if (req.headers) {
-
         if (req.headers['content-type']) {
             headers['content-type'] = req.headers['content-type']
         }
@@ -50,7 +46,7 @@ export function setHeaders(req: express.Request) {
 
 export async function get(req: express.Request, res: express.Response, next: express.NextFunction) {
     let url = striptags(req.url)
-    url = req.baseUrl  + url
+    url = req.baseUrl + url
     const headers: any = setHeaders(req)
 
     try {
@@ -61,7 +57,6 @@ export async function get(req: express.Request, res: express.Response, next: exp
     } catch (e) {
         next(e)
     }
-
 }
 
 export async function put(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {

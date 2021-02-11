@@ -1,13 +1,18 @@
-
-import {SearchResultView, Jurisdiction, CaseType, CaseState, PaginationMetadata } from '@hmcts/ccd-case-ui-toolkit';
+import {
+  CaseState,
+  CaseType,
+  Jurisdiction,
+  PaginationMetadata,
+  SearchResultView,
+} from '@hmcts/ccd-case-ui-toolkit';
 import * as fromCases from '../actions/case-list.action';
 
 export class CaselistStateFilter {
-  jurisdiction: Jurisdiction;
-  caseType: CaseType;
-  caseState: CaseState;
-  metadataFields: any;
-  page: number;
+  public jurisdiction: Jurisdiction;
+  public caseType: CaseType;
+  public caseState: CaseState;
+  public metadataFields: any;
+  public page: number;
   constructor() {
     this.jurisdiction = new Jurisdiction();
     this.caseType = new CaseType();
@@ -18,7 +23,7 @@ export class CaselistStateFilter {
 }
 
 export class CaselistStateResults {
-  resultView: SearchResultView;
+  public resultView: SearchResultView;
 
   constructor() {
     this.resultView = new SearchResultView();
@@ -39,7 +44,7 @@ export const initialCaselistState: CaselistState = {
   results: new CaselistStateResults(),
   paginationMetadata: {
     total_pages_count: 0,
-    total_results_count: 0
+    total_results_count: 0,
   },
   showFilter: true,
   loading: false,
@@ -59,11 +64,13 @@ export function caselistReducer(
           metadataFields: action.payload.selected.metadataFields,
           jurisdiction: action.payload.selected.jurisdiction,
           caseType: action.payload.selected.caseType,
-          caseState: action.payload.selected.caseState ? action.payload.selected.caseState : null,
-          page: action.payload.selected.page
+          caseState: action.payload.selected.caseState
+            ? action.payload.selected.caseState
+            : null,
+          page: action.payload.selected.page,
         },
         loading: true,
-        loaded: false
+        loaded: false,
       };
     }
 
@@ -72,10 +79,10 @@ export function caselistReducer(
         ...state,
         paginationMetadata: {
           total_pages_count: action.payload.total_pages_count,
-          total_results_count: action.payload.total_results_count
+          total_results_count: action.payload.total_results_count,
         },
         loading: true,
-        loaded: false
+        loaded: false,
       };
     }
 
@@ -83,10 +90,10 @@ export function caselistReducer(
       return {
         ...state,
         results: {
-          resultView: action.payload
+          resultView: action.payload,
         },
         loading: true,
-        loaded: false
+        loaded: false,
       };
     }
 
@@ -103,11 +110,14 @@ export function caselistReducer(
   return state;
 }
 
-export const getCaselistFilterJurisdiction = (state) => state.filter.jurisdiction;
+export const getCaselistFilterJurisdiction = (state) =>
+  state.filter.jurisdiction;
 export const getCaselistFilterCaseType = (state) => state.filter.caseType;
 export const getCaselistFilterCaseState = (state) => state.filter.caseState;
-export const getCaselistFilterMetadataFields = (state) => state.filter.metadataFields;
+export const getCaselistFilterMetadataFields = (state) =>
+  state.filter.metadataFields;
 export const getCaselistFilterResultView = (state) => state.results.resultView;
-export const getCaselistFilterPageMetadata = (state) => state.paginationMetadata;
+export const getCaselistFilterPageMetadata = (state) =>
+  state.paginationMetadata;
 export const getCaselistResultsCurrentPage = (state) => state.filter.page;
 export const getCaselistFilterToggleState = (state) => state.showFilter;

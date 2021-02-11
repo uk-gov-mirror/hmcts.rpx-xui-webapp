@@ -1,24 +1,22 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import * as fromNocStore from '../../../noc/store';
 import { NavItemsModel } from '../../models/nav-item.model';
 import { UserNavModel } from '../../models/user-nav.model';
 
 @Component({
-    selector: 'exui-hmcts-global-header',
-    templateUrl: './hmcts-global-header.component.html'
+  selector: 'exui-hmcts-global-header',
+  templateUrl: './hmcts-global-header.component.html',
 })
 export class HmctsGlobalHeaderComponent implements OnInit {
-
   @Input() public set showNavItems(value: boolean) {
     this.showItems = value;
   }
   @Input() public items: NavItemsModel[];
   @Input() public logoIsUsed: boolean;
   @Input() public showFindCase: boolean;
-  @Input() public headerTitle: {name: string; url: string};
+  @Input() public headerTitle: { name: string; url: string };
   @Input() public navigation: UserNavModel;
   @Input() public logoType: string;
   @Input() public currentUrl: string;
@@ -30,7 +28,8 @@ export class HmctsGlobalHeaderComponent implements OnInit {
 
   constructor(
     public nocStore: Store<fromNocStore.State>,
-    private readonly router: Router) { }
+    private readonly router: Router
+  ) {}
 
   public ngOnInit() {
     // set the active tab via the url in the router

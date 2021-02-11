@@ -1,18 +1,26 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { SessionStorageService } from '../../../app/services';
 import { Caseworker, Location } from '../../models/dtos';
 import { FilterConstants } from '../constants';
 
 @Component({
   selector: 'exui-task-manager-filter',
-  templateUrl: './task-manager-filter.component.html'
+  templateUrl: './task-manager-filter.component.html',
 })
 export class TaskManagerFilterComponent implements OnChanges {
   // Protected instances of the exported constants.
-  public readonly ALL_LOCATIONS: Location = FilterConstants.Options.Locations.ALL;
-  public readonly ALL_CASEWORKERS: Caseworker = FilterConstants.Options.Caseworkers.ALL;
-  public readonly NO_CASEWORKER_ASSIGNED: Caseworker = FilterConstants.Options.Caseworkers.UNASSIGNED;
+  public readonly ALL_LOCATIONS: Location =
+    FilterConstants.Options.Locations.ALL;
+  public readonly ALL_CASEWORKERS: Caseworker =
+    FilterConstants.Options.Caseworkers.ALL;
+  public readonly NO_CASEWORKER_ASSIGNED: Caseworker =
+    FilterConstants.Options.Caseworkers.UNASSIGNED;
 
   /**
    * The caseworkers that are available to be selected from.
@@ -57,19 +65,22 @@ export class TaskManagerFilterComponent implements OnChanges {
    * and/or Location has changed. The new selection is emitted with the event
    * but can also be retrieved from component.location.
    */
-  @Output() public selectionChanged: EventEmitter<{ location: Location, caseworker: Caseworker }>
-    = new EventEmitter<{ location: Location, caseworker: Caseworker }>();
+  @Output() public selectionChanged: EventEmitter<{
+    location: Location;
+    caseworker: Caseworker;
+  }> = new EventEmitter<{ location: Location; caseworker: Caseworker }>();
 
   /**
    * Accept the SessionStorageService for adding to and retrieving from sessionStorage.
    */
-  constructor(private readonly sessionStorageService: SessionStorageService) {
-  }
+  constructor(private readonly sessionStorageService: SessionStorageService) {}
 
   public ngOnChanges(): void {
     if (this.caseworkers && this.locations) {
       // See if we have anything stored in the session for the filter.
-      const stored: string = this.sessionStorageService.getItem(FilterConstants.Session.TaskManager);
+      const stored: string = this.sessionStorageService.getItem(
+        FilterConstants.Session.TaskManager
+      );
       if (stored) {
         const { caseworkerId, locationId } = JSON.parse(stored);
         this.pCaseworker = this.getCaseworkerByIdamId(caseworkerId);
@@ -82,16 +93,19 @@ export class TaskManagerFilterComponent implements OnChanges {
   private saveFilterToSession(): void {
     const toStore = JSON.stringify({
       caseworkerId: this.caseworker.idamId,
-      locationId: this.location.id
+      locationId: this.location.id,
     });
-    this.sessionStorageService.setItem(FilterConstants.Session.TaskManager, toStore);
+    this.sessionStorageService.setItem(
+      FilterConstants.Session.TaskManager,
+      toStore
+    );
   }
 
   public getLocationById(id: string): Location {
     if (id === this.ALL_LOCATIONS.id) {
       return this.ALL_LOCATIONS;
     }
-    return this.locations.find(loc => loc.id === id) || this.ALL_LOCATIONS;
+    return this.locations.find((loc) => loc.id === id) || this.ALL_LOCATIONS;
   }
 
   public getCaseworkerByIdamId(id: string): Caseworker {
@@ -100,13 +114,15 @@ export class TaskManagerFilterComponent implements OnChanges {
     } else if (id === this.NO_CASEWORKER_ASSIGNED.idamId) {
       return this.NO_CASEWORKER_ASSIGNED;
     }
-    return this.caseworkers.find(cw => cw.idamId === id) || this.ALL_CASEWORKERS;
+    return (
+      this.caseworkers.find((cw) => cw.idamId === id) || this.ALL_CASEWORKERS
+    );
   }
 
   private emitChangedEvent(): void {
     this.selectionChanged.emit({
       caseworker: this.caseworker,
-      location: this.location
+      location: this.location,
     });
   }
 }

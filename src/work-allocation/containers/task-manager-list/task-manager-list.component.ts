@@ -1,8 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '@hmcts/ccd-case-ui-toolkit';
-
-import { ConfigConstants, FilterConstants, ListConstants, SortConstants } from '../../components/constants';
+import { SessionStorageService } from '../../../app/services';
+import {
+  ConfigConstants,
+  FilterConstants,
+  ListConstants,
+  SortConstants,
+} from '../../components/constants';
 import { Caseworker, Location, SearchTaskRequest } from '../../models/dtos';
 import { TaskFieldConfig } from '../../models/tasks';
 import { CaseworkerDisplayName } from '../../pipes';
@@ -13,14 +18,15 @@ import {
   WorkAllocationTaskService,
 } from '../../services';
 import { handleFatalErrors } from '../../utils';
-import { SessionStorageService } from '../../../app/services';
 import { TaskListWrapperComponent } from '../task-list-wrapper/task-list-wrapper.component';
 
 @Component({
   selector: 'exui-task-manager-list',
-  templateUrl: 'task-manager-list.component.html'
+  templateUrl: 'task-manager-list.component.html',
 })
-export class TaskManagerListComponent extends TaskListWrapperComponent implements OnInit {
+export class TaskManagerListComponent
+  extends TaskListWrapperComponent
+  implements OnInit {
   public caseworkers: Caseworker[];
   public locations: Location[];
   private selectedCaseworker: Caseworker;
@@ -40,7 +46,14 @@ export class TaskManagerListComponent extends TaskListWrapperComponent implement
     private readonly locationService: LocationDataService,
     protected alertService: AlertService
   ) {
-    super(ref, taskService, router, infoMessageCommService, sessionStorageService, alertService);
+    super(
+      ref,
+      taskService,
+      router,
+      infoMessageCommService,
+      sessionStorageService,
+      alertService
+    );
   }
 
   public get fields(): TaskFieldConfig[] {
@@ -66,19 +79,28 @@ export class TaskManagerListComponent extends TaskListWrapperComponent implement
   public ngOnInit(): void {
     super.ngOnInit();
     // Get the caseworkers and locations for this component.
-    this.caseworkerService.getAll().subscribe(caseworkers => {
-      this.caseworkers = [ ...caseworkers ];
-    }, error => {
-      handleFatalErrors(error.status, this.router);
-    });
-    this.locationService.getLocations().subscribe(locations => {
-      this.locations = [ ...locations ];
-    }, error => {
-      handleFatalErrors(error.status, this.router);
-    });
+    this.caseworkerService.getAll().subscribe(
+      (caseworkers) => {
+        this.caseworkers = [...caseworkers];
+      },
+      (error) => {
+        handleFatalErrors(error.status, this.router);
+      }
+    );
+    this.locationService.getLocations().subscribe(
+      (locations) => {
+        this.locations = [...locations];
+      },
+      (error) => {
+        handleFatalErrors(error.status, this.router);
+      }
+    );
   }
 
-  public onSelectionChanged(selection: { location: Location, caseworker: Caseworker }): void {
+  public onSelectionChanged(selection: {
+    location: Location;
+    caseworker: Caseworker;
+  }): void {
     this.selectedLocation = selection.location;
     this.selectedCaseworker = selection.caseworker;
     this.loadTasks();
@@ -97,32 +119,41 @@ export class TaskManagerListComponent extends TaskListWrapperComponent implement
     return {
       search_parameters: [
         this.getLocationParameter(),
-        this.getCaseworkerParameter()
+        this.getCaseworkerParameter(),
       ],
-      sorting_parameters: [this.getSortParameter()]
+      sorting_parameters: [this.getSortParameter()],
     };
   }
 
   private getLocationParameter() {
     let values: string[];
-    if (this.selectedLocation && this.selectedLocation !== FilterConstants.Options.Locations.ALL) {
-      values = [ this.selectedLocation.id ];
+    if (
+      this.selectedLocation &&
+      this.selectedLocation !== FilterConstants.Options.Locations.ALL
+    ) {
+      values = [this.selectedLocation.id];
     } else {
-      values = this.locations.map(loc => loc.id);
+      values = this.locations.map((loc) => loc.id);
     }
     return { key: 'location', operator: 'IN', values };
   }
 
   private getCaseworkerParameter() {
     let values: string[];
-    if (this.selectedCaseworker && this.selectedCaseworker !== FilterConstants.Options.Caseworkers.ALL) {
-      if (this.selectedCaseworker === FilterConstants.Options.Caseworkers.UNASSIGNED) {
+    if (
+      this.selectedCaseworker &&
+      this.selectedCaseworker !== FilterConstants.Options.Caseworkers.ALL
+    ) {
+      if (
+        this.selectedCaseworker ===
+        FilterConstants.Options.Caseworkers.UNASSIGNED
+      ) {
         values = [];
       } else {
-        values = [this.selectedCaseworker.idamId]
+        values = [this.selectedCaseworker.idamId];
       }
     } else {
-      values = []
+      values = [];
     }
     return { key: 'user', operator: 'IN', values };
   }

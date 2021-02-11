@@ -1,23 +1,21 @@
-import {CdkTableModule} from '@angular/cdk/table';
-import {Component, ViewChild} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Router} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
-import {AlertService} from '@hmcts/ccd-case-ui-toolkit';
-import {ExuiCommonLibModule} from '@hmcts/rpx-xui-common-lib';
-import {of} from 'rxjs';
-import {SessionStorageService} from 'src/app/services';
-
-import {WorkAllocationComponentsModule} from '../../components/work-allocation.components.module';
-import {Task} from '../../models/tasks';
-import {WorkAllocationTaskService} from '../../services';
-import {getMockTasks} from '../../tests/utils.spec';
-import {TaskListComponent} from '../task-list/task-list.component';
-import {MyTasksComponent} from './my-tasks.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import { Component, ViewChild } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AlertService } from '@hmcts/ccd-case-ui-toolkit';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { of } from 'rxjs';
+import { SessionStorageService } from 'src/app/services';
+import { WorkAllocationComponentsModule } from '../../components/work-allocation.components.module';
+import { Task } from '../../models/tasks';
+import { WorkAllocationTaskService } from '../../services';
+import { getMockTasks } from '../../tests/utils.spec';
+import { TaskListComponent } from '../task-list/task-list.component';
+import { MyTasksComponent } from './my-tasks.component';
 
 @Component({
-  template: `
-    <exui-my-tasks></exui-my-tasks>`
+  template: ` <exui-my-tasks></exui-my-tasks>`,
 })
 class WrapperComponent {
   @ViewChild(MyTasksComponent) public appComponentRef: MyTasksComponent;
@@ -29,9 +27,16 @@ describe('MyTasksComponent', () => {
   let fixture: ComponentFixture<WrapperComponent>;
 
   let router: Router;
-  const mockTaskService = jasmine.createSpyObj('mockTaskService', ['searchTask']);
-  const mockAlertService = jasmine.createSpyObj('mockAlertService', ['destroy']);
-  const mockSessionStorageService = jasmine.createSpyObj('mockSessionStorageService', ['getItem', 'setItem']);
+  const mockTaskService = jasmine.createSpyObj('mockTaskService', [
+    'searchTask',
+  ]);
+  const mockAlertService = jasmine.createSpyObj('mockAlertService', [
+    'destroy',
+  ]);
+  const mockSessionStorageService = jasmine.createSpyObj(
+    'mockSessionStorageService',
+    ['getItem', 'setItem']
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,14 +44,14 @@ describe('MyTasksComponent', () => {
         CdkTableModule,
         ExuiCommonLibModule,
         RouterTestingModule,
-        WorkAllocationComponentsModule
+        WorkAllocationComponentsModule,
       ],
       declarations: [MyTasksComponent, WrapperComponent, TaskListComponent],
       providers: [
-        {provide: WorkAllocationTaskService, useValue: mockTaskService},
-        {provide: AlertService, useValue: mockAlertService},
-        {provide: SessionStorageService, useValue: mockSessionStorageService}
-      ]
+        { provide: WorkAllocationTaskService, useValue: mockTaskService },
+        { provide: AlertService, useValue: mockAlertService },
+        { provide: SessionStorageService, useValue: mockSessionStorageService },
+      ],
     }).compileComponents();
   }));
 
@@ -56,14 +61,13 @@ describe('MyTasksComponent', () => {
     component = wrapper.appComponentRef;
     router = TestBed.get(Router);
     const tasks: Task[] = getMockTasks();
-    mockTaskService.searchTask.and.returnValue(of({tasks}));
+    mockTaskService.searchTask.and.returnValue(of({ tasks }));
     fixture.detectChanges();
   });
 
-
   it('should make a call to load tasks using the default search request', () => {
     const searchRequest = component.getSearchTaskRequest();
-    const payload = {searchRequest, view: component.view};
+    const payload = { searchRequest, view: component.view };
     expect(mockTaskService.searchTask).toHaveBeenCalledWith(payload);
     expect(component.tasks).toBeDefined();
     expect(component.tasks.length).toEqual(2);
@@ -88,9 +92,10 @@ describe('MyTasksComponent', () => {
   });
 
   it('should handle a click to sort on the caseReference heading', async () => {
-
     // spyOn(mockSessionStorageService, 'getItem').and.returnValue(JSON.stringify({id: '1'}));
-    mockSessionStorageService.getItem.and.returnValue(JSON.stringify({id: '1'}));
+    mockSessionStorageService.getItem.and.returnValue(
+      JSON.stringify({ id: '1' })
+    );
 
     const element = fixture.debugElement.nativeElement;
     const button = element.querySelector('#sort_by_caseReference');
@@ -107,7 +112,7 @@ describe('MyTasksComponent', () => {
     expect(searchRequest.sorting_parameters[0].sort_by).toBe('caseReference');
 
     // Let's also make sure that the tasks were re-requested with the new sorting.
-    const payload = {searchRequest, view: component.view};
+    const payload = { searchRequest, view: component.view };
     expect(mockTaskService.searchTask).toHaveBeenCalledWith(payload);
 
     // Do it all over again to make sure it reverses the order.
@@ -125,7 +130,10 @@ describe('MyTasksComponent', () => {
     expect(searchRequest.sorting_parameters[0].sort_by).toBe('caseReference');
 
     // Let's also make sure that the tasks were re-requested with the new sorting.
-    const newPayload = {searchRequest: newSearchRequest, view: component.view};
+    const newPayload = {
+      searchRequest: newSearchRequest,
+      view: component.view,
+    };
     expect(mockTaskService.searchTask).toHaveBeenCalledWith(newPayload);
   });
 
@@ -168,6 +176,9 @@ describe('MyTasksComponent', () => {
     actionLink.dispatchEvent(new Event('click'));
     fixture.detectChanges();
     // Ensure the correct attempt has been made to navigate.
-    expect(navigateSpy).toHaveBeenCalledWith([`/tasks/${task.id}/${actionId}/`], jasmine.any(Object));
+    expect(navigateSpy).toHaveBeenCalledWith(
+      [`/tasks/${task.id}/${actionId}/`],
+      jasmine.any(Object)
+    );
   });
 });

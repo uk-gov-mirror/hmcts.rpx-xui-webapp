@@ -7,9 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'exui-alert',
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  styleUrls: ['./alert.component.scss'],
 })
-
 export class AlertComponent implements OnInit, OnDestroy {
   public message = '';
   public level = '';
@@ -24,14 +23,20 @@ export class AlertComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.alertMessageObservable = this.alertService.alerts.pipe(select( alert => alert));
-    this.routeSubscription = this.router.events.subscribe(() => this.message = '');
-    this.alertMessageSubscription = this.alertMessageObservable.subscribe(alert => {
-      if (alert) {
-        this.message = alert.message;
-        this.level = alert.level;
+    this.alertMessageObservable = this.alertService.alerts.pipe(
+      select((alert) => alert)
+    );
+    this.routeSubscription = this.router.events.subscribe(
+      () => (this.message = '')
+    );
+    this.alertMessageSubscription = this.alertMessageObservable.subscribe(
+      (alert) => {
+        if (alert) {
+          this.message = alert.message;
+          this.level = alert.level;
+        }
       }
-    });
+    );
   }
 
   public ngOnDestroy() {

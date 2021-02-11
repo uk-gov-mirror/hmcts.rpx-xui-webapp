@@ -1,6 +1,5 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HealthCheckGuard } from '../app/shared/guards/health-check.guard';
 import { TaskActionConstants } from './components/constants';
 import {
@@ -20,71 +19,73 @@ export const ROUTES: Routes = [
   {
     path: '',
     component: WorkAllocationHomeComponent,
-    canActivate: [ HealthCheckGuard, WorkAllocationFeatureToggleGuard ],
+    canActivate: [HealthCheckGuard, WorkAllocationFeatureToggleGuard],
     children: [
       {
         path: '',
         component: TaskHomeComponent,
-        canActivate: [ HealthCheckGuard ],
+        canActivate: [HealthCheckGuard],
         children: [
           {
             path: '',
-            redirectTo: 'list'
+            redirectTo: 'list',
           },
           {
             path: 'list',
             component: MyTasksComponent,
             data: {
-              title: 'HMCTS Manage cases | My tasks', subTitle: 'My tasks'
-            }
+              title: 'HMCTS Manage cases | My tasks',
+              subTitle: 'My tasks',
+            },
           },
           {
             path: 'available',
             component: AvailableTasksComponent,
             data: {
-              title: 'HMCTS Manage cases | Available tasks', subTitle: 'Available tasks'
-            }
-          }
-        ]
+              title: 'HMCTS Manage cases | Available tasks',
+              subTitle: 'Available tasks',
+            },
+          },
+        ],
       },
       {
         path: 'task-manager',
         component: TaskManagerComponent,
-        canActivate: [ HealthCheckGuard, WorkAllocationFeatureToggleGuard ],
+        canActivate: [HealthCheckGuard, WorkAllocationFeatureToggleGuard],
         data: {
-          title: 'HMCTS Manage cases | Task manager'
+          title: 'HMCTS Manage cases | Task manager',
         },
         children: [
           {
             path: '',
-            component: TaskManagerListComponent
-          }
-        ]
+            component: TaskManagerListComponent,
+          },
+        ],
       },
       {
         path: ':taskId',
         resolve: { task: TaskResolver },
-        canActivate: [ WorkAllocationFeatureToggleGuard ],
+        canActivate: [WorkAllocationFeatureToggleGuard],
         children: [
           {
             path: 'assign',
             component: TaskAssignmentContainerComponent,
-            data: TaskActionConstants.Assign
+            data: TaskActionConstants.Assign,
           },
           {
             path: 'reassign',
             component: TaskAssignmentContainerComponent,
-            data: TaskActionConstants.Reassign
+            data: TaskActionConstants.Reassign,
           },
           {
             path: 'cancel',
             component: TaskActionContainerComponent,
-            data: TaskActionConstants.Cancel
+            data: TaskActionConstants.Cancel,
           },
           {
             path: 'complete',
             component: TaskActionContainerComponent,
-            data: TaskActionConstants.MarkAsDone
+            data: TaskActionConstants.MarkAsDone,
           },
           {
             path: 'unclaim',
@@ -92,19 +93,21 @@ export const ROUTES: Routes = [
               {
                 path: 'manager',
                 component: TaskActionContainerComponent,
-                data: TaskActionConstants.Unassign
+                data: TaskActionConstants.Unassign,
               },
               {
                 path: '',
                 component: TaskActionContainerComponent,
-                data: TaskActionConstants.UnassignNonManager
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                data: TaskActionConstants.UnassignNonManager,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
-export const workAllocationRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const workAllocationRouting: ModuleWithProviders = RouterModule.forChild(
+  ROUTES
+);

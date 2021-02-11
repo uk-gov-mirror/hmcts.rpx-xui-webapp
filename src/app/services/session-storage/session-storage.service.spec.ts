@@ -7,7 +7,7 @@ describe('Session storage service', () => {
       return mockStore[key];
     });
     spyOn(sessionStorage, 'setItem').and.callFake((key, value) => {
-      return mockStore[key] = value + '';
+      return (mockStore[key] = value + '');
     });
     spyOn(sessionStorage, 'clear').and.callFake(() => {
       mockStore = {};
@@ -17,7 +17,10 @@ describe('Session storage service', () => {
   it('should allow setting the item', () => {
     const service = new SessionStorageService();
     service.setItem('exampleKey', 'exampleValue');
-    expect(sessionStorage.setItem).toHaveBeenCalledWith('exampleKey', 'exampleValue');
+    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+      'exampleKey',
+      'exampleValue'
+    );
   });
 
   it('should allow getting the item', () => {

@@ -1,8 +1,13 @@
-import { handleFatalErrors, REDIRECTS, treatAsFatal, WILDCARD_SERVICE_DOWN } from './work-allocation-utils';
+import {
+  handleFatalErrors,
+  REDIRECTS,
+  treatAsFatal,
+  WILDCARD_SERVICE_DOWN,
+} from './work-allocation-utils';
 
 describe('WorkAllocationUtils', () => {
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
   };
 
   it('should send back the status if it is not 500, 401 or 403', () => {
@@ -27,22 +32,25 @@ describe('WorkAllocationUtils', () => {
     // should get correct redirect for 500
     const serviceDown = handleFatalErrors(500, mockRouter);
     expect(serviceDown).toEqual(0);
-    expect(mockRouter.navigate).toHaveBeenCalledWith([ REDIRECTS.ServiceDown ]);
+    expect(mockRouter.navigate).toHaveBeenCalledWith([REDIRECTS.ServiceDown]);
 
     // correct redirect for 401
     const unAuthorised = handleFatalErrors(401, mockRouter);
     expect(unAuthorised).toEqual(0);
-    expect(mockRouter.navigate).toHaveBeenCalledWith([ REDIRECTS.NotAuthorised ]);
+    expect(mockRouter.navigate).toHaveBeenCalledWith([REDIRECTS.NotAuthorised]);
 
     // correct redirect for 403
     const isForbidden = handleFatalErrors(403, mockRouter);
     expect(isForbidden).toEqual(0);
-    expect(mockRouter.navigate).toHaveBeenCalledWith([ REDIRECTS.NotAuthorised ]);
+    expect(mockRouter.navigate).toHaveBeenCalledWith([REDIRECTS.NotAuthorised]);
   });
 
   it('should allow setting a fatal redirect', () => {
     // set fatal redirect for 404 and 415 as example
-    const REDIRECT_TEST = [{ status: 404, redirectTo: REDIRECTS.ServiceDown }, { status: 415, redirectTo: REDIRECTS.NotAuthorised }];
+    const REDIRECT_TEST = [
+      { status: 404, redirectTo: REDIRECTS.ServiceDown },
+      { status: 415, redirectTo: REDIRECTS.NotAuthorised },
+    ];
     const firstStatus = treatAsFatal(404, mockRouter, REDIRECT_TEST);
 
     // ensure that a 404 has been treated as fatal and sent to service down
@@ -80,7 +88,10 @@ describe('WorkAllocationUtils', () => {
 
   it('should ensure correctly setting redirects for handling of all errors', () => {
     // set fatal redirect for 404 and 415 as example
-    const REDIRECT_TEST = [{ status: 404, redirectTo: REDIRECTS.ServiceDown }, { status: 415, redirectTo: REDIRECTS.NotAuthorised }];
+    const REDIRECT_TEST = [
+      { status: 404, redirectTo: REDIRECTS.ServiceDown },
+      { status: 415, redirectTo: REDIRECTS.NotAuthorised },
+    ];
     const firstStatus = handleFatalErrors(404, mockRouter, REDIRECT_TEST);
 
     // ensure that a 404 has been treated as fatal and sent to service down

@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
-
-import { ConfigConstants, ListConstants, SortConstants } from '../../components/constants';
+import { TaskListWrapperComponent } from '..';
+import {
+  ConfigConstants,
+  ListConstants,
+  SortConstants,
+} from '../../components/constants';
 import { InfoMessage, InfoMessageType, TaskActionIds } from '../../enums';
 import { Location, SearchTaskRequest } from '../../models/dtos';
 import { InvokedTaskAction, Task, TaskFieldConfig } from '../../models/tasks';
 import { handleFatalErrors, REDIRECTS } from '../../utils';
-import { TaskListWrapperComponent } from '../task-list-wrapper/task-list-wrapper.component';
 
 @Component({
   selector: 'exui-available-tasks',
-  templateUrl: 'available-tasks.component.html'
+  templateUrl: 'available-tasks.component.html',
 })
 export class AvailableTasksComponent extends TaskListWrapperComponent {
   private selectedLocations: Location[];
@@ -33,9 +36,9 @@ export class AvailableTasksComponent extends TaskListWrapperComponent {
     return {
       search_parameters: [
         this.getLocationParameter(),
-        { key: 'state', operator: 'IN', values: ['unassigned'] }
+        { key: 'state', operator: 'IN', values: ['unassigned'] },
       ],
-      sorting_parameters: [this.getSortParameter()]
+      sorting_parameters: [this.getSortParameter()],
     };
   }
 
@@ -45,7 +48,7 @@ export class AvailableTasksComponent extends TaskListWrapperComponent {
    */
   public onLocationsChanged(locations: Location[]): void {
     this.infoMessageCommService.removeAllMessages();
-    this.selectedLocations = [ ...locations ];
+    this.selectedLocations = [...locations];
     this.loadTasks();
   }
 
@@ -58,7 +61,7 @@ export class AvailableTasksComponent extends TaskListWrapperComponent {
   private getLocationParameter() {
     let values = [];
     if (this.selectedLocations) {
-      values = this.selectedLocations.map(loc => loc.id).sort();
+      values = this.selectedLocations.map((loc) => loc.id).sort();
     }
     return { key: 'location', operator: 'IN', values };
   }
@@ -67,36 +70,40 @@ export class AvailableTasksComponent extends TaskListWrapperComponent {
    * A User 'Claims' themselves a task aka. 'Assign to me'.
    */
   public claimTask(taskId: string): void {
-
-    this.taskService.claimTask(taskId).subscribe(() => {
-      this.infoMessageCommService.nextMessage({
-        type: InfoMessageType.SUCCESS,
-        message: InfoMessage.ASSIGNED_TASK_AVAILABLE_IN_MY_TASKS,
-      });
-      this.refreshTasks();
-    }, error => {
-
-      this.claimTaskErrors(error.status);
-    });
+    this.taskService.claimTask(taskId).subscribe(
+      () => {
+        this.infoMessageCommService.nextMessage({
+          type: InfoMessageType.SUCCESS,
+          message: InfoMessage.ASSIGNED_TASK_AVAILABLE_IN_MY_TASKS,
+        });
+        this.refreshTasks();
+      },
+      (error) => {
+        this.claimTaskErrors(error.status);
+      }
+    );
   }
 
   /**
    * A User 'Claims' themselves a task and goes to the case details page for that case aka. 'Assign to me'.
    */
   public claimTaskAndGo(task: Task): void {
-    this.taskService.claimTask(task.id).subscribe(() => {
-      // constant below removes spaces from caseReference to get caseId
-      const caseId = task.caseReference.replace(/\s/g, '');
-      // navigates to case details page for specific case id
-      this.router.navigate([`/cases/case-details/${caseId}`], {
-        state: {
-          showMessage: true,
-          messageText: InfoMessage.ASSIGNED_TASK_AVAILABLE_IN_MY_TASKS}
+    this.taskService.claimTask(task.id).subscribe(
+      () => {
+        // constant below removes spaces from caseReference to get caseId
+        const caseId = task.caseReference.replace(/\s/g, '');
+        // navigates to case details page for specific case id
+        this.router.navigate([`/cases/case-details/${caseId}`], {
+          state: {
+            showMessage: true,
+            messageText: InfoMessage.ASSIGNED_TASK_AVAILABLE_IN_MY_TASKS,
+          },
         });
-    }, error => {
-
-      this.claimTaskErrors(error.status);
-    });
+      },
+      (error) => {
+        this.claimTaskErrors(error.status);
+      }
+    );
   }
 
   /**
@@ -104,7 +111,6 @@ export class AvailableTasksComponent extends TaskListWrapperComponent {
    * that the Task is no longer available.
    */
   public claimTaskErrors(status: number): void {
-
     const REDIRECT_404 = [{ status: 404, redirectTo: REDIRECTS.ServiceDown }];
     const handledStatus = handleFatalErrors(status, this.router, REDIRECT_404);
     if (handledStatus > 0) {

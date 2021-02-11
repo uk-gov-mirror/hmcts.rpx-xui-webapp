@@ -1,11 +1,14 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkAllocationComponentsModule } from '../work-allocation.components.module';
 import { UrlFieldComponent } from './url-field.component';
 
 @Component({
-  template: `<exui-url-field [href]="href" [label]="label" [target]="target"></exui-url-field>`
+  template: `<exui-url-field
+    [href]="href"
+    [label]="label"
+    [target]="target"
+  ></exui-url-field>`,
 })
 class WrapperComponent {
   @ViewChild(UrlFieldComponent) public appComponentRef: UrlFieldComponent;
@@ -15,7 +18,6 @@ class WrapperComponent {
 }
 
 describe('WorkAllocation', () => {
-
   describe('UrlFieldComponent', () => {
     let component: UrlFieldComponent;
     let wrapper: WrapperComponent;
@@ -23,10 +25,9 @@ describe('WorkAllocation', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [ WrapperComponent ],
-        imports: [ WorkAllocationComponentsModule ]
-      })
-      .compileComponents();
+        declarations: [WrapperComponent],
+        imports: [WorkAllocationComponentsModule],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -39,7 +40,6 @@ describe('WorkAllocation', () => {
     it('should show only if there is a link', () => {
       // Expect the nativeElement to be empty (no link yet)
       expect(fixture.debugElement.nativeElement.innerText).toBe('');
-
 
       // Set up the href
       const HMCTS_URL: string = 'http://hmcts.gov.uk';
@@ -69,7 +69,6 @@ describe('WorkAllocation', () => {
       // Expect the nativeElement to be empty (no link yet)
       expect(fixture.debugElement.nativeElement.innerText).toBe('');
 
-
       // Set up the href
       const HMCTS_URL: string = 'http://hmcts.gov.uk';
       const GOOGLE_URL: string = 'http://google.co.uk';
@@ -88,7 +87,6 @@ describe('WorkAllocation', () => {
       component.href = HMCTS_URL;
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toBe(HMCTS_URL);
-
     });
 
     it('should show the label if the label and href is provided', () => {
@@ -96,7 +94,6 @@ describe('WorkAllocation', () => {
 
       const label: string = 'Example label';
       const HMCTS_URL: string = 'http://hmcts.gov.uk';
-
 
       // Add the label and make sure it does not display
       component.label = label;
@@ -121,10 +118,11 @@ describe('WorkAllocation', () => {
       const target: string = 'Example label';
       const HMCTS_URL: string = 'http://hmcts.gov.uk';
 
-
       // Verify HTML object does not yet exist
       expect(fixture.debugElement.nativeElement.innerText).toBe('');
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).toBeNull();
 
       // Set the href and initial value so that the default target string is applied
@@ -148,6 +146,5 @@ describe('WorkAllocation', () => {
       element = fixture.debugElement.nativeElement.querySelector('a');
       expect(element).toBeNull();
     });
-
   });
 });

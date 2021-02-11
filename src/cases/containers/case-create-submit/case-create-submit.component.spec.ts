@@ -20,7 +20,7 @@ import {
   SearchService,
 } from '@hmcts/ccd-case-ui-toolkit';
 import { EffectsModule } from '@ngrx/effects';
-import {combineReducers, StoreModule} from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AppConfig } from '../../../app/services/ccd-config/ccd-case.config';
 import { AppConfigService } from '../../../app/services/config/configuration.services';
@@ -30,8 +30,8 @@ import { CaseCreateSubmitComponent } from './case-create-submit.component';
 
 class MockSortService {
   public features = {};
-  public getFeatureToggle() { }
-  public getEditorConfiguration() { }
+  public getFeatureToggle() {}
+  public getEditorConfiguration() {}
 }
 
 const EVENT_TRIGGER: CaseEventTrigger = createCaseEventTrigger(
@@ -40,18 +40,18 @@ const EVENT_TRIGGER: CaseEventTrigger = createCaseEventTrigger(
   'caseId',
   false,
   [
-    ({
+    {
       id: 'PersonFirstName',
       label: 'First name',
       field_type: null,
-      display_context: 'READONLY'
-    }) as CaseField,
-    ({
+      display_context: 'READONLY',
+    } as CaseField,
+    {
       id: 'PersonLastName',
       label: 'Last name',
       field_type: null,
-      display_context: 'OPTIONAL'
-    }) as CaseField
+      display_context: 'OPTIONAL',
+    } as CaseField,
   ],
   [],
   true
@@ -62,10 +62,10 @@ const SANITISED_EDIT_FORM: CaseEventData = {
   event: {
     id: null,
     summary: 'Some summary',
-    description: 'Some description'
+    description: 'Some description',
   },
   event_token: 'test-token',
-  ignore_warning: false
+  ignore_warning: false,
 };
 
 describe('CaseCreateSubmitComponent', () => {
@@ -82,32 +82,34 @@ describe('CaseCreateSubmitComponent', () => {
         CaseUIToolkitModule,
         HttpModule,
         HttpClientTestingModule,
-        StoreModule.forRoot({...fromCases.reducers, cases: combineReducers(fromCases.reducers)}),
+        StoreModule.forRoot({
+          ...fromCases.reducers,
+          cases: combineReducers(fromCases.reducers),
+        }),
         EffectsModule.forRoot([]),
-        SharedModule
+        SharedModule,
       ],
       declarations: [CaseCreateSubmitComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
           provide: ActivatedRoute,
-          useValue:
-          {
-            queryParams: of({Origin: 'viewDraft'}),
+          useValue: {
+            queryParams: of({ Origin: 'viewDraft' }),
             snapshot: {
-              data: {eventTrigger: EVENT_TRIGGER},
+              data: { eventTrigger: EVENT_TRIGGER },
               params: {},
               pathFromRoot: [
                 {},
                 {
                   data: {
-                    profile: {}
-                  }
-                }
-              ]
+                    profile: {},
+                  },
+                },
+              ],
             },
-            params: of({jid: 'jid', ctid: 'ctid'})
-          }
+            params: of({ jid: 'jid', ctid: 'ctid' }),
+          },
         },
         CasesService,
         CCDAuthService,
@@ -118,24 +120,23 @@ describe('CaseCreateSubmitComponent', () => {
         {
           provide: SearchService,
           useValue: {
-            requestOptionsBuilder: RequestOptionsBuilder
-          }
+            requestOptionsBuilder: RequestOptionsBuilder,
+          },
         },
         {
           provide: AbstractAppConfig,
-          useExisting: AppConfig
+          useExisting: AppConfig,
         },
         {
           provide: AppConfigService,
-          useClass: MockSortService
+          useClass: MockSortService,
         },
         {
           provide: AlertService,
-          useValue: mockAlertService
+          useValue: mockAlertService,
         },
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -145,7 +146,6 @@ describe('CaseCreateSubmitComponent', () => {
     draftService = fixture.debugElement.injector.get(DraftService);
 
     fixture.detectChanges();
-
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -184,5 +184,4 @@ describe('CaseCreateSubmitComponent', () => {
     component.eventTrigger.can_save_draft = false;
     expect(component.saveDraft()).toBeUndefined();
   });
-
 });

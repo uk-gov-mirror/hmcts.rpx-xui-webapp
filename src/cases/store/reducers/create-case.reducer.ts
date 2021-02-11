@@ -24,7 +24,6 @@ export function reducerCreateCase(
   action: fromCases.CreateCasesAction
 ): CasesState {
   switch (action.type) {
-
     case fromCases.CREATE_CASE_APPLY: {
       return {
         ...state,
@@ -44,15 +43,14 @@ export function reducerCreateCase(
     case fromCases.CREATE_CASE_RESET: {
       return {
         ...state,
-        ...initialState
+        ...initialState,
       };
     }
-
   }
 
   return state;
 }
 
-
 export const getCreatedCase = (state: CasesState) => state.createdCase;
-export const  getCaseFiltersState = (state: CasesState) => state.createCaseFilters;
+export const getCaseFiltersState = (state: CasesState) =>
+  state.createCaseFilters;

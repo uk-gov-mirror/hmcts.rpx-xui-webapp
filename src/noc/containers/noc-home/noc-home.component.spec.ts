@@ -19,30 +19,20 @@ describe('NocHomeComponent', () => {
   let storePipeMock: any;
   let storeDispatchMock: any;
 
-  const routerMock = jasmine.createSpyObj('Router', [
-    'navigateByUrl'
-  ]);
+  const routerMock = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        UtilsModule,
-        RouterTestingModule
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ],
-      declarations: [
-        ...fromContainers.containers
-      ],
+      imports: [ReactiveFormsModule, UtilsModule, RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [...fromContainers.containers],
       providers: [
         provideMockStore(),
         {
           provide: Router,
-          useValue: routerMock
-        }
-      ]
+          useValue: routerMock,
+        },
+      ],
     }).compileComponents();
 
     store = TestBed.get(Store);
@@ -70,12 +60,18 @@ describe('NocHomeComponent', () => {
     });
 
     it('should determine visibility true', () => {
-      const expected = component.isComponentVisible(NocState.START, [NocState.START, NocState.QUESTION]);
+      const expected = component.isComponentVisible(NocState.START, [
+        NocState.START,
+        NocState.QUESTION,
+      ]);
       expect(expected).toBeTruthy();
     });
 
     it('should determine visibility false', () => {
-      const expected = component.isComponentVisible(NocState.START, [NocState.CHECK_ANSWERS, NocState.QUESTION]);
+      const expected = component.isComponentVisible(NocState.START, [
+        NocState.CHECK_ANSWERS,
+        NocState.QUESTION,
+      ]);
       expect(expected).toBeFalsy();
     });
 
@@ -95,37 +91,49 @@ describe('NocHomeComponent', () => {
     it('should navigate to question page when click back button if on check answer page', () => {
       component.nocNavigationCurrentState = NocState.CHECK_ANSWERS;
       component.navigationHandler(NocNavigationEvent.BACK);
-      expect(storeDispatchMock).toHaveBeenCalledWith(new fromNocStore.ChangeNavigation(NocState.QUESTION));
+      expect(storeDispatchMock).toHaveBeenCalledWith(
+        new fromNocStore.ChangeNavigation(NocState.QUESTION)
+      );
     });
 
     it('should navigate to case ref page when click back button if on submission successful page', () => {
-      component.nocNavigationCurrentState = NocState.SUBMISSION_SUCCESS_APPROVED;
+      component.nocNavigationCurrentState =
+        NocState.SUBMISSION_SUCCESS_APPROVED;
       component.navigationHandler(NocNavigationEvent.BACK);
       expect(storeDispatchMock).toHaveBeenCalledWith(new fromNocStore.Reset());
     });
 
     it('should throw error Invalid NoC state', () => {
       component.nocNavigationCurrentState = NocState.AFFIRMATION_NOT_AGREED;
-      expect(() => { component.navigationHandler(NocNavigationEvent.BACK); }).toThrow(new Error('Invalid NoC state'));
+      expect(() => {
+        component.navigationHandler(NocNavigationEvent.BACK);
+      }).toThrow(new Error('Invalid NoC state'));
     });
 
     it('should navigate to question page when click continue button if on case ref page', () => {
       spyOn(component.nocCaseRefComponent, 'navigationHandler');
       component.nocNavigationCurrentState = NocState.START;
       component.navigationHandler(NocNavigationEvent.CONTINUE);
-      expect(component.nocCaseRefComponent.navigationHandler).toHaveBeenCalled();
+      expect(
+        component.nocCaseRefComponent.navigationHandler
+      ).toHaveBeenCalled();
     });
 
     it('should navigate to question page when click continue button if on case ref failure page', () => {
       spyOn(component.nocCaseRefComponent, 'navigationHandler');
-      component.nocNavigationCurrentState = NocState.CASE_REF_VALIDATION_FAILURE;
+      component.nocNavigationCurrentState =
+        NocState.CASE_REF_VALIDATION_FAILURE;
       component.navigationHandler(NocNavigationEvent.CONTINUE);
-      expect(component.nocCaseRefComponent.navigationHandler).toHaveBeenCalled();
+      expect(
+        component.nocCaseRefComponent.navigationHandler
+      ).toHaveBeenCalled();
     });
 
     it('should throw error Invalid NoC state', () => {
       component.nocNavigationCurrentState = NocState.CHECK_ANSWERS;
-      expect(() => { component.navigationHandler(NocNavigationEvent.CONTINUE); }).toThrow(new Error('Invalid NoC state'));
+      expect(() => {
+        component.navigationHandler(NocNavigationEvent.CONTINUE);
+      }).toThrow(new Error('Invalid NoC state'));
     });
 
     afterEach(() => {
@@ -142,12 +150,16 @@ describe('NocHomeComponent', () => {
     it('should navigate to answer page when click continue button if on QUESTION page', () => {
       spyOn(component.nocCheckAndSubmitComponent, 'navigationHandler');
       component.navigationHandler(NocNavigationEvent.CHECK_ANSWERS);
-      expect(component.nocCheckAndSubmitComponent.navigationHandler).toHaveBeenCalled();
+      expect(
+        component.nocCheckAndSubmitComponent.navigationHandler
+      ).toHaveBeenCalled();
     });
 
     it('should throw error Invalid NoC state', () => {
       component.nocNavigationCurrentState = null;
-      expect(() => { component.navigationHandler(NocNavigationEvent.CHECK_ANSWERS); }).toThrow(new Error('Invalid NoC state'));
+      expect(() => {
+        component.navigationHandler(NocNavigationEvent.CHECK_ANSWERS);
+      }).toThrow(new Error('Invalid NoC state'));
     });
 
     afterEach(() => {

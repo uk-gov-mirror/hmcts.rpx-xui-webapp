@@ -3,16 +3,11 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-chai.use(sinonChai)
-
+import { getConfigValue } from '../configuration'
+import { SERVICES_IDAM_API_URL } from '../configuration/references'
 import { http } from '../lib/http'
-
-import {getConfigValue} from '../configuration'
-import {
-  SERVICES_IDAM_API_URL,
-} from '../configuration/references'
 import * as idam from './idam'
-
+chai.use(sinonChai)
 
 describe('cohQA', () => {
     let res
@@ -71,5 +66,4 @@ describe('cohQA', () => {
             expect(response.data).to.equal('okay')
         })
     })
-
 })

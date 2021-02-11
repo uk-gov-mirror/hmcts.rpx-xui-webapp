@@ -1,11 +1,6 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-config-prettier"
-  ],
-  "rulesDirectory": [
-    "codelyzer"
-  ],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rulesDirectory": ["codelyzer"],
   "rules": {
     "array-type": { "severity": "warning", "options": ["array"] },
     "arrow-parens": false,
@@ -14,13 +9,13 @@
     "deprecation": {
       "severity": "warn"
     },
-    "import-blacklist": [
-      true,
-      "rxjs/Rx"
-    ],
+    "import-blacklist": [true, "rxjs/Rx"],
     "interface-name": false,
     "max-classes-per-file": false,
-    "member-access": { "severity": "warning", "options": ["check-accessor", "check-parameter-property"]},
+    "member-access": {
+      "severity": "warning",
+      "options": ["check-accessor", "check-parameter-property"]
+    },
     "member-ordering": [
       true,
       {
@@ -33,14 +28,7 @@
       }
     ],
     "no-consecutive-blank-lines": false,
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
     "no-empty": false,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
@@ -63,9 +51,7 @@
     "directive-class-suffix": true,
 
     "variable-name": {
-      "options": [
-        "require-const-for-all-caps"
-      ],
+      "options": ["require-const-for-all-caps"],
       "severity": "warning"
     },
     "adjacent-overload-signatures": { "severity": "warning" },

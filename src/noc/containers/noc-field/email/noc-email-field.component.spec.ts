@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
@@ -25,7 +24,7 @@ describe('NocEmailFieldComponent', () => {
       regular_expression: null,
       fixed_list_items: [],
       complex_fields: [],
-      collection_field_type: null
+      collection_field_type: null,
     },
     display_context_parameter: '1',
     challenge_question_id: 'NoC',
@@ -40,16 +39,9 @@ describe('NocEmailFieldComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        NocEmailFieldComponent,
-      ],
-      imports: [
-        ReactiveFormsModule,
-        UtilsModule
-      ],
-      providers: [
-        provideMockStore()
-      ]
+      declarations: [NocEmailFieldComponent],
+      imports: [ReactiveFormsModule, UtilsModule],
+      providers: [provideMockStore()],
     }).compileComponents();
   }));
 

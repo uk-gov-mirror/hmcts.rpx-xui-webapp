@@ -11,5 +11,5 @@ export {
   FilterConstants,
   ListConstants,
   SortConstants,
-  TaskActionConstants
+  TaskActionConstants,
 };

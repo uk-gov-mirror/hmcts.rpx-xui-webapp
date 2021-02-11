@@ -11,7 +11,7 @@ export interface NoCQuestion {
         fixed_list_items: []
         complex_fields: []
         collection_field_type: null | any
-    },
+    }
     display_context_parameter: string
     challenge_question_id: string
     answer_field: string

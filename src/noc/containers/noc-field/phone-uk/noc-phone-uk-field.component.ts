@@ -4,15 +4,17 @@ import { AbstractFieldWriteComponent } from '../abstract-field-write.component';
 
 @Component({
   selector: 'exui-noc-phone-uk-field',
-  templateUrl: './noc-phone-uk-field.component.html'
+  templateUrl: './noc-phone-uk-field.component.html',
 })
-export class NocPhoneUkFieldComponent extends AbstractFieldWriteComponent implements OnInit {
-
+export class NocPhoneUkFieldComponent
+  extends AbstractFieldWriteComponent
+  implements OnInit {
   public phoneUkControl: FormControl;
 
   public ngOnInit() {
     this.setAnswer();
-    this.phoneUkControl = this.registerControl(new FormControl(this.answerValue));
+    this.phoneUkControl = this.registerControl(
+      new FormControl(this.answerValue)
+    );
   }
-
 }

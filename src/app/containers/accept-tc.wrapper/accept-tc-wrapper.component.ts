@@ -10,37 +10,40 @@ import * as fromStore from '../../store';
  */
 @Component({
   selector: 'exui-accept-terms-conditions-wrapper',
-  templateUrl: './accept-tc-wrapper.component.html'
+  templateUrl: './accept-tc-wrapper.component.html',
 })
 export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
-  constructor(private store: Store<fromApp.State>,
-              private actions$: Actions) {
-  }
+  public subscription: Subscription;
+  constructor(
+    private readonly store: Store<fromApp.State>,
+    private readonly actions$: Actions
+  ) {}
 
-  ngOnInit(): void {
-    this.subscription = this.getObservable(this.actions$, fromApp.ACCEPT_T_AND_C_SUCCESS).subscribe(() => {
+  public ngOnInit(): void {
+    this.subscription = this.getObservable(
+      this.actions$,
+      fromApp.ACCEPT_T_AND_C_SUCCESS
+    ).subscribe(() => {
       this.dispatchAction(this.store, new fromStore.Go({ path: ['cases'] }));
     });
   }
 
-  getObservable(actions$: Actions, action: string): Observable<never> {
+  public getObservable(actions$: Actions, action: string): Observable<never> {
     return actions$.pipe(ofType(action));
   }
 
-  onAcceptTandC() {
-  }
+  public onAcceptTandC() {}
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.unsubscribe(this.subscription);
   }
 
-  unsubscribe(subscription: Subscription) {
+  public unsubscribe(subscription: Subscription) {
     if (subscription) {
       subscription.unsubscribe();
     }
   }
-  dispatchAction(store: Store<fromApp.State>, action: Action) {
+  public dispatchAction(store: Store<fromApp.State>, action: Action) {
     store.dispatch(action);
   }
 }

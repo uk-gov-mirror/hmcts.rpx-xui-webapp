@@ -1,12 +1,18 @@
-import { SearchResultView, Jurisdiction, CaseType, CaseState, PaginationMetadata } from '@hmcts/ccd-case-ui-toolkit';
+import {
+  CaseState,
+  CaseType,
+  Jurisdiction,
+  PaginationMetadata,
+  SearchResultView,
+} from '@hmcts/ccd-case-ui-toolkit';
 import * as fromCases from '../actions/case-search.action';
 
 export class SearchStateFilter {
-  jurisdiction: Jurisdiction;
-  caseType: CaseType;
-  caseState: CaseState;
-  metadataFields: any;
-  page: number;
+  public jurisdiction: Jurisdiction;
+  public caseType: CaseType;
+  public caseState: CaseState;
+  public metadataFields: any;
+  public page: number;
   constructor() {
     this.jurisdiction = new Jurisdiction();
     this.caseType = new CaseType();
@@ -17,7 +23,7 @@ export class SearchStateFilter {
 }
 
 export class SearchStateResults {
-  resultView: SearchResultView;
+  public resultView: SearchResultView;
 
   constructor() {
     this.resultView = new SearchResultView();
@@ -38,11 +44,11 @@ export const initialSearchState: SearchState = {
   results: new SearchStateResults(),
   paginationMetadata: {
     total_pages_count: 0,
-    total_results_count: 0
+    total_results_count: 0,
   },
   showFilter: true,
   loading: false,
-  loaded: false
+  loaded: false,
 };
 
 export function reducer(
@@ -58,11 +64,13 @@ export function reducer(
           metadataFields: action.payload.selected.metadataFields,
           jurisdiction: action.payload.selected.jurisdiction,
           caseType: action.payload.selected.caseType,
-          caseState: action.payload.selected.caseState ? action.payload.selected.caseState : null,
-          page: action.payload.selected.page
+          caseState: action.payload.selected.caseState
+            ? action.payload.selected.caseState
+            : null,
+          page: action.payload.selected.page,
         },
         loading: true,
-        loaded: false
+        loaded: false,
       };
     }
 
@@ -71,10 +79,10 @@ export function reducer(
         ...state,
         paginationMetadata: {
           total_pages_count: action.payload.total_pages_count,
-          total_results_count: action.payload.total_results_count
+          total_results_count: action.payload.total_results_count,
         },
         loading: true,
-        loaded: false
+        loaded: false,
       };
     }
 
@@ -82,10 +90,10 @@ export function reducer(
       return {
         ...state,
         results: {
-          resultView: action.payload
+          resultView: action.payload,
         },
         loading: true,
-        loaded: false
+        loaded: false,
       };
     }
 
@@ -105,7 +113,8 @@ export function reducer(
 export const getSearchFilterJurisdiction = (state) => state.filter.jurisdiction;
 export const getSearchFilterCaseType = (state) => state.filter.caseType;
 export const getSearchFilterCaseState = (state) => state.filter.caseState;
-export const getSearchFilterMetadataFields = (state) => state.filter.metadataFields;
+export const getSearchFilterMetadataFields = (state) =>
+  state.filter.metadataFields;
 export const getSearchFilterResultView = (state) => state.results.resultView;
 export const getSearchFilterPageMetadata = (state) => state.paginationMetadata;
 export const getSearchResultsCurrentPage = (state) => state.filter.page;

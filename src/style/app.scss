@@ -6,29 +6,29 @@
 
 $black: #323232;
 
-$path: "/assets/";
+$path: '/assets/';
 
-$fa-font-path: "/node_modules/font-awesome/fonts";
-$govuk-frontend-toolkit-image-path: "/assets";
-$govuk-template-image-path: "/assets";
+$fa-font-path: '/node_modules/font-awesome/fonts';
+$govuk-frontend-toolkit-image-path: '/assets';
+$govuk-template-image-path: '/assets';
 
 $govuk-compatibility-govukelements: true;
 $govuk-compatibility-govuktemplate: true;
 $govuk-compatibility-govukfrontendtoolkit: true;
 
-@import "govuk-elements";
+@import 'govuk-elements';
 
 // Organise SASS (TODO / TS)
-@import "./buttons";
-@import "./forms";
-@import "./markdown";
-@import "./print";
-@import "./vendor/prism.scss";
-@import "./material";
+@import './buttons';
+@import './forms';
+@import './markdown';
+@import './print';
+@import './vendor/prism.scss';
+@import './material';
 
 body {
   margin: 0;
-  font-family: "nta", Arial, sans-serif;
+  font-family: 'nta', Arial, sans-serif;
 }
 
 // Bootstrap
@@ -56,12 +56,10 @@ main {
 }
 
 @media (max-width: 991px) {
-
   // Add bottom margin when column are stacked up
-  [class*="col-md"] {
+  [class*='col-md'] {
     margin-bottom: 30px;
   }
-
 }
 
 @import './notifications';
@@ -80,12 +78,12 @@ table.form-table {
 }
 
 @media (min-width: 641px) {
-  a[rel="external"]:after {
-    content: "\A0\A0\A0\A0";
+  a[rel='external']:after {
+    content: '\A0\A0\A0\A0';
     background-position: right 4px;
   }
 
-  a[rel="external"]:hover:after {
+  a[rel='external']:hover:after {
     background-position: right -384px;
   }
 }
@@ -98,7 +96,7 @@ table.form-table {
 }
 
 .field-label {
-    font-weight: 900;
+  font-weight: 900;
 }
 
 .dialog {
@@ -125,7 +123,7 @@ table.form-table {
   left: 0%;
 }
 .tooltip .tooltiptext::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 100%;
   left: 50%;
@@ -159,8 +157,13 @@ select::-ms-expand {
 .cancel {
   margin: 25px 0px 25px 0px;
 }
-.form-money { position: relative; width: 41%; }
-.form-money input { text-indent: 25px;}
+.form-money {
+  position: relative;
+  width: 41%;
+}
+.form-money input {
+  text-indent: 25px;
+}
 .form-money .form-currency {
   position: absolute;
   top: 3px;
@@ -179,7 +182,7 @@ select::-ms-expand {
   padding-right: 15px;
   box-sizing: border-box;
   padding-left: 1.3%;
-  border-left: 1px solid #BFC1C3;
+  border-left: 1px solid #bfc1c3;
 }
 .screen-990 {
   width: 990px;
@@ -206,10 +209,11 @@ select::-ms-expand {
   @extend %headers;
   font-size: 16px;
 }
-.form-group, .bottom-0 {
+.form-group,
+.bottom-0 {
   margin-bottom: 0;
 }
-.bottom-30{
+.bottom-30 {
   margin-bottom: 30px;
 }
 .panel .form-group {
@@ -224,10 +228,10 @@ select::-ms-expand {
   font-size: 14px;
   margin-top: 5px;
   margin-bottom: 5px;
-  font-family: "nta", Arial, sans-serif;
+  font-family: 'nta', Arial, sans-serif;
 }
 .multiple-choice {
-  [type=checkbox] + label::before {
+  [type='checkbox'] + label::before {
     border: 1px solid;
   }
 }
@@ -245,9 +249,10 @@ select::-ms-expand {
 .width-50 {
   width: 50%;
 }
-.text-16, .error-message {
+.text-16,
+.error-message {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
+  font-family: 'nta', Arial, sans-serif;
   white-space: normal;
 }
 .postcodeinput {
@@ -290,14 +295,14 @@ select::-ms-expand {
 }
 tr.compound-field .markdown ul,
 tr.compound-field .markdown p,
-form.check-your-answers table  td .markdown ul,
-form.check-your-answers table  td .markdown p {
+form.check-your-answers table td .markdown ul,
+form.check-your-answers table td .markdown p {
   margin: 10px 0px;
 }
-#fileInputWrapper{
-  position:absolute;
-  width:50%;
-  height:41px;
+#fileInputWrapper {
+  position: absolute;
+  width: 50%;
+  height: 41px;
 }
 .footer-menu {
   float: left;
@@ -307,7 +312,7 @@ form.check-your-answers table  td .markdown p {
 }
 .label-text {
   font-size: 16px;
-  font-family: "nta", Arial, sans-serif;
+  font-family: 'nta', Arial, sans-serif;
   font-weight: bold;
 }
 .pagination-top {
@@ -329,7 +334,7 @@ form.check-your-answers table  td .markdown p {
   border: 0;
 }
 .govuk-skip-link {
-  display:block;
+  display: block;
   font-size: 0px;
   height: 0px;
   &:focus {
@@ -337,8 +342,8 @@ form.check-your-answers table  td .markdown p {
     padding-left: 15px;
     width: 100%;
     height: 41px;
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
   }
 }
 

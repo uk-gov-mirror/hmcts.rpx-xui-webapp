@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PrivacyPolicyComponent } from '..';
-import { of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { PrivacyPolicyComponent } from '..';
 
 describe('PrivacyPolicyComponent', () => {
   let component: PrivacyPolicyComponent;
   let fixture: ComponentFixture<PrivacyPolicyComponent>;
 
-
   class MockActivatedRoute {
-    get fragment() {
+    public get fragment() {
       return of('overview');
     }
   }
@@ -18,12 +17,9 @@ describe('PrivacyPolicyComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ PrivacyPolicyComponent ],
-      providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute }
-      ]
-    })
-    .compileComponents();
+      declarations: [PrivacyPolicyComponent],
+      providers: [{ provide: ActivatedRoute, useClass: MockActivatedRoute }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

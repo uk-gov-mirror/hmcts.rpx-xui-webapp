@@ -1,4 +1,4 @@
-import {getConfigValue} from '../configuration'
+import { getConfigValue } from '../configuration'
 import { JURISDICTIONS } from '../configuration/references'
 
 /**
@@ -10,7 +10,7 @@ export const getJurisdictions = (proxyRes, req, res, data: any[]) => {
         return data
     }
     const filters = getConfigValue(JURISDICTIONS)
-    req.session.jurisdictions = [...data].filter(o => filters.includes(o.id))
+    req.session.jurisdictions = [...data].filter((o) => filters.includes(o.id))
     return req.session.jurisdictions
 }
 

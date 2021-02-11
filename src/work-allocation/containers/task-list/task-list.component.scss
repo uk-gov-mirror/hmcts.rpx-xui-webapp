@@ -14,7 +14,6 @@
 }
 
 .header-cell {
-
   display: flex;
 
   .arrow {
@@ -40,7 +39,7 @@
       top: 16px;
       margin-top: 0;
     }
-    &[aria-expanded=true] {
+    &[aria-expanded='true'] {
       .govuk-accordion__icon::after {
         display: none;
       }

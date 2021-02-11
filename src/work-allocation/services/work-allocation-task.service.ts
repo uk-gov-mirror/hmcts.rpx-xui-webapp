@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { Assignee, SearchTaskRequest, TaskSearchParameters } from '../models/dtos';
+import {
+  Assignee,
+  SearchTaskRequest,
+  TaskSearchParameters,
+} from '../models/dtos';
 import { Task } from '../models/tasks';
 
 const BASE_URL: string = '/workallocation/task';
@@ -11,12 +14,11 @@ export enum ACTION {
   CANCEL = 'cancel',
   CLAIM = 'claim',
   COMPLETE = 'complete',
-  UNCLAIM = 'unclaim'
+  UNCLAIM = 'unclaim',
 }
 
 @Injectable({ providedIn: 'root' })
 export class WorkAllocationTaskService {
-
   constructor(private readonly http: HttpClient) {}
 
   /**
@@ -38,14 +40,19 @@ export class WorkAllocationTaskService {
    */
   public assignTask(taskId: string, assignee: Assignee): Observable<any> {
     // Make a POST with the specified assignee in the payload.
-    return this.http.post<any>(this.getActionUrl(taskId, ACTION.ASSIGN), { assignee });
+    return this.http.post<any>(this.getActionUrl(taskId, ACTION.ASSIGN), {
+      assignee,
+    });
   }
 
   public postTask(task: TaskSearchParameters): Observable<any> {
     return this.http.post<any>(`${BASE_URL}`, task);
   }
 
-  public searchTask(body: { searchRequest: SearchTaskRequest, view: string }): Observable<any> {
+  public searchTask(body: {
+    searchRequest: SearchTaskRequest;
+    view: string;
+  }): Observable<any> {
     return this.http.post<any>(`${BASE_URL}`, body);
   }
 

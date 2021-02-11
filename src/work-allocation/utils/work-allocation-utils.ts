@@ -11,23 +11,27 @@ export interface FatalRedirect {
 
 export enum REDIRECTS {
   NotAuthorised = '/not-authorised',
-  ServiceDown = '/service-down'
+  ServiceDown = '/service-down',
 }
 
 export const WILDCARD_SERVICE_DOWN: FatalRedirect[] = [
-  { status: 0, redirectTo: REDIRECTS.ServiceDown }
+  { status: 0, redirectTo: REDIRECTS.ServiceDown },
 ];
 
-export const treatAsFatal = (status: number, navigator: Navigator, fatals: FatalRedirect[]): number => {
+export const treatAsFatal = (
+  status: number,
+  navigator: Navigator,
+  fatals: FatalRedirect[]
+): number => {
   if (fatals && fatals.length > 0) {
-    const fatal = fatals.find(f => f.status === status);
+    const fatal = fatals.find((f) => f.status === status);
     if (fatal) {
-      navigator.navigate([ fatal.redirectTo ]);
+      navigator.navigate([fatal.redirectTo]);
       return 0;
     } else {
-      const wildcardFatal = fatals.find(f => f.status === 0);
+      const wildcardFatal = fatals.find((f) => f.status === 0);
       if (wildcardFatal) {
-        navigator.navigate([ wildcardFatal.redirectTo ]);
+        navigator.navigate([wildcardFatal.redirectTo]);
         return 0;
       }
     }
@@ -35,15 +39,19 @@ export const treatAsFatal = (status: number, navigator: Navigator, fatals: Fatal
   return status;
 };
 
-export const handleFatalErrors = (status: number, navigator: Navigator, fatals?: FatalRedirect[]): number => {
+export const handleFatalErrors = (
+  status: number,
+  navigator: Navigator,
+  fatals?: FatalRedirect[]
+): number => {
   switch (status) {
     case 401:
     case 403:
-      navigator.navigate([ REDIRECTS.NotAuthorised ]);
+      navigator.navigate([REDIRECTS.NotAuthorised]);
       return 0; // 0 indicates it has been handled.
     case 500:
     case 503:
-      navigator.navigate([ REDIRECTS.ServiceDown ]);
+      navigator.navigate([REDIRECTS.ServiceDown]);
       return 0; // 0 indicates it has been handled.
     default:
       // If it's anything other than a 401, 403, 500, or 503, we should not

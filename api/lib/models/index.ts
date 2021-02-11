@@ -27,7 +27,7 @@ export interface EnhancedRequest extends express.Request {
         expires: number
         data?: any
     }
-    body,
+    body
     headers
     session?
     url: string

@@ -4,7 +4,6 @@ import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { UserDetails } from 'src/app/models/user-details.model';
-
 import { AppUtils } from '../../app-utils';
 import { AppConstants } from '../../app.constants';
 import { AppTitleModel } from '../../models/app-title.model';
@@ -41,7 +40,6 @@ export interface Theme {
  * @see app.constants.ts for application themes and defaults.
  */
 export class AppHeaderComponent implements OnInit, OnDestroy {
-
   public navItems: NavItemsModel[];
   public appHeaderTitle: AppTitleModel;
   public userNav: UserNavModel;
@@ -71,7 +69,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
    * If Launch Darkly goes down then these Default Application Themes will be used.
    */
   public getDefaultApplicationThemes() {
-
     return AppConstants.APPLICATION_USER_THEMES;
   }
 
@@ -85,8 +82,9 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
    * @return ["pui-organisation-manager","caseworker-publiclaw","caseworker-divorce-financialremedy-solicitor","caseworker"]
    */
   public deserialiseUserRoles(serialisedUserRoles: string): string[] {
-
-    const serialisedUserRolesWithoutJsonPrefix: string = AppUtils.removeJsonPrefix(serialisedUserRoles);
+    const serialisedUserRolesWithoutJsonPrefix: string = AppUtils.removeJsonPrefix(
+      serialisedUserRoles
+    );
     return AppUtils.getCookieRolesAsArray(serialisedUserRolesWithoutJsonPrefix);
   }
 
@@ -111,7 +109,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
    * for the User's Roles.
    */
   public getUsersTheme(userRoles, themes, defaultTheme): Theme {
-
     const themeToApply = defaultTheme;
 
     for (const theme of themes) {
@@ -138,20 +135,28 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.userDetails$ = this.store.pipe(select(fromActions.getUserDetails));
     this.setAppHeaderProperties(this.defaultTheme);
-    const applicationThemes$ = this.featureToggleService.getValue<Theme[]>('mc-application-themes', this.getDefaultApplicationThemes());
-    combineLatest([this.userDetails$, applicationThemes$]).subscribe(([userDetails, applicationThemes]) => {
+    const applicationThemes$ = this.featureToggleService.getValue<Theme[]>(
+      'mc-application-themes',
+      this.getDefaultApplicationThemes()
+    );
+    combineLatest([this.userDetails$, applicationThemes$]).subscribe(
+      ([userDetails, applicationThemes]) => {
         this.setHeaderContent(userDetails, applicationThemes);
-      });
+      }
+    );
 
     // Set up the active link whenever we detect that navigation has completed.
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       this.setNavigationEnd(event);
     });
   }
 
   public setHeaderContent(userDetails, applicationThemes) {
     if (userDetails.userInfo) {
-      const applicationTheme: Theme = this.getApplicationThemeForUser(applicationThemes, userDetails.userInfo.roles);
+      const applicationTheme: Theme = this.getApplicationThemeForUser(
+        applicationThemes,
+        userDetails.userInfo.roles
+      );
       this.hideNavigationListener(this.store);
       this.setAppHeaderProperties(applicationTheme);
     }
@@ -163,9 +168,16 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getApplicationThemeForUser(applicationThemes: Theme[], userRoles: string[]): Theme {
+  public getApplicationThemeForUser(
+    applicationThemes: Theme[],
+    userRoles: string[]
+  ): Theme {
     try {
-        return this.getUsersTheme(userRoles, applicationThemes, this.defaultTheme);
+      return this.getUsersTheme(
+        userRoles,
+        applicationThemes,
+        this.defaultTheme
+      );
     } catch (error) {
       return this.logErrorAndReturnDefaultTheme(error);
     }
@@ -182,7 +194,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
    * Set the app header properties, in one function that takes in the application theme.
    */
   public setAppHeaderProperties(applicationTheme: Theme): void {
-
     const {
       appTitle,
       accountNavigationItems,
@@ -211,7 +222,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
    * due to business requirements.
    */
   public hideNavigationListener(store): void {
-
     const observable = this.getObservable(store);
     this.subscription = this.subscribe(observable);
   }
@@ -227,26 +237,22 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
    * the Navigation Menu, as this is a business requirement.
    */
   public subscribe(observable: Observable<string>): Subscription {
-    return observable.subscribe(url => {
-
+    return observable.subscribe((url) => {
       this.showNavItems = of(AppUtils.showNavItems(url));
     });
   }
 
   public ngOnDestroy() {
-
     this.unsubscribe(this.subscription);
   }
 
   public unsubscribe(subscription: Subscription) {
-
     if (subscription) {
       subscription.unsubscribe();
     }
   }
 
   public onNavigate(event): void {
-
     if (event === 'sign-out') {
       this.store.dispatch(new fromActions.StopIdleSessionTimeout());
       return this.store.dispatch(new fromActions.Logout());

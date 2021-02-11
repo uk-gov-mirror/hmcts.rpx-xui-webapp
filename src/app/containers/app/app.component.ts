@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, RoutesRecognized } from '@angular/router';
-import { GoogleAnalyticsService, TimeoutNotificationsService } from '@hmcts/rpx-xui-common-lib';
+import {
+  GoogleAnalyticsService,
+  TimeoutNotificationsService,
+} from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { propsExist } from '../../../../api/lib/objectUtilities';
 import { environment as config } from '../../../environments/environment';
@@ -11,11 +14,9 @@ import * as fromRoot from '../../store';
   selector: 'exui-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-
 export class AppComponent implements OnInit {
-
   public timeoutModalConfig = {
     countdown: '0 seconds',
     isVisible: false,
@@ -28,7 +29,6 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly titleService: Title
   ) {
-
     this.googleAnalyticsService.init(config.googleAnalyticsKey);
 
     this.router.events.subscribe((data) => {
@@ -39,26 +39,31 @@ export class AppComponent implements OnInit {
         } while (child.firstChild);
         const d = child.data;
         if (d.title) {
-          this.titleService.setTitle(`${d.title} - HM Courts & Tribunals Service - GOV.UK`);
+          this.titleService.setTitle(
+            `${d.title} - HM Courts & Tribunals Service - GOV.UK`
+          );
         }
       }
     });
   }
 
   public ngOnInit() {
-    this.store.pipe(select(fromRoot.getUseIdleSessionTimeout)).subscribe(useIdleTimeout => {
-      if (useIdleTimeout) {
-        this.loadAndListenForUserDetails();
-      }
-    });
+    this.store
+      .pipe(select(fromRoot.getUseIdleSessionTimeout))
+      .subscribe((useIdleTimeout) => {
+        if (useIdleTimeout) {
+          this.loadAndListenForUserDetails();
+        }
+      });
   }
 
   /**
    * Load and Listen for User Details
    */
   public loadAndListenForUserDetails() {
-
-    this.store.pipe(select(fromRoot.getUserDetails)).subscribe(userDetails => this.userDetailsHandler(userDetails));
+    this.store
+      .pipe(select(fromRoot.getUserDetails))
+      .subscribe((userDetails) => this.userDetailsHandler(userDetails));
 
     this.store.dispatch(new fromRoot.LoadUserDetails());
   }
@@ -78,9 +83,14 @@ export class AppComponent implements OnInit {
    * }
    */
   public userDetailsHandler(userDetails) {
-
-    if (propsExist(userDetails, ['sessionTimeout'] ) && userDetails.sessionTimeout.totalIdleTime > 0) {
-      const { idleModalDisplayTime, totalIdleTime } = userDetails.sessionTimeout;
+    if (
+      propsExist(userDetails, ['sessionTimeout']) &&
+      userDetails.sessionTimeout.totalIdleTime > 0
+    ) {
+      const {
+        idleModalDisplayTime,
+        totalIdleTime,
+      } = userDetails.sessionTimeout;
 
       this.addTimeoutNotificationServiceListener();
       this.initTimeoutNotificationService(idleModalDisplayTime, totalIdleTime);
@@ -93,10 +103,11 @@ export class AppComponent implements OnInit {
    * We listen for Timeout Notification Service events.
    */
   public addTimeoutNotificationServiceListener() {
-
-    this.timeoutNotificationsService.notificationOnChange().subscribe(event => {
-      this.timeoutNotificationEventHandler(event);
-    });
+    this.timeoutNotificationsService
+      .notificationOnChange()
+      .subscribe((event) => {
+        this.timeoutNotificationEventHandler(event);
+      });
   }
 
   /**
@@ -121,7 +132,6 @@ export class AppComponent implements OnInit {
    * }
    */
   public timeoutNotificationEventHandler(event) {
-
     switch (event.eventType) {
       case 'countdown': {
         this.updateTimeoutModal(event.readableCountdown, true);
@@ -152,8 +162,8 @@ export class AppComponent implements OnInit {
    */
   public updateTimeoutModal(countdown: string, isVisible: boolean): void {
     this.timeoutModalConfig = {
-        countdown,
-        isVisible
+      countdown,
+      isVisible,
     };
   }
 
@@ -161,12 +171,10 @@ export class AppComponent implements OnInit {
    * Stay Signed in Handler
    */
   public staySignedInHandler() {
-
     this.updateTimeoutModal(undefined, false);
   }
 
   public signOutHandler() {
-
     this.store.dispatch(new fromRoot.StopIdleSessionTimeout());
     this.store.dispatch(new fromRoot.Logout());
   }
@@ -197,16 +205,16 @@ export class AppComponent implements OnInit {
    * @param totalIdleTime - Should reach here in minutes
    */
   public initTimeoutNotificationService(idleModalDisplayTime, totalIdleTime) {
-
     const idleModalDisplayTimeInSeconds = idleModalDisplayTime * 60;
-    const idleModalDisplayTimeInMilliseconds = idleModalDisplayTimeInSeconds * 1000;
+    const idleModalDisplayTimeInMilliseconds =
+      idleModalDisplayTimeInSeconds * 1000;
 
-    const totalIdleTimeInMilliseconds = (totalIdleTime * 60) * 1000;
+    const totalIdleTimeInMilliseconds = totalIdleTime * 60 * 1000;
 
     const timeoutNotificationConfig: any = {
       idleModalDisplayTime: idleModalDisplayTimeInMilliseconds,
       totalIdleTime: totalIdleTimeInMilliseconds,
-      idleServiceName: 'idleSession'
+      idleServiceName: 'idleSession',
     };
 
     this.timeoutNotificationsService.initialise(timeoutNotificationConfig);

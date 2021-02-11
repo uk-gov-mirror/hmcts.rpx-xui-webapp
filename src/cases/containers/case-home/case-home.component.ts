@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AlertService,
-  ErrorNotifierService, HttpError, NavigationNotifierService,
-  NavigationOrigin
+  ErrorNotifierService,
+  HttpError,
+  NavigationNotifierService,
+  NavigationOrigin,
 } from '@hmcts/ccd-case-ui-toolkit';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -13,12 +15,13 @@ import * as fromFeature from '../../store';
 @Component({
   selector: 'exui-case-home',
   templateUrl: 'case-home.component.html',
-  styleUrls: ['case-home.component.scss']
+  styleUrls: ['case-home.component.scss'],
 })
 export class CaseHomeComponent implements OnInit, OnDestroy {
-
-  public static readonly CASE_CREATED_MSG = 'The case has been created successfully';
-  public static readonly DRAFT_DELETED_MSG = 'The draft has been successfully deleted';
+  public static readonly CASE_CREATED_MSG =
+    'The case has been created successfully';
+  public static readonly DRAFT_DELETED_MSG =
+    'The draft has been successfully deleted';
 
   public navigationSubscription: Subscription;
 
@@ -26,8 +29,8 @@ export class CaseHomeComponent implements OnInit, OnDestroy {
     private readonly alertService: AlertService,
     private readonly errorNotifierService: ErrorNotifierService,
     private readonly navigationNotifier: NavigationNotifierService,
-    private readonly store: Store<fromFeature.State>,
-  ) { }
+    private readonly store: Store<fromFeature.State>
+  ) {}
 
   /**
    * We dispatch an action to start the idle session timeout. We
@@ -37,11 +40,13 @@ export class CaseHomeComponent implements OnInit, OnDestroy {
    * have yet to be logged in. ie. Viewing an accessibility page.
    */
   public ngOnInit(): void {
-    this.navigationSubscription = this.navigationNotifier.navigation.subscribe(navigation => {
-      if (navigation.action) {
-        this.actionDispatcher(this.paramHandler(navigation));
+    this.navigationSubscription = this.navigationNotifier.navigation.subscribe(
+      (navigation) => {
+        if (navigation.action) {
+          this.actionDispatcher(this.paramHandler(navigation));
+        }
       }
-    }) as any;
+    ) as any;
 
     this.store.dispatch(new fromRoot.StartIdleSessionTimeout());
   }
@@ -52,7 +57,7 @@ export class CaseHomeComponent implements OnInit, OnDestroy {
     }
   }
 
-// TODO: please revisit
+  // TODO: please revisit
   public paramHandler(navigation: any): GoActionParams {
     let params: GoActionParams;
     switch (navigation.action) {
@@ -62,34 +67,38 @@ export class CaseHomeComponent implements OnInit, OnDestroy {
           callback: () => {
             this.alertService.setPreserveAlerts(true);
             this.alertService.success(CaseHomeComponent.DRAFT_DELETED_MSG);
-          }
+          },
         };
         break;
       case NavigationOrigin.ERROR_DELETING_DRAFT:
         params = {
-          path: ['cases']
+          path: ['cases'],
         };
         break;
       case NavigationOrigin.DRAFT_RESUMED:
         params = {
-          path: ['create/case',
+          path: [
+            'create/case',
             navigation.jid,
             navigation.ctid,
-            navigation.etid],
+            navigation.etid,
+          ],
           query: navigation.queryParams,
-          errorHandler: (error) => this.handleError(error, navigation.etid)
+          errorHandler: (error) => this.handleError(error, navigation.etid),
         };
         break;
       case NavigationOrigin.EVENT_TRIGGERED:
         const query = navigation.queryParams;
         params = {
-          path: ['cases',
+          path: [
+            'cases',
             'case-details',
             navigation.relativeTo.snapshot.params.cid,
             'trigger',
-            navigation.etid],
-          query: {...query},
-          errorHandler: (error) => this.handleError(error, navigation.etid)
+            navigation.etid,
+          ],
+          query: { ...query },
+          errorHandler: (error) => this.handleError(error, navigation.etid),
         };
         break;
       case NavigationOrigin.NO_READ_ACCESS_REDIRECTION:
@@ -97,14 +106,16 @@ export class CaseHomeComponent implements OnInit, OnDestroy {
           path: ['cases'],
           callback: () => {
             this.alertService.success(CaseHomeComponent.CASE_CREATED_MSG);
-          }
+          },
         };
         break;
       default:
         params = {
-          path: ['cases',
+          path: [
+            'cases',
             'case-details',
-            navigation.relativeTo.snapshot.params.cid]
+            navigation.relativeTo.snapshot.params.cid,
+          ],
         };
     }
     return params;

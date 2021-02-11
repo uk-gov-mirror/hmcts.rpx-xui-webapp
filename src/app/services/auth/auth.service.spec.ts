@@ -1,23 +1,18 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import { SessionStorageService } from '../session-storage/session-storage.service';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-      ],
-      providers: [
-        AuthService,
-        SessionStorageService
-      ]
+      imports: [HttpClientTestingModule, StoreModule.forRoot({})],
+      providers: [AuthService, SessionStorageService],
     });
   });
 
@@ -27,9 +22,9 @@ describe('AuthService', () => {
 
   describe('isAuthenticated', () => {
     it('should make a call to check authentication', inject(
-      [ HttpTestingController, AuthService ],
+      [HttpTestingController, AuthService],
       (httpMock: HttpTestingController, service: AuthService) => {
-        service.isAuthenticated().subscribe( response => {
+        service.isAuthenticated().subscribe((response) => {
           expect(JSON.parse(String(response))).toBeFalsy();
         });
 
@@ -42,10 +37,14 @@ describe('AuthService', () => {
 
   describe('logOut', () => {
     it('should make a call to logOut', inject(
-      [ HttpTestingController, AuthService, SessionStorageService ],
-      (httpMock: HttpTestingController, service: AuthService, sessionStorageService: SessionStorageService) => {
+      [HttpTestingController, AuthService, SessionStorageService],
+      (
+        httpMock: HttpTestingController,
+        service: AuthService,
+        sessionStorageService: SessionStorageService
+      ) => {
         spyOn(sessionStorageService, 'clear');
-        service.logOut().subscribe( response => {
+        service.logOut().subscribe((response) => {
           expect(response).toBeNull();
         });
 
@@ -60,21 +59,21 @@ describe('AuthService', () => {
   });
 
   describe('logOutAndRedirect', () => {
-    it('should work', inject(
-      [AuthService],
-      async (service: AuthService) => {
-        const spyOnSetWindowLocation = spyOn(service, 'setWindowLocationHref');
-        spyOn(service, 'logOut').and.returnValue(Observable.of(false));
-        service.logOutAndRedirect();
-        expect(spyOnSetWindowLocation).toHaveBeenCalledWith('/idle-sign-out');
-      }
-    ));
+    it('should work', inject([AuthService], async (service: AuthService) => {
+      const spyOnSetWindowLocation = spyOn(service, 'setWindowLocationHref');
+      spyOn(service, 'logOut').and.returnValue(Observable.of(false));
+      service.logOutAndRedirect();
+      expect(spyOnSetWindowLocation).toHaveBeenCalledWith('/idle-sign-out');
+    }));
   });
 
   describe('signOut', () => {
     it('should work', inject(
       [AuthService, SessionStorageService],
-      async (service: AuthService, sessionStorageService: SessionStorageService) => {
+      async (
+        service: AuthService,
+        sessionStorageService: SessionStorageService
+      ) => {
         spyOn(sessionStorageService, 'clear');
         const spyOnSetWindowLocation = spyOn(service, 'setWindowLocationHref');
         service.signOut();
@@ -83,5 +82,4 @@ describe('AuthService', () => {
       }
     ));
   });
-
 });

@@ -1,18 +1,29 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-
 import { ListConstants } from '../../components/constants';
 import { TaskSort } from '../../enums';
-import { InvokedTaskAction, Task, TaskAction, TaskFieldConfig, TaskServiceConfig, TaskSortField } from '../../models/tasks';
+import {
+  InvokedTaskAction,
+  Task,
+  TaskAction,
+  TaskFieldConfig,
+  TaskServiceConfig,
+  TaskSortField,
+} from '../../models/tasks';
 
 @Component({
   selector: 'exui-task-list',
   templateUrl: './task-list.component.html',
-  styleUrls: ['task-list.component.scss']
+  styleUrls: ['task-list.component.scss'],
 })
 export class TaskListComponent implements OnChanges {
-
   /**
    * These are the tasks & fields as returned from the WA Api.
    */
@@ -49,7 +60,7 @@ export class TaskListComponent implements OnChanges {
       const hashValue = url.substring(url.indexOf('#') + 1);
       if (hashValue && hashValue.indexOf('manage_') === 0) {
         const selectedTaskId = hashValue.replace('manage_', '');
-        return this.tasks.find(task => task.id === selectedTaskId) || null;
+        return this.tasks.find((task) => task.id === selectedTaskId) || null;
       }
     }
     return null;
@@ -70,7 +81,7 @@ export class TaskListComponent implements OnChanges {
    *
    */
   public getDisplayedColumn(taskFieldConfig: TaskFieldConfig[]): string[] {
-    const fields = taskFieldConfig.map(field => field.name);
+    const fields = taskFieldConfig.map((field) => field.name);
     return this.showManage ? this.addManageColumn(fields) : fields;
   }
 
@@ -99,10 +110,9 @@ export class TaskListComponent implements OnChanges {
    * Trigger an event to the parent when the User clicks on a Manage action.
    */
   public onActionHandler(task: Task, action: TaskAction): void {
-
     const invokedTaskAction: InvokedTaskAction = {
       task,
-      action
+      action,
     };
 
     this.actionEvent.emit(invokedTaskAction);
@@ -148,10 +158,15 @@ export class TaskListComponent implements OnChanges {
   public isColumnSorted(fieldName: string): TaskSort {
     // If we don't have an actual sortedBy value, default it now.
     if (!this.sortedBy) {
-      const { defaultSortFieldName, defaultSortDirection } = this.taskServiceConfig;
-      this.sortedBy = { fieldName: defaultSortFieldName, order: defaultSortDirection };
+      const {
+        defaultSortFieldName,
+        defaultSortDirection,
+      } = this.taskServiceConfig;
+      this.sortedBy = {
+        fieldName: defaultSortFieldName,
+        order: defaultSortDirection,
+      };
     }
-
 
     // If this is the field we're sorted by, return the appropriate order.
     if (this.sortedBy.fieldName === fieldName) {
@@ -167,11 +182,12 @@ export class TaskListComponent implements OnChanges {
       const currentPath = this.router.url || '';
       const basePath = currentPath.split('#')[0];
       if (this.selectedTask) {
-        this.router.navigate([ basePath ], { fragment: `manage_${this.selectedTask.id}` });
+        this.router.navigate([basePath], {
+          fragment: `manage_${this.selectedTask.id}`,
+        });
       } else {
-        this.router.navigate([ basePath ]);
+        this.router.navigate([basePath]);
       }
     }
   }
-
 }

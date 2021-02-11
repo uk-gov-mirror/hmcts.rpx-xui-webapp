@@ -1,11 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkAllocationComponentsModule } from './../work-allocation.components.module';
 import { ImageFieldComponent } from './image-field.component';
 
 @Component({
-  template: `<exui-image-field [src]="src" [alt]="alt"></exui-image-field>`
+  template: `<exui-image-field [src]="src" [alt]="alt"></exui-image-field>`,
 })
 class WrapperComponent {
   @ViewChild(ImageFieldComponent) public appComponentRef: ImageFieldComponent;
@@ -14,7 +13,6 @@ class WrapperComponent {
 }
 
 describe('WorkAllocation', () => {
-
   describe('ImageFieldComponent', () => {
     let component: ImageFieldComponent;
     let wrapper: WrapperComponent;
@@ -22,10 +20,9 @@ describe('WorkAllocation', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [ WrapperComponent ],
-        imports: [ WorkAllocationComponentsModule ]
-      })
-      .compileComponents();
+        declarations: [WrapperComponent],
+        imports: [WorkAllocationComponentsModule],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -37,8 +34,9 @@ describe('WorkAllocation', () => {
 
     it('should show only if there is an image to show', () => {
       // Expect the nativeElement to be empty (no image yet)
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
-
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
 
       // Set up the image
       const EXAMPLE_IMAGE: string = '/assets/images/test.jpg';
@@ -46,7 +44,9 @@ describe('WorkAllocation', () => {
       // Add the image src and it should now be available
       component.src = EXAMPLE_IMAGE;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('img');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'img'
+      );
       expect(element.getAttribute('src')).toBe(EXAMPLE_IMAGE);
 
       // Remove the image src and it should no longer display
@@ -76,8 +76,9 @@ describe('WorkAllocation', () => {
 
     it('should allow swapping of an image', () => {
       // Expect the nativeElement to be empty (no image yet)
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
-
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
 
       // Set up the image
       const EXAMPLE1_IMAGE: string = '/assets/images/test.jpg';
@@ -86,7 +87,9 @@ describe('WorkAllocation', () => {
       // Add the first image src and it should now be available
       component.src = EXAMPLE1_IMAGE;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('img');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'img'
+      );
       expect(element.getAttribute('src')).toBe(EXAMPLE1_IMAGE);
 
       // Replace the image src and it should no longer display
@@ -106,13 +109,13 @@ describe('WorkAllocation', () => {
       fixture.detectChanges();
       element = fixture.debugElement.nativeElement.querySelector('img');
       expect(element).toBeNull();
-
     });
 
     it('should show the correct alt text', () => {
       // Expect the nativeElement to be empty (no image yet)
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
-
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
 
       // Set up the image
       const EXAMPLE_IMAGE: string = '/assets/images/test.jpg';
@@ -121,7 +124,9 @@ describe('WorkAllocation', () => {
       // Add the image src and it should now be available with default Image alt setting
       component.src = EXAMPLE_IMAGE;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('img');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'img'
+      );
       expect(element.getAttribute('src')).toBe(EXAMPLE_IMAGE);
       expect(element.getAttribute('alt')).toBe('Image');
 
@@ -148,9 +153,6 @@ describe('WorkAllocation', () => {
       fixture.detectChanges();
       element = fixture.debugElement.nativeElement.querySelector('img');
       expect(element.getAttribute('alt')).toBe('Image');
-
     });
-
   });
-
 });

@@ -14,10 +14,9 @@ import * as fromCaseList from '../../store/reducers';
 @Component({
   selector: 'exui-case-share',
   templateUrl: './case-share.component.html',
-  styleUrls: ['./case-share.component.scss']
+  styleUrls: ['./case-share.component.scss'],
 })
 export class CaseShareComponent implements OnInit {
-
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;
   public init: boolean;
   public shareCases$: Observable<SharedCase[]>;
@@ -25,25 +24,35 @@ export class CaseShareComponent implements OnInit {
   public orgUsers$: Observable<UserDetails[]>;
   public removeUserFromCaseToggleOn$: Observable<boolean>;
 
-  constructor(public store: Store<fromCaseList.State>,
-              public featureToggleService: FeatureToggleService) {
-  }
+  constructor(
+    public store: Store<fromCaseList.State>,
+    public featureToggleService: FeatureToggleService
+  ) {}
 
   public ngOnInit() {
     this.routerState$ = this.store.pipe(select(getRouterState));
-    this.routerState$.subscribe(router => this.init = router.state.queryParams.init);
-    this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-    this.shareCases$.subscribe(shareCases => {
+    this.routerState$.subscribe(
+      (router) => (this.init = router.state.queryParams.init)
+    );
+    this.shareCases$ = this.store.pipe(
+      select(fromCasesFeature.getShareCaseListState)
+    );
+    this.shareCases$.subscribe((shareCases) => {
       this.shareCases = shareCases;
     });
-    this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));
+    this.orgUsers$ = this.store.pipe(
+      select(fromCasesFeature.getOrganisationUsersState)
+    );
     if (this.init) {
       // call api to retrieve case assigned users
       this.store.dispatch(new LoadShareCase(this.shareCases));
       // call api to retrieve users in the same organisation
       this.store.dispatch(new LoadUserFromOrgForCase());
     }
-    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case', false);
+    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue(
+      'remove-user-from-case',
+      false
+    );
 
     // initialize javascript for accordion component to enable open/close button
     setTimeout(() => initAll(), 1000);
@@ -56,5 +65,4 @@ export class CaseShareComponent implements OnInit {
   public synchronizeStore($event) {
     this.store.dispatch(new fromCasesFeature.SynchronizeStateToStore($event));
   }
-
 }

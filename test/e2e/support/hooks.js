@@ -14,8 +14,7 @@ const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
 const { Given, When, Then } = require('cucumber');
 
-const CucumberReportLog = require("./reportLogger");
-
+const CucumberReportLog = require('./reportLogger');
 
 // defineSupportCode(function({After }) {
 //     registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {
@@ -92,27 +91,32 @@ const CucumberReportLog = require("./reportLogger");
 
 // });
 
+defineSupportCode(({ Before, After }) => {
+  Before(function (scenario, done) {
+    const world = this;
+    CucumberReportLog.setScenarioWorld(this);
+    done();
+  });
 
-defineSupportCode(({ Before,After }) => {
-    Before(function (scenario, done) {
-        const world = this;
-        CucumberReportLog.setScenarioWorld(this);
-        done();
-    });
-
-    After(async function(scenario) {
-        CucumberReportLog.AddMessage("scenario completed with status : " + scenario.result.status);
-        const world = this;
-        await CucumberReportLog.AddScreenshot(global.screenShotUtils);
-        if (scenario.result.status === 'failed') {
-            let browserLog = await browser.manage().logs().get('browser');
-            let browserErrorLogs = []
-            for (let browserLogCounter = 0; browserLogCounter < browserLog.length; browserLogCounter++) {
-                if (browserLog[browserLogCounter].level.value > 900 ) {
-                    browserErrorLogs.push(browserLog[browserLogCounter]);
-                }
-            }
-            CucumberReportLog.AddJson(browserErrorLogs);
+  After(async function (scenario) {
+    CucumberReportLog.AddMessage(
+      'scenario completed with status : ' + scenario.result.status
+    );
+    const world = this;
+    await CucumberReportLog.AddScreenshot(global.screenShotUtils);
+    if (scenario.result.status === 'failed') {
+      let browserLog = await browser.manage().logs().get('browser');
+      let browserErrorLogs = [];
+      for (
+        let browserLogCounter = 0;
+        browserLogCounter < browserLog.length;
+        browserLogCounter++
+      ) {
+        if (browserLog[browserLogCounter].level.value > 900) {
+          browserErrorLogs.push(browserLog[browserLogCounter]);
         }
-    });
+      }
+      CucumberReportLog.AddJson(browserErrorLogs);
+    }
+  });
 });

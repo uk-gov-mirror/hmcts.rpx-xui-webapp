@@ -8,13 +8,12 @@
  * @returns {boolean}
  */
 export function propsExist(object, nestedProps) {
-
-  for (const nestedProperty of nestedProps) {
-    if (!object || !object.hasOwnProperty(nestedProperty)) {
-      return false
+    for (const nestedProperty of nestedProps) {
+        if (!object || !object.hasOwnProperty(nestedProperty)) {
+            return false
+        }
+        object = object[nestedProperty]
     }
-    object = object[nestedProperty]
-  }
 
-  return true
+    return true
 }

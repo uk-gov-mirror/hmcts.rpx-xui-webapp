@@ -1,5 +1,5 @@
 import { CdkTableModule } from '@angular/cdk/table';
-import { ChangeDetectorRef} from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,7 +9,10 @@ import { of } from 'rxjs';
 import { SessionStorageService } from 'src/app/services';
 import { WorkAllocationComponentsModule } from 'src/work-allocation/components/work-allocation.components.module';
 import { Task } from 'src/work-allocation/models/tasks';
-import { InfoMessageCommService, WorkAllocationTaskService } from 'src/work-allocation/services';
+import {
+  InfoMessageCommService,
+  WorkAllocationTaskService,
+} from 'src/work-allocation/services';
 import { getMockTasks, MockRouter } from 'src/work-allocation/tests/utils.spec';
 import { TaskListComponent } from '../task-list/task-list.component';
 import { TaskListWrapperComponent } from './task-list-wrapper.component';
@@ -19,34 +22,49 @@ describe('TaskListWrapperComponent', () => {
   let fixture: ComponentFixture<TaskListWrapperComponent>;
   const mockRef = jasmine.createSpyObj('mockRef', ['']);
   const mockRouter: MockRouter = new MockRouter();
-  const mockWorkAllocationService = jasmine.createSpyObj('mockWorkAllocationService', ['searchTask', 'getTask']);
-  const mockInfoMessageCommService = jasmine.createSpyObj('mockInfoMessageCommService', ['']);
-  const mockSessionStorageService = jasmine.createSpyObj('mockSessionStorageService', ['getItem']);
+  const mockWorkAllocationService = jasmine.createSpyObj(
+    'mockWorkAllocationService',
+    ['searchTask', 'getTask']
+  );
+  const mockInfoMessageCommService = jasmine.createSpyObj(
+    'mockInfoMessageCommService',
+    ['']
+  );
+  const mockSessionStorageService = jasmine.createSpyObj(
+    'mockSessionStorageService',
+    ['getItem']
+  );
   const mockAlertService = jasmine.createSpyObj('mockAlertService', ['']);
-  beforeEach((() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         WorkAllocationComponentsModule,
         ExuiCommonLibModule,
         RouterTestingModule,
-        CdkTableModule
+        CdkTableModule,
       ],
       declarations: [TaskListComponent, TaskListWrapperComponent],
       providers: [
         { provide: ChangeDetectorRef, useValue: mockRef },
-        { provide: WorkAllocationTaskService, useValue: mockWorkAllocationService },
+        {
+          provide: WorkAllocationTaskService,
+          useValue: mockWorkAllocationService,
+        },
         { provide: Router, useValue: mockRouter },
-        { provide: InfoMessageCommService, useValue: mockInfoMessageCommService },
+        {
+          provide: InfoMessageCommService,
+          useValue: mockInfoMessageCommService,
+        },
         { provide: SessionStorageService, useValue: mockSessionStorageService },
-        { provide: AlertService, useValue: mockAlertService }
-      ]
+        { provide: AlertService, useValue: mockAlertService },
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(TaskListWrapperComponent);
     component = fixture.componentInstance;
     const tasks: Task[] = getMockTasks();
     mockWorkAllocationService.searchTask.and.returnValue(of({ tasks }));
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeDefined();
@@ -65,12 +83,18 @@ describe('TaskListWrapperComponent', () => {
 
       // need to check that navigate has been called
       component.onActionHandler(firstTaskAction);
-      expect(mockRouter.navigateCalls.length).toBeGreaterThan(navigateCallsBefore);
+      expect(mockRouter.navigateCalls.length).toBeGreaterThan(
+        navigateCallsBefore
+      );
 
       // need to verify correct properties were called
       const lastNavigateCall = mockRouter.navigateCalls.pop();
-      expect(lastNavigateCall.commands).toEqual([`/tasks/${exampleTask.id}/${firstAction.id}/`]);
-      const exampleNavigateCall = { state: { returnUrl: '/tasks/list', showAssigneeColumn: true } };
+      expect(lastNavigateCall.commands).toEqual([
+        `/tasks/${exampleTask.id}/${firstAction.id}/`,
+      ]);
+      const exampleNavigateCall = {
+        state: { returnUrl: '/tasks/list', showAssigneeColumn: true },
+      };
       expect(lastNavigateCall.extras).toEqual(exampleNavigateCall);
     });
 
@@ -81,12 +105,18 @@ describe('TaskListWrapperComponent', () => {
 
       // need to check that navigate has been called
       component.onActionHandler(secondTaskAction);
-      expect(mockRouter.navigateCalls.length).toBeGreaterThan(navigateCallsBefore);
+      expect(mockRouter.navigateCalls.length).toBeGreaterThan(
+        navigateCallsBefore
+      );
 
       // need to verify correct properties were called
       const lastNavigateCall = mockRouter.navigateCalls.pop();
-      expect(lastNavigateCall.commands).toEqual([`/tasks/${exampleTask.id}/${secondAction.id}/manager`]);
-      const exampleNavigateCall = { state: { returnUrl: '/tasks/manager', showAssigneeColumn: true } };
+      expect(lastNavigateCall.commands).toEqual([
+        `/tasks/${exampleTask.id}/${secondAction.id}/manager`,
+      ]);
+      const exampleNavigateCall = {
+        state: { returnUrl: '/tasks/manager', showAssigneeColumn: true },
+      };
       expect(lastNavigateCall.extras).toEqual(exampleNavigateCall);
     });
   });

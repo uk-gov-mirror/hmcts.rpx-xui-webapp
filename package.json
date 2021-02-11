@@ -6,8 +6,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged & ng lint --fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown & ng lint --fix"
   },
   "scripts": {
     "nuke": "rm -rf dist",
@@ -28,7 +31,7 @@
     "build:ng": "ng build",
     "build:docker": "docker build -t xui .",
     "lint": "yarn lint:ng && yarn lint:node",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
     "test": "cd api && yarn coverage && cd .. && yarn test:ng",
     "test:ng": "ng test",
     "test:ng:watch": "ng test --watch=true",
@@ -190,6 +193,8 @@
     "nodemon": "^2.0.7",
     "pa11y": "^5.3.0",
     "prettier": "2.2.1",
+    "prettier-plugin-organize-imports": "^1.1.1",
+    "prettier-tslint": "^0.4.2",
     "pretty-quick": "^3.1.0",
     "protractor": "^5.4.4",
     "protractor-cucumber-framework": "6.1.1",

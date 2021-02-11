@@ -68,12 +68,12 @@ export async function handlePostCaseWorkersRefData(path: string, userIds: any, r
     return response
 }
 
-export function getUserIdsFromRoleApiResponse(response: any): string [] {
+export function getUserIdsFromRoleApiResponse(response: any): string[] {
     let userIds = new Array<string>()
     if (response && response.roleAssignmentResponse) {
-        response.roleAssignmentResponse.forEach(roleAssingment => {
-           userIds = [...userIds, roleAssingment.actorId]
-       });
+        response.roleAssignmentResponse.forEach((roleAssingment) => {
+            userIds = [...userIds, roleAssingment.actorId]
+        })
     }
     return userIds
 }

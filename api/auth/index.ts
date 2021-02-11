@@ -1,35 +1,36 @@
-import {AUTH, AuthOptions, xuiNode} from '@hmcts/rpx-xui-node-lib'
-import {NextFunction, Request, Response} from 'express'
-import {getConfigValue, showFeature} from '../configuration'
+import { AUTH, AuthOptions, xuiNode } from '@hmcts/rpx-xui-node-lib'
+import { NextFunction, Request, Response } from 'express'
+import { getConfigValue, showFeature } from '../configuration'
 import {
     COOKIES_TOKEN,
     COOKIES_USER_ID,
     FEATURE_OIDC_ENABLED,
     FEATURE_REDIS_ENABLED,
     FEATURE_SECURE_COOKIE_ENABLED,
-    IDAM_SECRET, LOGIN_ROLE_MATCHER,
+    IDAM_SECRET,
+    LOGIN_ROLE_MATCHER,
     MICROSERVICE,
     NOW,
     REDIS_CLOUD_URL,
     REDIS_KEY_PREFIX,
     REDIS_TTL,
     S2S_SECRET,
-    SERVICE_S2S_PATH,
     SERVICES_IDAM_API_URL,
     SERVICES_IDAM_CLIENT_ID,
     SERVICES_IDAM_ISS_URL,
     SERVICES_IDAM_LOGIN_URL,
     SERVICES_IDAM_OAUTH_CALLBACK_URL,
-    SESSION_SECRET
+    SERVICE_S2S_PATH,
+    SESSION_SECRET,
 } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 
 const logger = log4jui.getLogger('auth')
 
 export const successCallback = (req: Request, res: Response, next: NextFunction) => {
-    const {user} = req.session.passport
-    const {userinfo} = user
-    const {accessToken} = user.tokenset
+    const { user } = req.session.passport
+    const { userinfo } = user
+    const { accessToken } = user.tokenset
     const cookieToken = getConfigValue(COOKIES_TOKEN)
     const cookieUserId = getConfigValue(COOKIES_USER_ID)
 
@@ -47,7 +48,6 @@ export const successCallback = (req: Request, res: Response, next: NextFunction)
 xuiNode.on(AUTH.EVENT.AUTHENTICATE_SUCCESS, successCallback)
 
 export const getXuiNodeMiddleware = () => {
-
     const idamWebUrl = getConfigValue(SERVICES_IDAM_LOGIN_URL)
     const authorizationUrl = `${idamWebUrl}/login`
     const secret = getConfigValue(IDAM_SECRET)
@@ -89,7 +89,8 @@ export const getXuiNodeMiddleware = () => {
 
     const redisStoreOptions = {
         redisStore: {
-            ...baseStoreOptions, ...{
+            ...baseStoreOptions,
+            ...{
                 redisStoreOptions: {
                     redisCloudUrl: getConfigValue(REDIS_CLOUD_URL),
                     redisKeyPrefix: getConfigValue(REDIS_KEY_PREFIX),
@@ -101,7 +102,8 @@ export const getXuiNodeMiddleware = () => {
 
     const fileStoreOptions = {
         fileStore: {
-            ...baseStoreOptions, ...{
+            ...baseStoreOptions,
+            ...{
                 fileStoreOptions: {
                     filePath: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions',
                 },

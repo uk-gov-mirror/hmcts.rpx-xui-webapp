@@ -1,17 +1,19 @@
-import { inject, TestBed } from '@angular/core/testing';
-
-import { EnvironmentService } from './environment.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { inject, TestBed } from '@angular/core/testing';
+import { EnvironmentService } from './environment.service';
 
 describe('EnvironmentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [EnvironmentService],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
   });
 
-  it('should be created', inject([EnvironmentService], (service: EnvironmentService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [EnvironmentService],
+    (service: EnvironmentService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

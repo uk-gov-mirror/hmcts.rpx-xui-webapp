@@ -5,10 +5,18 @@ import { TaskService, TaskSort } from '../enums';
 import { Caseworker, Location } from '../models/dtos';
 import { Task, TaskFieldConfig, TaskServiceConfig } from '../models/tasks';
 
-const LOCATION_A: Location = { id: 'a', locationName: 'Taylor House', services: [ 'a' ] };
-const LOCATION_B: Location = { id: 'b', locationName: 'Taylor Swift', services: [ 'a', 'b' ] };
+const LOCATION_A: Location = {
+  id: 'a',
+  locationName: 'Taylor House',
+  services: ['a'],
+};
+const LOCATION_B: Location = {
+  id: 'b',
+  locationName: 'Taylor Swift',
+  services: ['a', 'b'],
+};
 export function getMockLocations(): Location[] {
-  return [ LOCATION_A, LOCATION_B ];
+  return [LOCATION_A, LOCATION_B];
 }
 
 export function getMockCaseworkers(): Caseworker[] {
@@ -18,15 +26,15 @@ export function getMockCaseworkers(): Caseworker[] {
       lastName: 'Smith',
       idamId: '1',
       email: 'j.s@caseworkers.gov.uk',
-      location: LOCATION_A
+      location: LOCATION_A,
     },
     {
       firstName: 'Jane',
       lastName: 'Doe',
       idamId: '2',
       email: 'j.doe@caseworkers.gov.uk',
-      location: LOCATION_B
-    }
+      location: LOCATION_B,
+    },
   ];
 }
 
@@ -51,8 +59,8 @@ export function getMockTasks(): Task[] {
         {
           id: 'actionId2',
           title: 'Release this task',
-        }
-      ]
+        },
+      ],
     },
     {
       id: '1549476532065587',
@@ -66,9 +74,9 @@ export function getMockTasks(): Task[] {
         {
           id: 'actionId2',
           title: 'Release this task',
-        }
-      ]
-    }
+        },
+      ],
+    },
   ];
 }
 
@@ -87,7 +95,7 @@ export function getMockTaskServiceConfig(): TaskServiceConfig {
     service: TaskService.IAC,
     defaultSortDirection: TaskSort.ASC,
     defaultSortFieldName: 'dueDate',
-    fields: getMockTaskFieldConfig()
+    fields: getMockTaskFieldConfig(),
   };
 }
 
@@ -103,7 +111,10 @@ export class MockRouter {
   public get navigateCalls(): any[] {
     return this.pNavigateCalls;
   }
-  public navigate(commands: any[], extras?: NavigationExtras): Observable<boolean> {
+  public navigate(
+    commands: any[],
+    extras?: NavigationExtras
+  ): Observable<boolean> {
     this.pNavigateCalls.push({ commands, extras });
     return of(true);
   }

@@ -5,7 +5,7 @@ import { UserDetails } from '../../../app/models/user-details.model';
 
 // TODO: Write unit tests
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   constructor(private readonly http: HttpClient) {}

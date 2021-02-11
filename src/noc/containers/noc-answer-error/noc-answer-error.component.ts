@@ -7,17 +7,14 @@ import * as fromFeature from '../../store';
 @Component({
   selector: 'exui-noc-answer-error',
   templateUrl: './noc-answer-error.component.html',
-  styleUrls: ['./noc-answer-error.component.scss']
+  styleUrls: ['./noc-answer-error.component.scss'],
 })
 export class NocAnswerErrorComponent implements OnInit {
-
   public lastError$: Observable<NocHttpError>;
 
-  constructor(private readonly store: Store<fromFeature.State>) {
-  }
+  constructor(private readonly store: Store<fromFeature.State>) {}
 
   public ngOnInit() {
     this.lastError$ = this.store.pipe(select(fromFeature.lastError));
   }
-
 }

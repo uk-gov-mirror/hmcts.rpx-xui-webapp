@@ -1,9 +1,7 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
-import {getConfigValue, showFeature} from '../configuration'
-import {
-    APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED,
-} from '../configuration/references'
+import { getConfigValue, showFeature } from '../configuration'
+import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references'
 
 export let client
 

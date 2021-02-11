@@ -2,14 +2,13 @@
  * WebDriver Radio field component class
  */
 const DEFAULT_TIMEOUT = 5000;
-class RadioField{
-
+class RadioField {
   /**
    * This css should be an <input> tag
    * @param css
    * @param radioButtonId
    */
-  constructor(css, radioButtonId){
+  constructor(css, radioButtonId) {
     this.css = css;
     this.wrapperXPath = `//ccd-field-write[div/ccd-write-yes-no-field//*[@id="${radioButtonId}"]]`;
   }
@@ -18,15 +17,18 @@ class RadioField{
    * Click value
    * @param text
    */
-  async click(){
+  async click() {
     await $(this.css).click();
   }
 
-  async waitForElementToBeInvisible(){
+  async waitForElementToBeInvisible() {
     const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.invisibilityOf(await element(by.xpath(this.wrapperXPath))), DEFAULT_TIMEOUT);
+      await browser.wait(
+        EC.invisibilityOf(await element(by.xpath(this.wrapperXPath))),
+        DEFAULT_TIMEOUT
+      );
       return true;
     } catch (e) {
       let message = `timed out after ${DEFAULT_TIMEOUT} waiting for radio element ${element} to be invisible`;
@@ -34,11 +36,14 @@ class RadioField{
     }
   }
 
-  async waitForElementToBeVisible(){
+  async waitForElementToBeVisible() {
     const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.visibilityOf(await element(by.xpath(this.wrapperXPath))), DEFAULT_TIMEOUT);
+      await browser.wait(
+        EC.visibilityOf(await element(by.xpath(this.wrapperXPath))),
+        DEFAULT_TIMEOUT
+      );
       return true;
     } catch (e) {
       let message = `timed out after ${DEFAULT_TIMEOUT} waiting for radio element ${element} to be visible`;
@@ -50,7 +55,7 @@ class RadioField{
    * Check the input tag is present
    * @returns {Promise<boolean|*>}
    */
-  async isPresent(){
+  async isPresent() {
     return await $(this.css).isPresent();
   }
 
@@ -58,11 +63,9 @@ class RadioField{
    * Check the input tag is enabled
    * @returns {Promise<boolean|*>}
    */
-  async isEnabled(){
+  async isEnabled() {
     return await $(this.css).isEnabled();
   }
-
-
 }
 
 module.exports = RadioField;

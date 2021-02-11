@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { NocQuestion } from '../../models';
 
 export abstract class AbstractFormFieldComponent {
-
   @Input()
   public questionField: NocQuestion;
 
@@ -15,12 +14,14 @@ export abstract class AbstractFormFieldComponent {
   public formGroup?: FormGroup;
 
   @Input()
-  public registerControl?: <T extends AbstractControl> (control: T) => T;
+  public registerControl?: <T extends AbstractControl>(control: T) => T;
 
   public answerValue: string = '';
 
-  protected defaultControlRegister(): (control: FormControl) => AbstractControl {
-    return control => {
+  protected defaultControlRegister(): (
+    control: FormControl
+  ) => AbstractControl {
+    return (control) => {
       if (!this.formGroup) {
         return null;
       }
@@ -33,11 +34,14 @@ export abstract class AbstractFormFieldComponent {
     };
   }
 
-  protected addValidators(questionField: NocQuestion, control: FormControl): void {
+  protected addValidators(
+    questionField: NocQuestion,
+    control: FormControl
+  ): void {
     // No validators by default, override this method to add validators to the form control
   }
 
   protected setAnswer(): void {
-    this.answerValue$.subscribe(answer => this.answerValue = answer);
+    this.answerValue$.subscribe((answer) => (this.answerValue = answer));
   }
 }

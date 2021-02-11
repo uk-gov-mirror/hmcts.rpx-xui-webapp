@@ -5,15 +5,12 @@ import { map } from 'rxjs/operators';
 import { AcceptTermsGuard } from './acceptTerms.guard';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AllowAcceptTermsGuard implements CanActivate {
-  constructor(private acceptGuard: AcceptTermsGuard) {
-  }
+  constructor(private readonly acceptGuard: AcceptTermsGuard) {}
 
-  canActivate(): Observable<boolean> {
-    return this.acceptGuard.canActivate().pipe(
-      map(accepted => !accepted)
-    );
+  public canActivate(): Observable<boolean> {
+    return this.acceptGuard.canActivate().pipe(map((accepted) => !accepted));
   }
 }

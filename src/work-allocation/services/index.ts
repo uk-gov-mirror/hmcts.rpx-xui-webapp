@@ -7,5 +7,5 @@ export {
   CaseworkerDataService,
   InfoMessageCommService,
   LocationDataService,
-  WorkAllocationTaskService
+  WorkAllocationTaskService,
 };

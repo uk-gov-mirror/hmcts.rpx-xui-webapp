@@ -22,7 +22,7 @@ export function modifyRequest(proxyReq, req) {
     proxyReq.end()
 }
 
-export function prepareElasticQuery(queryParams: {page?}, body: any): {} {
+export function prepareElasticQuery(queryParams: { page? }, body: any): {} {
     const metaCriteria = queryParams
     let caseCriteria = {}
     let nativeEsQuery: {} = {}
@@ -32,7 +32,7 @@ export function prepareElasticQuery(queryParams: {page?}, body: any): {} {
     const page = (queryParams.page || 1) - 1
     const from = page * size
 
-    Object.keys(metaCriteria).map(key => {
+    Object.keys(metaCriteria).map((key) => {
         if (key === 'ctid' || key === 'use_case' || key === 'view' || key === 'page') {
             delete metaCriteria[key]
         }
@@ -49,7 +49,6 @@ export function prepareElasticQuery(queryParams: {page?}, body: any): {} {
 
     if (metaCriteria) {
         for (const criterion of Object.keys(metaCriteria)) {
-
             if (metaCriteria[criterion]) {
                 const keyName = fieldNameMapper(
                     criterion.replace('[', '').replace(']', '').toLowerCase(),
@@ -66,12 +65,10 @@ export function prepareElasticQuery(queryParams: {page?}, body: any): {} {
                 matchList.push(match)
             }
         }
-
     }
 
     if (caseCriteria) {
         for (const criterion of Object.keys(caseCriteria)) {
-
             if (caseCriteria[criterion]) {
                 const match = {
                     match: {
@@ -108,7 +105,7 @@ function prepareSort(params) {
     if (params.hasOwnProperty('column') && params.hasOwnProperty('order') && params.hasOwnProperty('type')) {
         let columnName: string
 
-        if (params.column.indexOf('[') === -1 ) {
+        if (params.column.indexOf('[') === -1) {
             columnName = `data.${params.column}${isKeywordSuffixNeeded(params.column, params.type)}`
         } else {
             const mappedName = fieldNameMapper(
@@ -118,11 +115,9 @@ function prepareSort(params) {
             columnName = `${mappedName}${isKeywordSuffixNeeded(mappedName, params.type)}`
         }
         const orderDirection = params.order === 0 ? 'ASC' : 'DESC'
-        sortQuery.push(
-            {
-                [columnName]: orderDirection,
-            }
-        )
+        sortQuery.push({
+            [columnName]: orderDirection,
+        })
     }
     return sortQuery
 }
@@ -136,25 +131,25 @@ function isKeywordSuffixNeeded(columnName, type): string {
 
 export function handleElasticSearchResponse(proxyRes, req, res, json): {} {
     if (json.cases) {
-        const results = json.cases.map(caseObj => {
+        const results = json.cases.map((caseObj) => {
             caseObj.case_fields = caseObj.fields
             caseObj.case_fields_formatted = caseObj.fields_formatted
             delete caseObj.fields
             delete caseObj.fields_formatted
             return caseObj
-          })
+        })
 
         const handledResponse = {
-            'columns': json.headers[0].fields,
-            'results': results,
-            'total': json.total,
+            columns: json.headers[0].fields,
+            results,
+            total: json.total,
         }
         return handledResponse
     } else {
         return {
-            'columns': [],
-            'results': [],
-            'total': 0,
+            columns: [],
+            results: [],
+            total: 0,
         }
     }
 }

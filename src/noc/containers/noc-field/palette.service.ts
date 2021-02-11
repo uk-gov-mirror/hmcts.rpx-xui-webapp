@@ -12,7 +12,6 @@ import { NocYesNoFieldComponent } from './yes-no';
 
 @Injectable()
 export class PaletteService {
-
   public getFieldComponentClass(questionField: NocQuestion): Type<{}> {
     switch (questionField.answer_field_type.type) {
       case 'Text':

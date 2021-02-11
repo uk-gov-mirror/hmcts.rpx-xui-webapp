@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-
 import * as fromRoot from '../../../app/store/reducers';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from './app.selectors';
-
 
 describe('App Selectors', () => {
   let store: Store<fromReducers.State>;
@@ -24,30 +22,30 @@ describe('App Selectors', () => {
         totalIdleTime: 0,
       },
       canShareCases: false,
-      userInfo: null
-    }
+      userInfo: null,
+    },
   };
 
   const appPayload = {
     features: {
       ccdCaseCreate: {
         isEnabled: true,
-        label: 'CCDCaseCreate'
-      }
+        label: 'CCDCaseCreate',
+      },
     },
   };
 
   const appConfigLoaded = {
-      config: {
-        features: {
-          ccdCaseCreate: {
-            isEnabled: true,
-            label: 'CCDCaseCreate'
-          }
+    config: {
+      features: {
+        ccdCaseCreate: {
+          isEnabled: true,
+          label: 'CCDCaseCreate',
         },
       },
-      loaded: true,
-      loading: false,
+    },
+    loaded: true,
+    loading: false,
   };
 
   const appConfigLoadedAfter = {
@@ -55,8 +53,8 @@ describe('App Selectors', () => {
       features: {
         ccdCaseCreate: {
           isEnabled: true,
-          label: 'CCDCaseCreate'
-        }
+          label: 'CCDCaseCreate',
+        },
       },
     },
     termsAndCondition: { isLoaded: false, hasUserAcceptedTC: false },
@@ -71,9 +69,9 @@ describe('App Selectors', () => {
         totalIdleTime: 0,
       },
       canShareCases: false,
-      userInfo: null
-    }
-};
+      userInfo: null,
+    },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -96,7 +94,7 @@ describe('App Selectors', () => {
 
       store
         .select(fromSelectors.getConfigState)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(appConfig);
 
       store.dispatch(new fromActions.LoadConfigSuccess(appPayload));
@@ -108,12 +106,10 @@ describe('App Selectors', () => {
 
       store
         .select(fromSelectors.getAppFeatures)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new fromActions.LoadConfigSuccess(appPayload));
       expect(result).toEqual(appConfigLoaded.config);
     });
   });
-
-
 });

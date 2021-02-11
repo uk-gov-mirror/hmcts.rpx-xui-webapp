@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import * as fromNocStore from '../../store';
@@ -14,12 +13,9 @@ describe('NocAffirmationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NocAffirmationComponent ],
-      providers: [
-        provideMockStore()
-      ]
-    })
-    .compileComponents();
+      declarations: [NocAffirmationComponent],
+      providers: [provideMockStore()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -39,8 +35,9 @@ describe('NocAffirmationComponent', () => {
   it('should change affirmation', () => {
     const event = {
       currentTarget: {
-        checked: true
-      }};
+        checked: true,
+      },
+    };
     component.onChangeAffirmation(event);
     expect(spyOnDispatchToStore).toHaveBeenCalled();
   });

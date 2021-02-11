@@ -10,12 +10,11 @@ import { handleDelete, handleGet, handlePost, handlePut } from './crudService'
 
 chai.use(sinonChai)
 describe('crudService', () => {
-
     const dummyData = {
-      crudId: 'dummy',
-      documentId: 'dummy',
-      page: 1,
-      rectangles: [],
+        crudId: 'dummy',
+        documentId: 'dummy',
+        page: 1,
+        rectangles: [],
     }
 
     let sandbox
@@ -34,7 +33,6 @@ describe('crudService', () => {
     })
 
     describe('handleGet', () => {
-
         it('should make a get request', async () => {
             spy = sandbox.stub(http, 'get').resolves(res)
             const crudPath = '/crud/12345'
@@ -73,5 +71,4 @@ describe('crudService', () => {
             expect(response.data).to.equal('ok')
         })
     })
-
 })

@@ -1,2 +1,2 @@
-export * from './pageVisibilityStates';
 export * from './navigationVisibilityStates';
+export * from './pageVisibilityStates';

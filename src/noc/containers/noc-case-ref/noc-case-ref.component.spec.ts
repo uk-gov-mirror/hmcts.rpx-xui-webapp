@@ -17,19 +17,10 @@ describe('NocCaseRefComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        UtilsModule
-      ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ],
-      declarations: [
-        NocCaseRefComponent
-      ],
-      providers: [
-        provideMockStore()
-      ]
+      imports: [ReactiveFormsModule, UtilsModule],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [NocCaseRefComponent],
+      providers: [provideMockStore()],
     }).compileComponents();
 
     store = TestBed.get(Store);
@@ -43,26 +34,26 @@ describe('NocCaseRefComponent', () => {
 
   describe('onSubmit', () => {
     it('should call navigationHandler', () => {
-        const navigationHandlerSpy = spyOn(component, 'navigationHandler');
-        component.nocNavigationCurrentState = NocState.START;
-        component.navEvent = {
-          event: NocNavigationEvent.CONTINUE,
-          timestamp: 0
-        };
-        component.onSubmit();
-        expect(navigationHandlerSpy).toHaveBeenCalledWith(NocNavigationEvent.CONTINUE);
+      const navigationHandlerSpy = spyOn(component, 'navigationHandler');
+      component.nocNavigationCurrentState = NocState.START;
+      component.navEvent = {
+        event: NocNavigationEvent.CONTINUE,
+        timestamp: 0,
+      };
+      component.onSubmit();
+      expect(navigationHandlerSpy).toHaveBeenCalledWith(
+        NocNavigationEvent.CONTINUE
+      );
     });
   });
 
   describe('navigationHandler', () => {
     it('should dispatch an action', () => {
+      const storeDispatchMock = spyOn(store, 'dispatch');
+      component.navigationHandler(NocNavigationEvent.CONTINUE);
 
-        const storeDispatchMock = spyOn(store, 'dispatch');
-        component.navigationHandler(NocNavigationEvent.CONTINUE);
-
-        expect(storeDispatchMock).toHaveBeenCalled();
+      expect(storeDispatchMock).toHaveBeenCalled();
     });
-
   });
 
   afterEach(() => {

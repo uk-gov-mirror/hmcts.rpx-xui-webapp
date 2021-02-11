@@ -1,13 +1,16 @@
 import * as bodyParser from 'body-parser'
-import {Express} from 'express'
+import { Express } from 'express'
 import * as amendedJurisdictions from './amendedJurisdictions'
-import {getConfigValue} from './configuration'
+import { getConfigValue } from './configuration'
 import {
     SERVICES_CCD_COMPONENT_API_PATH,
-    SERVICES_DOCUMENTS_API_PATH, SERVICES_EM_ANNO_API_URL,
-    SERVICES_ICP_API_URL, SERVICES_MARKUP_API_URL, SERVICES_PAYMENTS_URL
+    SERVICES_DOCUMENTS_API_PATH,
+    SERVICES_EM_ANNO_API_URL,
+    SERVICES_ICP_API_URL,
+    SERVICES_MARKUP_API_URL,
+    SERVICES_PAYMENTS_URL,
 } from './configuration/references'
-import {applyProxy} from './lib/middleware/proxy'
+import { applyProxy } from './lib/middleware/proxy'
 import * as searchCases from './searchCases'
 
 export const initProxy = (app: Express) => {
@@ -18,14 +21,9 @@ export const initProxy = (app: Express) => {
     })
 
     applyProxy(app, {
-        filter: [
-            '!/data/internal/searchCases',
-        ],
+        filter: ['!/data/internal/searchCases'],
         rewrite: false,
-        source: [
-            '/print',
-            '/data',
-        ],
+        source: ['/print', '/data'],
         target: getConfigValue(SERVICES_CCD_COMPONENT_API_PATH),
     })
 
@@ -69,10 +67,7 @@ export const initProxy = (app: Express) => {
 
     applyProxy(app, {
         rewrite: false,
-        source: [
-            '/api/markups',
-            '/api/redaction',
-        ],
+        source: ['/api/markups', '/api/redaction'],
         target: getConfigValue(SERVICES_MARKUP_API_URL),
     })
 

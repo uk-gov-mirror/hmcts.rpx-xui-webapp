@@ -11,5 +11,5 @@ export {
   TaskAction,
   TaskFieldConfig,
   TaskServiceConfig,
-  TaskSortField
+  TaskSortField,
 };

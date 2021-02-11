@@ -4,17 +4,13 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-
-  constructor(
-      public authService: AuthService,
-  ) {
-  }
+  constructor(public authService: AuthService) {}
 
   public canActivate(): Observable<boolean> {
-    return this.authService.isAuthenticated().map( isAuth => {
+    return this.authService.isAuthenticated().map((isAuth) => {
       if (!isAuth) {
         this.authService.loginRedirect();
         return false;

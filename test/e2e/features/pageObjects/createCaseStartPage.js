@@ -1,49 +1,49 @@
-Dropdown = require('./webdriver-components/dropdown.js')
-Button = require('./webdriver-components/button.js')
+Dropdown = require('./webdriver-components/dropdown.js');
+Button = require('./webdriver-components/button.js');
 
 var BrowserWaits = require('../../support/customWaits');
 
 class CreateCaseStartPage {
-
-  constructor(){
+  constructor() {
     this.header = '#content h1';
     this._jurisdiction = new Dropdown('#cc-jurisdiction');
     this._caseType = new Dropdown('#cc-case-type');
     this._event = new Dropdown('#cc-event');
     this._submitButton = new Button('#content button');
-    this._jurisdictionSelector = '#cc-jurisdiction' ;
+    this._jurisdictionSelector = '#cc-jurisdiction';
 
     this._startBtn = element(by.xpath("//button[text() = 'Start']"));
-
   }
 
-  
-
-  async selectJurisdiction(option){
-    var e = element(by.xpath('//*[@id = "cc-jurisdiction"]/option[text() = "' + option + '"]'));
+  async selectJurisdiction(option) {
+    var e = element(
+      by.xpath('//*[@id = "cc-jurisdiction"]/option[text() = "' + option + '"]')
+    );
     await BrowserWaits.waitForElement(e);
-   await e.click(); 
-     
+    await e.click();
   }
 
-  async selectCaseType(option){
-    var e = element(by.xpath('//*[@id = "cc-case-type"]/option[text() = "' + option + '"]'));
-     await BrowserWaits.waitForElement(e);
-    await e.click(); 
+  async selectCaseType(option) {
+    var e = element(
+      by.xpath('//*[@id = "cc-case-type"]/option[text() = "' + option + '"]')
+    );
+    await BrowserWaits.waitForElement(e);
+    await e.click();
 
     // await this._caseType.selectFromDropdownByText(option);
   }
 
-  async selectEvent(option){
-    var e = element(by.xpath('//*[@id = "cc-event"]/option[text() = "' + option + '"]'));
-    await BrowserWaits.waitForElement(e)
-    await e.click(); 
+  async selectEvent(option) {
+    var e = element(
+      by.xpath('//*[@id = "cc-event"]/option[text() = "' + option + '"]')
+    );
+    await BrowserWaits.waitForElement(e);
+    await e.click();
 
-      // await this._event.selectFromDropdownByText(option);
+    // await this._event.selectFromDropdownByText(option);
   }
 
-  async startCaseCreation(jurisdiction,caseType,event){
-
+  async startCaseCreation(jurisdiction, caseType, event) {
     this.selectJurisdiction(jurisdiction);
 
     this.selectCaseType(caseType);
@@ -58,21 +58,17 @@ class CreateCaseStartPage {
     // await browser.executeScript('arguments[0].scrollIntoView()',
     //   this._startBtn.getWebElement());
     // await this._startBtn.click();
-
-
   }
 
-  async getPageHeader(){
-
+  async getPageHeader() {
     return await $(this.header).getText();
   }
 
-  async amOnPage(){
+  async amOnPage() {
     BrowserWaits.waitForElementClickable($('#cc-jurisdiction'));
     let header = await this.getPageHeader();
-    return header === 'Create Case'
+    return header === 'Create Case';
   }
-
 }
 
 module.exports = CreateCaseStartPage;

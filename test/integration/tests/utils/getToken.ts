@@ -1,7 +1,10 @@
-import {getConfigValue} from '../../../../api/configuration';
-import { IDAM_SECRET, SERVICES_IDAM_API_URL, SERVICES_IDAM_CLIENT_ID} from '../../../../api/configuration/references';
-
-import axios, {AxiosInstance} from 'axios';
+import axios, { AxiosInstance } from 'axios';
+import { getConfigValue } from '../../../../api/configuration';
+import {
+  IDAM_SECRET,
+  SERVICES_IDAM_API_URL,
+  SERVICES_IDAM_CLIENT_ID,
+} from '../../../../api/configuration/references';
 
 const axiosInstance: AxiosInstance = axios.create();
 const idamApi = getConfigValue(SERVICES_IDAM_API_URL);
@@ -15,11 +18,13 @@ export async function getAuthCode() {
 
   // let encode = base64.encode((process.env.TEST_EMAIL + ':' + process.env.TEST_PASSWORD))
   // const encode = base64.encode(('autotest_superuser@mailinator.com:Monday01'));
-  const encode = Buffer.from('lukesuperuserxui@mailnesia.com:Monday01').toString('base64');
+  const encode = Buffer.from(
+    'lukesuperuserxui@mailnesia.com:Monday01'
+  ).toString('base64');
   const otherParam = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${encode}`
+      Authorization: `Basic ${encode}`,
     },
     body: '',
   };
@@ -38,7 +43,9 @@ export async function getAuthToken() {
 
   const options = {
     headers: {
-      Authorization: `Basic ${Buffer.from(`${idamClient}:${idamSecret}`).toString('base64')}`,
+      Authorization: `Basic ${Buffer.from(
+        `${idamClient}:${idamSecret}`
+      ).toString('base64')}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   };

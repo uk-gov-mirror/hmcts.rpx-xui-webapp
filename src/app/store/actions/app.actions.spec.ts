@@ -13,7 +13,7 @@ describe('App Actions', () => {
 
   describe('Load Config Success', () => {
     it('should create an action', () => {
-      const payload = {prop: 'value'};
+      const payload = { prop: 'value' };
       const action = new fromApp.LoadConfigSuccess(payload);
 
       expect({ ...action }).toEqual({
@@ -25,7 +25,7 @@ describe('App Actions', () => {
 
   describe('Load Config Fail', () => {
     it('should create an action', () => {
-      const payload = {error: 'value'};
+      const payload = { error: 'value' };
       const action = new fromApp.LoadConfigFail(payload);
 
       expect({ ...action }).toEqual({
@@ -54,5 +54,4 @@ describe('App Actions', () => {
       });
     });
   });
-
 });

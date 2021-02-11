@@ -1,18 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-
-import {AppConstants} from '../../app.constants';
-import {AppTitleModel} from '../../models/app-title.model';
-import {NavItemsModel} from '../../models/nav-item.model';
-import {UserNavModel} from '../../models/user-nav.model';
-import {Theme} from '../app-header/app-header.component';
+import { Component, OnInit } from '@angular/core';
+import { AppConstants } from '../../app.constants';
+import { AppTitleModel } from '../../models/app-title.model';
+import { NavItemsModel } from '../../models/nav-item.model';
+import { UserNavModel } from '../../models/user-nav.model';
+import { Theme } from '../app-header/app-header.component';
 
 @Component({
   selector: 'exui-app-header-signed-out',
   templateUrl: './app-header-signed-out.component.html',
 })
 export class AppHeaderSignedOutComponent implements OnInit {
-
   public navItems: NavItemsModel[];
   public appHeaderTitle: AppTitleModel;
   public userNav: UserNavModel;
@@ -21,11 +18,9 @@ export class AppHeaderSignedOutComponent implements OnInit {
   public logoType: string;
   public logoIsUsed: boolean;
 
-  constructor() {
-  }
+  constructor() {}
 
   public ngOnInit(): void {
-
     this.setAppHeaderProperties(AppConstants.SIGNED_OUT_THEME);
   }
 
@@ -35,7 +30,6 @@ export class AppHeaderSignedOutComponent implements OnInit {
    * Set the app header properties, in one function that takes in the application theme.
    */
   public setAppHeaderProperties(applicationTheme: Theme): void {
-
     const {
       appTitle,
       accountNavigationItems,

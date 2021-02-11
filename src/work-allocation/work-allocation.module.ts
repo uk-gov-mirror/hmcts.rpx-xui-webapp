@@ -5,7 +5,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material';
 import { AlertService, CaseUIToolkitModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
-
 import { SharedModule } from '../app/shared/shared.module';
 import { WorkAllocationComponentsModule } from './components/work-allocation.components.module';
 import * as fromContainers from './containers';
@@ -24,14 +23,14 @@ import { workAllocationRouting } from './work-allocation-feature.routes';
     WorkAllocationComponentsModule,
     workAllocationRouting,
     CdkTableModule,
-    ExuiCommonLibModule
+    ExuiCommonLibModule,
   ],
-  declarations: [
-    ...fromContainers.containers
+  declarations: [...fromContainers.containers],
+  providers: [
+    WorkAllocationTaskService,
+    WorkAllocationFeatureToggleGuard,
+    AlertService,
   ],
-  providers: [WorkAllocationTaskService, WorkAllocationFeatureToggleGuard, AlertService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class WorkAllocationModule {
-
-}
+export class WorkAllocationModule {}

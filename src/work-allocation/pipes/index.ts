@@ -9,7 +9,7 @@ export const pipes: any[] = [
   DaysFromTodayPipe,
   IntegerPipe,
   TwoDPPipe,
-  YesNoPipe
+  YesNoPipe,
 ];
 
 export {
@@ -17,5 +17,5 @@ export {
   DaysFromTodayPipe,
   IntegerPipe,
   TwoDPPipe,
-  YesNoPipe
+  YesNoPipe,
 };

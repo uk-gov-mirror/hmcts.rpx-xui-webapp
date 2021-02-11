@@ -1,27 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRouteSnapshot, NavigationEnd, Router, RoutesRecognized } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  NavigationEnd,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
 import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
-
 import { AppUtils } from '../../../app/app-utils';
 import { TaskSortField } from '../../models/tasks';
 
 @Component({
   selector: 'exui-task-home',
-  templateUrl: 'task-home.component.html'
+  templateUrl: 'task-home.component.html',
 })
 export class TaskHomeComponent implements OnInit {
-
   /**
    * Take in the Router so we can navigate when actions are clicked and
    * to identify which sub-navigation item to highlight.
    */
-  private readonly MY_TASKS: SubNavigation = { text: 'My tasks', href: '/tasks/list', active: true };
+  private readonly MY_TASKS: SubNavigation = {
+    text: 'My tasks',
+    href: '/tasks/list',
+    active: true,
+  };
   /**
    * The sub-navigation items.
    */
   public subNavigationItems: SubNavigation[] = [
     this.MY_TASKS,
-    { text: 'Available tasks', href: '/tasks/available', active: false }
+    { text: 'Available tasks', href: '/tasks/available', active: false },
   ];
 
   public sortedBy: TaskSortField;
@@ -30,7 +37,7 @@ export class TaskHomeComponent implements OnInit {
   constructor(private readonly router: Router) {}
 
   public ngOnInit(): void {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Set up the active navigation item.
         this.setupActiveSubNavigationItem(this.router.url);

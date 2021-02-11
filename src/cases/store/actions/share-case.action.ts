@@ -11,10 +11,13 @@ export const ADD_SHARE_CASES = '[ShareCase] Add Share Cases';
 export const ADD_SHARE_CASE_GO = '[Router] Add Share Case Go';
 export const DELETE_A_SHARE_CASE = '[ShareCase] Delete A Share Case';
 export const LOAD_USERS_FROM_ORG_FOR_CASE = '[LoadUsers] From ORG For A Case';
-export const LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS = '[LoadUsers] From ORG For A Case Success';
-export const SYNCHRONIZE_STATE_TO_STORE = '[ShareCase] Synchronize State To Store';
+export const LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS =
+  '[LoadUsers] From ORG For A Case Success';
+export const SYNCHRONIZE_STATE_TO_STORE =
+  '[ShareCase] Synchronize State To Store';
 export const ASSIGN_USERS_TO_CASE = '[ShareCase] Assign Users to Case';
-export const ASSIGN_USERS_TO_CASE_SUCCESS = '[ShareCase] Assign Users to Case Success';
+export const ASSIGN_USERS_TO_CASE_SUCCESS =
+  '[ShareCase] Assign Users to Case Success';
 export const RESET_CASE_SELECTION = '[ShareCase] Reset Case Selection';
 
 export class LoadUserFromOrgForCase implements Action {
@@ -49,12 +52,14 @@ export class LoadShareCaseFailure implements Action {
 
 export class AddShareCases implements Action {
   public readonly type = ADD_SHARE_CASES;
-  constructor(public payload: {
-    path?: any[];
-    query?: object;
-    extras?: NavigationExtras;
-    sharedCases: SharedCase[]
-  }) {}
+  constructor(
+    public payload: {
+      path?: any[];
+      query?: object;
+      extras?: NavigationExtras;
+      sharedCases: SharedCase[];
+    }
+  ) {}
 }
 
 export class AddShareCaseGo implements Action {
@@ -64,7 +69,7 @@ export class AddShareCaseGo implements Action {
       path: any[];
       query?: object;
       extras?: NavigationExtras;
-      sharedCases: SharedCase[]
+      sharedCases: SharedCase[];
     }
   ) {}
 }
@@ -98,6 +103,17 @@ export class ResetCaseSelection implements Action {
   constructor() {}
 }
 
-export type Actions = NavigateToShareCase | LoadShareCase | LoadShareCaseSuccess | LoadShareCaseFailure
-  | AddShareCases | AddShareCaseGo | DeleteAShareCase | LoadUserFromOrgForCase | LoadUserFromOrgForCaseSuccess
-  | SynchronizeStateToStore | AssignUsersToCase | AssignUsersToCaseSuccess | ResetCaseSelection;
+export type Actions =
+  | NavigateToShareCase
+  | LoadShareCase
+  | LoadShareCaseSuccess
+  | LoadShareCaseFailure
+  | AddShareCases
+  | AddShareCaseGo
+  | DeleteAShareCase
+  | LoadUserFromOrgForCase
+  | LoadUserFromOrgForCaseSuccess
+  | SynchronizeStateToStore
+  | AssignUsersToCase
+  | AssignUsersToCaseSuccess
+  | ResetCaseSelection;

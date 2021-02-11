@@ -2,12 +2,13 @@ import {
   AfterContentInit,
   Component,
   ContentChild,
-  ElementRef, HostBinding,
+  ElementRef,
+  HostBinding,
   Input,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 /**
  * CCD Connector
@@ -22,26 +23,28 @@ import { Store } from '@ngrx/store';
     <ng-container>
       <ng-content></ng-content>
     </ng-container>
-  `
+  `,
 })
 export class ExuiCcdConnectorComponent implements AfterContentInit, OnDestroy {
-  @ContentChild('ccdComponent') ccdComponent;
-  @ContentChild('ccdComponent', {read: ElementRef}) ccdComponentElementRef: ElementRef;
-  @Input() eventsBindings;
-  @Input() store: Store<any>; // generic store
-  @Input() fromFeatureStore: any; // specific feature store
-  @HostBinding('attr.data-selector') hostBindingValue: string;
+  @ContentChild('ccdComponent') public ccdComponent;
+  @ContentChild('ccdComponent', { read: ElementRef })
+  public ccdComponentElementRef: ElementRef;
+  @Input() public eventsBindings;
+  @Input() public store: Store<any>; // generic store
+  @Input() public fromFeatureStore: any; // specific feature store
+  @HostBinding('attr.data-selector') public hostBindingValue: string;
 
-  subscriptions: Subscription[] = [];
-  dispatcherContainer: { type: string } | {};
+  public subscriptions: Subscription[] = [];
+  public dispatcherContainer: { type: string } | {};
 
-  constructor() { }
+  constructor() {}
 
-  ngAfterContentInit() {
+  public ngAfterContentInit() {
     if (this.ccdComponent) {
       this.eventsBindings.forEach((event) => {
-        this.subscriptions[event.type] =
-          this.ccdComponent[event.type].subscribe((obj = {}) => this.dispatcherContainer[event.type](obj));
+        this.subscriptions[event.type] = this.ccdComponent[
+          event.type
+        ].subscribe((obj = {}) => this.dispatcherContainer[event.type](obj));
       });
       this.createDispatchers();
       this.hostBindingValue = this.ccdComponentElementRef.nativeElement.tagName;
@@ -51,28 +54,29 @@ export class ExuiCcdConnectorComponent implements AfterContentInit, OnDestroy {
   /**
    * Creates dispatchers functions based on CCD events array
    */
-  createDispatchers() {
+  public createDispatchers() {
     this.dispatcherContainer = {};
-    this.eventsBindings.forEach(event => {
+    this.eventsBindings.forEach((event) => {
       this.dispatcherContainer[event.type] = (obj) => {
-        this.store.dispatch(new this.fromFeatureStore[event.action](this.deepClone(obj)));
+        this.store.dispatch(
+          new this.fromFeatureStore[event.action](this.deepClone(obj))
+        );
       };
     });
   }
 
-  deepClone(obj) {
+  public deepClone(obj) {
     return JSON.parse(JSON.stringify(this.simplifyFormGroup(obj)));
   }
 
-  simplifyFormGroup(obj) {
+  public simplifyFormGroup(obj) {
     Object.keys(obj).forEach((key) => {
       if (key === 'formGroup') {
         const copiedValue = obj[key].value;
         delete obj[key];
         obj[key] = {
-          value: copiedValue
+          value: copiedValue,
         };
-
       } else if (obj[key] && typeof obj[key] === 'object') {
         this.simplifyFormGroup(obj[key]);
       }
@@ -80,12 +84,11 @@ export class ExuiCcdConnectorComponent implements AfterContentInit, OnDestroy {
     return obj;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.subscriptions.length) {
       this.eventsBindings.forEach((event) => {
         this.subscriptions[event.type].unsubscribe();
       });
     }
   }
-
 }

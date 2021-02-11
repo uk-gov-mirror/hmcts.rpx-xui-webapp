@@ -12,7 +12,7 @@ export const environment = {
     roles: 'roles',
   },
   googleAnalyticsKey: 'UA-124734893-2',
-  googleTagManagerKey: 'GTM-TQ7PKDF'
+  googleTagManagerKey: 'GTM-TQ7PKDF',
 };
 /**
  * Do not add configuration to this file if possible

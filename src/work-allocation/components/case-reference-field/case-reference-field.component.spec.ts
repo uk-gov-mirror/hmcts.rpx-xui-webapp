@@ -1,20 +1,21 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AppConstants } from '../../../app/app.constants';
 import { WorkAllocationComponentsModule } from '../work-allocation.components.module';
 import { CaseReferenceFieldComponent } from './case-reference-field.component';
 
 @Component({
-  template: `<exui-case-reference-field [caseReference]="caseReference"></exui-case-reference-field>`
+  template: `<exui-case-reference-field
+    [caseReference]="caseReference"
+  ></exui-case-reference-field>`,
 })
 class WrapperComponent {
-  @ViewChild(CaseReferenceFieldComponent) public appComponentRef: CaseReferenceFieldComponent;
+  @ViewChild(CaseReferenceFieldComponent)
+  public appComponentRef: CaseReferenceFieldComponent;
   @Input() public caseReference: string;
 }
 
 describe('WorkAllocation', () => {
-
   describe('CaseReferenceFieldComponent', () => {
     const CASE_DETAILS_URL: string = AppConstants.CASE_DETAILS_URL;
     const CASE_REFERENCE: string = 'Case reference';
@@ -26,10 +27,9 @@ describe('WorkAllocation', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [ WrapperComponent ],
-        imports: [ WorkAllocationComponentsModule ]
-      })
-      .compileComponents();
+        declarations: [WrapperComponent],
+        imports: [WorkAllocationComponentsModule],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -46,10 +46,14 @@ describe('WorkAllocation', () => {
       // Add the caseReference and it should work (showing the link).
       wrapper.caseReference = CASE_REFERENCE;
       fixture.detectChanges();
-      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(CASE_REFERENCE);
-      expect(element.getAttribute('href')).toBe(`${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`
+      ); // No spaces
     });
 
     it('should allow the case reference to be changed', () => {
@@ -61,10 +65,14 @@ describe('WorkAllocation', () => {
       // Add the caseReference and it should work (showing the link).
       wrapper.caseReference = CASE_REFERENCE;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(CASE_REFERENCE);
-      expect(element.getAttribute('href')).toBe(`${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`
+      ); // No spaces
 
       // Change the value of caseReference.
       wrapper.caseReference = NEW_CASE_REFERENCE;
@@ -72,7 +80,9 @@ describe('WorkAllocation', () => {
       expect(element).not.toBeNull();
       element = fixture.debugElement.nativeElement.querySelector('a');
       expect(element.textContent.trim()).toBe(NEW_CASE_REFERENCE);
-      expect(element.getAttribute('href')).toBe(`${CASE_DETAILS_URL}n3wC@53REFERENCE`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `${CASE_DETAILS_URL}n3wC@53REFERENCE`
+      ); // No spaces
     });
 
     it('should remove the link if case reference is changed to undefined', () => {
@@ -82,10 +92,14 @@ describe('WorkAllocation', () => {
       // Add the caseReference and it should work (showing the link).
       wrapper.caseReference = CASE_REFERENCE;
       fixture.detectChanges();
-      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(CASE_REFERENCE);
-      expect(element.getAttribute('href')).toBe(`${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`
+      ); // No spaces
 
       // Clear out the value of caseReference and we should no longer have the anchor.
       wrapper.caseReference = undefined;
@@ -100,10 +114,14 @@ describe('WorkAllocation', () => {
       // Add the caseReference and it should work (showing the link).
       wrapper.caseReference = CASE_REFERENCE;
       fixture.detectChanges();
-      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(CASE_REFERENCE);
-      expect(element.getAttribute('href')).toBe(`${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`
+      ); // No spaces
 
       // Make caseReference undefined and we should no longer have the anchor.
       wrapper.caseReference = null;
@@ -118,16 +136,19 @@ describe('WorkAllocation', () => {
       // Add the caseReference and it should work (showing the link).
       wrapper.caseReference = CASE_REFERENCE;
       fixture.detectChanges();
-      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      const element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(CASE_REFERENCE);
-      expect(element.getAttribute('href')).toBe(`${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `${CASE_DETAILS_URL}${CASE_REFERENCE_IN_URL}`
+      ); // No spaces
 
       // Make the caseReference a bunch of spaces and we should no longer have the anchor.
       wrapper.caseReference = '       ';
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('a')).toBeNull();
     });
-
   });
 });

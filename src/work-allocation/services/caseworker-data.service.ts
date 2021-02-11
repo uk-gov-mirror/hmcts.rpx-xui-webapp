@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { Caseworker } from '../models/dtos';
 
 @Injectable()
@@ -13,18 +12,32 @@ export class CaseworkerDataService {
     return this.http.get<Caseworker[]>(CaseworkerDataService.caseWorkerUrl);
   }
   public getForLocation(locationId: string): Observable<Caseworker[]> {
-    return this.http.get<Caseworker[]>(`${CaseworkerDataService.caseWorkerUrl}/location/${locationId}`);
+    return this.http.get<Caseworker[]>(
+      `${CaseworkerDataService.caseWorkerUrl}/location/${locationId}`
+    );
   }
   public getForService(serviceId: string): Observable<Caseworker[]> {
-    return this.http.get<Caseworker[]>(`${CaseworkerDataService.caseWorkerUrl}/service/${serviceId}`);
+    return this.http.get<Caseworker[]>(
+      `${CaseworkerDataService.caseWorkerUrl}/service/${serviceId}`
+    );
   }
-  public getForLocationAndService(locationId: string, serviceId: string): Observable<Caseworker[]> {
-    return this.http.get<Caseworker[]>(`${CaseworkerDataService.caseWorkerUrl}/location/${locationId}/service/${serviceId}`);
+  public getForLocationAndService(
+    locationId: string,
+    serviceId: string
+  ): Observable<Caseworker[]> {
+    return this.http.get<Caseworker[]>(
+      `${CaseworkerDataService.caseWorkerUrl}/location/${locationId}/service/${serviceId}`
+    );
   }
   public search(term: string): Observable<Caseworker[]> {
-    return this.http.post<Caseworker[]>(`${CaseworkerDataService.caseWorkerUrl}/search`, { term });
+    return this.http.post<Caseworker[]>(
+      `${CaseworkerDataService.caseWorkerUrl}/search`,
+      { term }
+    );
   }
   public getDetails(caseworkerId: string): Observable<Caseworker> {
-    return this.http.get<Caseworker>(`${CaseworkerDataService.caseWorkerUrl}/${caseworkerId}`);
+    return this.http.get<Caseworker>(
+      `${CaseworkerDataService.caseWorkerUrl}/${caseworkerId}`
+    );
   }
 }

@@ -15,5 +15,5 @@ export {
   TaskFieldType,
   TaskService,
   TaskSort,
-  TaskView
+  TaskView,
 };

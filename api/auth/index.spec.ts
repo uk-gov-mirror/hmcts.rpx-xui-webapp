@@ -4,17 +4,12 @@ import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
+import { getConfigValue } from '../configuration'
+import { COOKIES_TOKEN, COOKIES_USER_ID } from '../configuration/references'
+import * as auth from './index'
 chai.use(sinonChai)
 
-import {getConfigValue} from '../configuration'
-import {
-    COOKIES_TOKEN,
-    COOKIES_USER_ID,
-} from '../configuration/references'
-import * as auth from './index'
-
 describe('Auth', () => {
-
     describe('successCallback', () => {
         let req
         let res
@@ -23,10 +18,7 @@ describe('Auth', () => {
         const accessToken = 'access'
         const details = {
             name: 'testuser',
-            roles: [
-                'pui-case-manager',
-                'caseworker-probate',
-            ],
+            roles: ['pui-case-manager', 'caseworker-probate'],
             uid: 1,
         }
         beforeEach(() => {
@@ -45,7 +37,7 @@ describe('Auth', () => {
                             userinfo: details,
                         },
                     },
-                    save: fun => {
+                    save: (fun) => {
                         fun()
                     },
                 },
@@ -59,7 +51,6 @@ describe('Auth', () => {
         })
 
         it('should set the cookies and redirect the user if not a refresh', () => {
-
             auth.successCallback(req, res, next)
             expect(res.cookie).to.be.calledWith(getConfigValue(COOKIES_TOKEN), accessToken)
             expect(res.cookie).to.be.calledWith(getConfigValue(COOKIES_USER_ID), details.uid)
@@ -74,7 +65,6 @@ describe('Auth', () => {
             expect(next).to.have.been.called
         })
     })
-
 })
 
 /*

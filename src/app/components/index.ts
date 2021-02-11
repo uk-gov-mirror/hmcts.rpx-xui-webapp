@@ -27,20 +27,20 @@ export const components: any[] = [
   ErrorMessageComponent,
   MediaViewerWrapperComponent,
   GetHelpComponent,
-  SignedOutComponent
+  SignedOutComponent,
 ];
 
-export * from './hmcts-global-footer/hmcts-global-footer.component';
+export * from './accessibility/accessibility.component';
+export * from './cookie-policy/cookie-policy.component';
+export * from './error-message/error-message.component';
+export * from './get-help/get-help.component';
 export * from './header/header.component';
+export * from './hmcts-global-footer/hmcts-global-footer.component';
 export * from './hmcts-global-header/hmcts-global-header.component';
 export * from './hmcts-primary-navigation/hmcts-primary-navigation.component';
-export * from './phase-banner/phase-banner.component';
-export * from './service-down/service-down.component';
-export * from './error-message/error-message.component';
-export * from './cookie-policy/cookie-policy.component';
-export * from './privacy-policy/privacy-policy.component';
-export * from './accessibility/accessibility.component';
 export * from './media-viewer-wrapper/media-viewer-wrapper.component';
-export * from './get-help/get-help.component';
-export * from './signed-out/signed-out.component';
 export * from './not-authorised/not-authorised.component';
+export * from './phase-banner/phase-banner.component';
+export * from './privacy-policy/privacy-policy.component';
+export * from './service-down/service-down.component';
+export * from './signed-out/signed-out.component';

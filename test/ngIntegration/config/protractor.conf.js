@@ -3,36 +3,42 @@
 const chai = require('chai');
 
 const { SpecReporter } = require('jasmine-spec-reporter');
-const screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
-
+const screenShotUtils = require('protractor-screenshot-utils')
+  .ProtractorScreenShotUtils;
 
 exports.config = {
   allScriptsTimeout: 11000,
-  specs: [
-    '../tests/*.test.js',
-    '../tests/**/*.test.js'
-
-  ],
+  specs: ['../tests/*.test.js', '../tests/**/*.test.js'],
   exclude: [
-    '../tests/hiddenFields.test.js', 
+    '../tests/hiddenFields.test.js',
     '../tests/caseFieldCollectionsPermissions.test.js',
-    '../tests/workAllocation/*.test.js'
-],
+    '../tests/workAllocation/*.test.js',
+  ],
   capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications'] }
+    browserName: 'chrome',
+    chromeOptions: {
+      args: [
+        '--headless',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-setuid-sandbox',
+        '--no-zygote ',
+        '--disableChecks',
+        '--disable-notifications',
+      ],
+    },
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'mocha',
   mochaOpts: {
-    reporter: 'mochawesome', 
+    reporter: 'mochawesome',
     reporterOptions: {
-      reportFilename: "index.html",
-      reportDir: "reports/tests/ngIntegration",
-      quiet: true
+      reportFilename: 'index.html',
+      reportDir: 'reports/tests/ngIntegration',
+      quiet: true,
     },
-    timeout: 120000
+    timeout: 120000,
   },
   onPrepare() {
     browser.waitForAngularEnabled(false);
@@ -40,9 +46,8 @@ exports.config = {
     global.assert = chai.assert;
     global.should = chai.should;
     global.screenShotUtils = new screenShotUtils({
-      browserInstance: browser
+      browserInstance: browser,
     });
   },
-  onComplete(){
-  }
+  onComplete() {},
 };

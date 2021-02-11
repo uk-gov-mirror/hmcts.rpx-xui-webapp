@@ -21,7 +21,7 @@ import {
   SearchService,
 } from '@hmcts/ccd-case-ui-toolkit';
 import { EffectsModule } from '@ngrx/effects';
-import {combineReducers, StoreModule} from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { reducers } from 'src/app/store';
 import { AppConfig } from '../../../app/services/ccd-config/ccd-case.config';
@@ -31,8 +31,8 @@ import * as fromCases from '../../store/reducers';
 import { CasesCreateComponent } from './case-create.component';
 class MockSortService {
   public features = {};
-  public getFeatureToggle() { }
-  public getEditorConfiguration() { }
+  public getFeatureToggle() {}
+  public getEditorConfiguration() {}
 }
 
 describe('CaseCreateComponent', () => {
@@ -45,7 +45,10 @@ describe('CaseCreateComponent', () => {
         RouterTestingModule,
         CaseUIToolkitModule,
         HttpClientTestingModule,
-        StoreModule.forRoot({...reducers, cases: combineReducers(fromCases.reducers)}),
+        StoreModule.forRoot({
+          ...reducers,
+          cases: combineReducers(fromCases.reducers),
+        }),
         EffectsModule.forRoot([]),
         SharedModule,
         SearchFiltersModule,
@@ -71,30 +74,32 @@ describe('CaseCreateComponent', () => {
         {
           provide: SearchService,
           useValue: {
-            requestOptionsBuilder: RequestOptionsBuilder
-          }
+            requestOptionsBuilder: RequestOptionsBuilder,
+          },
         },
         {
           provide: AbstractAppConfig,
-          useExisting: AppConfig
+          useExisting: AppConfig,
         },
         {
           provide: AppConfigService,
-          useClass: MockSortService
+          useClass: MockSortService,
         },
-        ScrollToService
-      ]
-    })
-      .compileComponents();
+        ScrollToService,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CasesCreateComponent);
     component = fixture.componentInstance;
-    component.caseCreateInputs = {jurisdictionId: '', caseTypeId: '', eventId: ''};
+    component.caseCreateInputs = {
+      jurisdictionId: '',
+      caseTypeId: '',
+      eventId: '',
+    };
 
     fixture.detectChanges();
-
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -103,6 +108,4 @@ describe('CaseCreateComponent', () => {
   it('should have ngOnInit', () => {
     expect(component.ngOnInit).toBeTruthy();
   });
-
-
 });

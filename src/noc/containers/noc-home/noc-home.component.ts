@@ -2,7 +2,13 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { answerErrorVisibilityStates, caseRefVisibilityStates, checkAnswerVisibilityStates, nocSubmitSuccessStates, qAndAVisibilityStates } from '../../constants';
+import {
+  answerErrorVisibilityStates,
+  caseRefVisibilityStates,
+  checkAnswerVisibilityStates,
+  nocSubmitSuccessStates,
+  qAndAVisibilityStates,
+} from '../../constants';
 import { NocNavigation, NocNavigationEvent, NocState } from '../../models';
 import * as fromFeature from '../../store';
 import { NocCaseRefComponent } from '../noc-case-ref/noc-case-ref.component';
@@ -12,10 +18,9 @@ import { NocQAndAComponent } from '../noc-q-and-a/noc-q-and-a.component';
 @Component({
   selector: 'exui-noc-home',
   templateUrl: 'noc-home.component.html',
-  styleUrls: ['noc-home.component.scss']
+  styleUrls: ['noc-home.component.scss'],
 })
 export class NocHomeComponent implements OnInit, OnDestroy {
-
   @ViewChild('nocCaseRef', { read: NocCaseRefComponent })
   public nocCaseRefComponent: NocCaseRefComponent;
 
@@ -41,21 +46,26 @@ export class NocHomeComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store<fromFeature.State>,
     private readonly router: Router
-  ) { }
+  ) {}
 
   public ngOnInit() {
-    this.nocNavigationCurrentStateSub = this.store.pipe(select(fromFeature.currentNavigation)).subscribe(state => this.nocNavigationCurrentState = state);
+    this.nocNavigationCurrentStateSub = this.store
+      .pipe(select(fromFeature.currentNavigation))
+      .subscribe((state) => (this.nocNavigationCurrentState = state));
   }
 
   public onNavEvent(event: NocNavigationEvent) {
     this.navEvent = {
       event,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
     this.navigationHandler(event);
   }
 
-  public isComponentVisible(currentNavigationState: NocState, requiredNavigationState: NocState[]): boolean {
+  public isComponentVisible(
+    currentNavigationState: NocState,
+    requiredNavigationState: NocState[]
+  ): boolean {
     return requiredNavigationState.includes(currentNavigationState);
   }
 
@@ -64,7 +74,7 @@ export class NocHomeComponent implements OnInit, OnDestroy {
       case NocNavigationEvent.BACK: {
         switch (this.nocNavigationCurrentState) {
           case NocState.START:
-            this.router.navigateByUrl('').then(r => {
+            this.router.navigateByUrl('').then((r) => {
               return;
             });
             break;
@@ -74,7 +84,9 @@ export class NocHomeComponent implements OnInit, OnDestroy {
             this.store.dispatch(new fromFeature.Reset());
             break;
           case NocState.CHECK_ANSWERS:
-            this.store.dispatch(new fromFeature.ChangeNavigation(NocState.QUESTION));
+            this.store.dispatch(
+              new fromFeature.ChangeNavigation(NocState.QUESTION)
+            );
             break;
           case NocState.SUBMISSION_SUCCESS_PENDING:
           case NocState.SUBMISSION_SUCCESS_APPROVED:

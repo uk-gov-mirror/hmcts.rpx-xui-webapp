@@ -1,18 +1,24 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AbstractFieldWriteComponent } from '../abstract-field-write.component';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { AppUtils } from 'src/app/app-utils';
+import { AbstractFieldWriteComponent } from '../abstract-field-write.component';
 
 @Component({
   selector: 'exui-noc-date-field',
-  templateUrl: './noc-date-field.component.html'
+  templateUrl: './noc-date-field.component.html',
 })
-export class NocDateFieldComponent extends AbstractFieldWriteComponent implements OnInit, AfterViewInit {
-
+export class NocDateFieldComponent
+  extends AbstractFieldWriteComponent
+  implements OnInit, AfterViewInit {
   public dateControl: FormControl;
   public dateGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private readonly formBuilder: FormBuilder) {
     super();
   }
 
@@ -33,11 +39,15 @@ export class NocDateFieldComponent extends AbstractFieldWriteComponent implement
   }
 
   public ngAfterViewInit(): void {
-    this.dateGroup.valueChanges.subscribe(data => {
+    this.dateGroup.valueChanges.subscribe((data) => {
       const val = [
-        this.dateGroup.value.day !== null ? AppUtils.pad(this.dateGroup.value.day) : '',
-        this.dateGroup.value.month !== null ? AppUtils.pad(this.dateGroup.value.month) : '',
-        this.dateGroup.value.year !== null ? this.dateGroup.value.year : ''
+        this.dateGroup.value.day !== null
+          ? AppUtils.pad(this.dateGroup.value.day)
+          : '',
+        this.dateGroup.value.month !== null
+          ? AppUtils.pad(this.dateGroup.value.month)
+          : '',
+        this.dateGroup.value.year !== null ? this.dateGroup.value.year : '',
       ].join('/');
       this.dateControl.setValue(val);
     });

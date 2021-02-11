@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios'
-
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { EnhancedRequest, JUILogger } from '../lib/models'

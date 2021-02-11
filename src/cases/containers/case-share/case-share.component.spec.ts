@@ -13,31 +13,37 @@ describe('CaseShareComponent', () => {
 
   let mockStore: MockStore<State>;
   let dispatchSpy: jasmine.Spy;
-  const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
+  const mockFeatureToggleService = jasmine.createSpyObj(
+    'FeatureToggleService',
+    ['getValue']
+  );
 
-  const sharedCases = [{
-    caseId: '9417373995765133',
-    caseTitle: 'Sam Green Vs Williams Lee',
-    sharedWith: [
-      {
-        idamId: 'u666666',
-        firstName: 'Kate',
-        lastName: 'Grant',
-        email: 'kate.grant@lambbrooks.com'
-      }]
-  }];
+  const sharedCases = [
+    {
+      caseId: '9417373995765133',
+      caseTitle: 'Sam Green Vs Williams Lee',
+      sharedWith: [
+        {
+          idamId: 'u666666',
+          firstName: 'Kate',
+          lastName: 'Grant',
+          email: 'kate.grant@lambbrooks.com',
+        },
+      ],
+    },
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ CaseShareComponent ],
+      declarations: [CaseShareComponent],
       providers: [
         provideMockStore(),
         {
           provide: FeatureToggleService,
-          useValue: mockFeatureToggleService
-        }
-      ]
+          useValue: mockFeatureToggleService,
+        },
+      ],
     }).compileComponents();
     mockStore = TestBed.get(Store);
     mockFeatureToggleService.getValue.and.returnValue(of(true));

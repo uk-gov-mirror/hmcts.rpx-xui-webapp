@@ -21,7 +21,6 @@ import {
 } from '@hmcts/ccd-case-ui-toolkit';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
-
 import { AppConfig } from '../../../app/services/ccd-config/ccd-case.config';
 import { AppConfigService } from '../../../app/services/config/configuration.services';
 import { SharedModule } from '../../../app/shared/shared.module';
@@ -31,8 +30,8 @@ import { CaseDetailsComponent } from './case-details.component';
 
 class MockSortService {
   public features = {};
-  public getFeatureToggle() { }
-  public cgetEditorConfiguration() { }
+  public getFeatureToggle() {}
+  public cgetEditorConfiguration() {}
 }
 xdescribe('CaseDetailsComponent', () => {
   let component: CaseDetailsComponent;
@@ -44,7 +43,10 @@ xdescribe('CaseDetailsComponent', () => {
         RouterTestingModule,
         CaseUIToolkitModule,
         HttpClientTestingModule,
-        StoreModule.forRoot({...reducers, cases: combineReducers(fromCases.reducers)}),
+        StoreModule.forRoot({
+          ...reducers,
+          cases: combineReducers(fromCases.reducers),
+        }),
         SharedModule,
         SearchFiltersModule,
       ],
@@ -68,21 +70,20 @@ xdescribe('CaseDetailsComponent', () => {
         {
           provide: SearchService,
           useValue: {
-            requestOptionsBuilder: RequestOptionsBuilder
-          }
+            requestOptionsBuilder: RequestOptionsBuilder,
+          },
         },
         {
           provide: AbstractAppConfig,
-          useExisting: AppConfig
+          useExisting: AppConfig,
         },
         {
           provide: AppConfigService,
-          useClass: MockSortService
+          useClass: MockSortService,
         },
-        ScrollToService
-      ]
-    })
-      .compileComponents();
+        ScrollToService,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -90,7 +91,6 @@ xdescribe('CaseDetailsComponent', () => {
     component = fixture.componentInstance;
 
     fixture.detectChanges();
-
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -103,6 +103,4 @@ xdescribe('CaseDetailsComponent', () => {
   it('should have ngOnDestroy ', () => {
     expect(component.ngOnDestroy).toBeTruthy();
   });
-
-
 });

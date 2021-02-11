@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { applicationConfiguration } from './appConfig'
 
-export const router = express.Router({mergeParams: true})
+export const router = express.Router({ mergeParams: true })
 
 router.get('/', configurationCheckRoute)
 
@@ -14,7 +14,7 @@ router.get('/', configurationCheckRoute)
  * ie. The developer is able to hit this open route to check how the application is configured.
  */
 async function configurationCheckRoute(req, res) {
-  res.status(200).send(applicationConfiguration())
+    res.status(200).send(applicationConfiguration())
 }
 
 export default router

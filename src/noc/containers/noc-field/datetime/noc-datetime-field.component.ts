@@ -1,30 +1,38 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, AbstractControl, Validator, ValidationErrors, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { AppUtils } from 'src/app/app-utils';
 import { AbstractFieldWriteComponent } from '../abstract-field-write.component';
-import { AppUtils } from 'src/app/app-utils'
 @Component({
   selector: 'exui-noc-datetime-field',
-  templateUrl: './noc-datetime-field.component.html'
+  templateUrl: './noc-datetime-field.component.html',
 })
-export class NocDateTimeFieldComponent extends AbstractFieldWriteComponent implements OnInit, AfterViewInit {
-
+export class NocDateTimeFieldComponent
+  extends AbstractFieldWriteComponent
+  implements OnInit, AfterViewInit {
   public datetimeControl: FormControl;
   public datetimeGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private readonly formBuilder: FormBuilder) {
     super();
   }
 
   public ngOnInit() {
     this.setAnswer();
-    this.datetimeControl = this.registerControl(new FormControl(this.answerValue));
+    this.datetimeControl = this.registerControl(
+      new FormControl(this.answerValue)
+    );
     this.datetimeGroup = this.formBuilder.group({
       day: [null, Validators.required],
       month: [null, Validators.required],
       year: [null, Validators.required],
       hour: [null, Validators.required],
       minute: [null, Validators.required],
-      second: [null, Validators.required]
+      second: [null, Validators.required],
     });
     if (this.datetimeControl.value) {
       const [datePart, timePart] = this.datetimeControl.value.split(' ');
@@ -42,17 +50,29 @@ export class NocDateTimeFieldComponent extends AbstractFieldWriteComponent imple
   }
 
   public ngAfterViewInit(): void {
-    this.datetimeGroup.valueChanges.subscribe(data => {
+    this.datetimeGroup.valueChanges.subscribe((data) => {
       const date = [
-        this.datetimeGroup.value.day !== null ? AppUtils.pad(this.datetimeGroup.value.day) : '',
-        this.datetimeGroup.value.month !== null ? AppUtils.pad(this.datetimeGroup.value.month) : '',
-        this.datetimeGroup.value.year !== null ? this.datetimeGroup.value.year : ''
+        this.datetimeGroup.value.day !== null
+          ? AppUtils.pad(this.datetimeGroup.value.day)
+          : '',
+        this.datetimeGroup.value.month !== null
+          ? AppUtils.pad(this.datetimeGroup.value.month)
+          : '',
+        this.datetimeGroup.value.year !== null
+          ? this.datetimeGroup.value.year
+          : '',
       ].join('/');
       const time = [
-        this.datetimeGroup.value.hour !== null ? AppUtils.pad(this.datetimeGroup.value.hour) : '',
-        this.datetimeGroup.value.minute !== null ? AppUtils.pad(this.datetimeGroup.value.minute) : '',
-        this.datetimeGroup.value.second !== null ? AppUtils.pad(this.datetimeGroup.value.second) : ''
-        ].join(':');
+        this.datetimeGroup.value.hour !== null
+          ? AppUtils.pad(this.datetimeGroup.value.hour)
+          : '',
+        this.datetimeGroup.value.minute !== null
+          ? AppUtils.pad(this.datetimeGroup.value.minute)
+          : '',
+        this.datetimeGroup.value.second !== null
+          ? AppUtils.pad(this.datetimeGroup.value.second)
+          : '',
+      ].join(':');
       this.datetimeControl.setValue(`${date} ${time}`);
     });
   }

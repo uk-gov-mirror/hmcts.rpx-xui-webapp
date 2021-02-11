@@ -110,7 +110,7 @@
     },
     "oidcEnabled": {
       "__name": "FEATURE_OIDC_ENABLED",
-      "__format":"json"
+      "__format": "json"
     }
   },
   "helmet": {

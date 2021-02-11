@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
 import { InformationMessage } from '../models/comms';
 
 @Injectable()
 export class InfoMessageCommService {
+  public infoMessageSource: BehaviorSubject<
+    InformationMessage[]
+  > = new BehaviorSubject<InformationMessage[]>([]);
 
-  public infoMessageSource: BehaviorSubject<InformationMessage[]> = new BehaviorSubject<InformationMessage[]>([]);
-
-  public infoMessageChangeEmitted$: Observable<InformationMessage[]> = this.infoMessageSource.asObservable();
+  public infoMessageChangeEmitted$: Observable<
+    InformationMessage[]
+  > = this.infoMessageSource.asObservable();
 
   /**
    * Note that we use an array of messages, so that messages can be stacked on top
@@ -29,32 +31,27 @@ export class InfoMessageCommService {
    * Helper function to remove all previous messages, and add a new message.
    */
   public nextMessage(message: InformationMessage): void {
-
     this.removeAllMessages();
     this.addMessage(message);
   }
 
   public removeAllMessages(): void {
-
     this.infoMessages = [];
 
     this.emitMessages(this.infoMessages);
   }
 
   public addMessage(message: InformationMessage): void {
-
     this.infoMessages.push(message);
 
     this.emitMessages(this.infoMessages);
   }
 
   public emitMessages(messages: InformationMessage[]): void {
-
     this.infoMessageSource.next(messages);
   }
 
   public getMessages(): InformationMessage[] {
-
     return this.infoMessages;
   }
 }

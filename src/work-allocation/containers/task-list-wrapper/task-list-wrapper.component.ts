@@ -2,20 +2,33 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '@hmcts/ccd-case-ui-toolkit';
 import { Observable } from 'rxjs';
-
 import { SessionStorageService } from '../../../app/services';
 import { ListConstants } from '../../components/constants';
-import { InfoMessage, InfoMessageType, TaskActionIds, TaskService, TaskSort } from '../../enums';
+import {
+  InfoMessage,
+  InfoMessageType,
+  TaskActionIds,
+  TaskService,
+  TaskSort,
+} from '../../enums';
 import { SearchTaskRequest, SortParameter } from '../../models/dtos';
-import { InvokedTaskAction, Task, TaskFieldConfig, TaskServiceConfig, TaskSortField } from '../../models/tasks';
-import { InfoMessageCommService, WorkAllocationTaskService } from '../../services';
+import {
+  InvokedTaskAction,
+  Task,
+  TaskFieldConfig,
+  TaskServiceConfig,
+  TaskSortField,
+} from '../../models/tasks';
+import {
+  InfoMessageCommService,
+  WorkAllocationTaskService,
+} from '../../services';
 import { handleFatalErrors, WILDCARD_SERVICE_DOWN } from '../../utils';
 
 @Component({
-  templateUrl: 'task-list-wrapper.component.html'
+  templateUrl: 'task-list-wrapper.component.html',
 })
 export class TaskListWrapperComponent implements OnInit {
-
   /**
    * Flag to indicate whether or not we've arrived here following a bad
    * request with a flag having been set on another route. The flag is
@@ -99,13 +112,13 @@ export class TaskListWrapperComponent implements OnInit {
       const { fieldName, order } = JSON.parse(stored);
       this.sortedBy = {
         fieldName,
-        order: order as TaskSort
+        order: order as TaskSort,
       };
     } else {
       // Otherwise, set up the default sorting.
       this.sortedBy = {
         fieldName: this.taskServiceConfig.defaultSortFieldName,
-        order: this.taskServiceConfig.defaultSortDirection
+        order: this.taskServiceConfig.defaultSortDirection,
       };
     }
     this.loadTasks();
@@ -145,14 +158,14 @@ export class TaskListWrapperComponent implements OnInit {
   public getSearchTaskRequest(): SearchTaskRequest {
     return {
       search_parameters: [],
-      sorting_parameters: [this.getSortParameter()]
+      sorting_parameters: [this.getSortParameter()],
     };
   }
 
   public getSortParameter(): SortParameter {
     return {
       sort_by: this.sortedBy.fieldName,
-      sort_order: this.sortedBy.order
+      sort_order: this.sortedBy.order,
     };
   }
 
@@ -167,11 +180,17 @@ export class TaskListWrapperComponent implements OnInit {
    */
   public onSortHandler(fieldName: string): void {
     let order: TaskSort = TaskSort.ASC;
-    if (this.sortedBy.fieldName === fieldName && this.sortedBy.order === TaskSort.ASC) {
+    if (
+      this.sortedBy.fieldName === fieldName &&
+      this.sortedBy.order === TaskSort.ASC
+    ) {
       order = TaskSort.DSC;
     }
     this.sortedBy = { fieldName, order };
-    this.sessionStorageService.setItem(this.sortSessionKey, JSON.stringify(this.sortedBy));
+    this.sessionStorageService.setItem(
+      this.sortSessionKey,
+      JSON.stringify(this.sortedBy)
+    );
 
     this.loadTasks();
   }
@@ -186,19 +205,27 @@ export class TaskListWrapperComponent implements OnInit {
     }
     const state = {
       returnUrl: this.returnUrl,
-      showAssigneeColumn: taskAction.action.id !== TaskActionIds.ASSIGN
+      showAssigneeColumn: taskAction.action.id !== TaskActionIds.ASSIGN,
     };
-    this.router.navigate([`/tasks/${taskAction.task.id}/${taskAction.action.id}/${this.specificPage}`], { state });
+    this.router.navigate(
+      [
+        `/tasks/${taskAction.task.id}/${taskAction.action.id}/${this.specificPage}`,
+      ],
+      { state }
+    );
   }
 
   // Do the actual load. This is separate as it's called from two methods.
   private doLoad(): void {
     // Should this clear out the existing set first?
-    this.performSearch().subscribe(result => {
-      this.tasks = result.tasks;
-      this.ref.detectChanges();
-    }, error => {
-      handleFatalErrors(error.status, this.router, WILDCARD_SERVICE_DOWN);
-    });
+    this.performSearch().subscribe(
+      (result) => {
+        this.tasks = result.tasks;
+        this.ref.detectChanges();
+      },
+      (error) => {
+        handleFatalErrors(error.status, this.router, WILDCARD_SERVICE_DOWN);
+      }
+    );
   }
 }

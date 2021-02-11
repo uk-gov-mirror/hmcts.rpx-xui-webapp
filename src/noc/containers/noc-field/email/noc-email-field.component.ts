@@ -4,10 +4,11 @@ import { AbstractFieldWriteComponent } from '../abstract-field-write.component';
 
 @Component({
   selector: 'exui-noc-email-field',
-  templateUrl: 'noc-email-field.component.html'
+  templateUrl: 'noc-email-field.component.html',
 })
-export class NocEmailFieldComponent extends AbstractFieldWriteComponent implements OnInit {
-
+export class NocEmailFieldComponent
+  extends AbstractFieldWriteComponent
+  implements OnInit {
   public emailControl: FormControl;
 
   public ngOnInit() {

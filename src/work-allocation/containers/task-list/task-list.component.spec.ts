@@ -3,18 +3,27 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-
 import { ConfigConstants } from '../../components/constants';
 import { WorkAllocationComponentsModule } from '../../components/work-allocation.components.module';
 import { TaskService, TaskSort } from '../../enums';
-import { Task, TaskAction, TaskFieldConfig, TaskServiceConfig, TaskSortField } from '../../models/tasks';
+import {
+  Task,
+  TaskAction,
+  TaskFieldConfig,
+  TaskServiceConfig,
+  TaskSortField,
+} from '../../models/tasks';
 import { WorkAllocationTaskService } from '../../services';
 import { getMockTasks, MockRouter } from '../../tests/utils.spec';
 import { TaskListComponent } from './task-list.component';
 
 @Component({
-  template: `
-    <exui-task-list [fields]='fields' [tasks]='tasks' [taskServiceConfig]="taskServiceConfig" [sortedBy]="TaskSortField" ></exui-task-list>`
+  template: ` <exui-task-list
+    [fields]="fields"
+    [tasks]="tasks"
+    [taskServiceConfig]="taskServiceConfig"
+    [sortedBy]="TaskSortField"
+  ></exui-task-list>`,
 })
 class WrapperComponent {
   @ViewChild(TaskListComponent) public appComponentRef: TaskListComponent;
@@ -56,19 +65,22 @@ describe('TaskListComponent', () => {
   let fixture: ComponentFixture<WrapperComponent>;
   let routerSpy: jasmine.SpyObj<any>;
   const mockRouter: MockRouter = new MockRouter();
-  const mockWorkAllocationService = jasmine.createSpyObj('mockWorkAllocationService', ['getTask']);
-  beforeEach((() => {
+  const mockWorkAllocationService = jasmine.createSpyObj(
+    'mockWorkAllocationService',
+    ['getTask']
+  );
+  beforeEach(() => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     TestBed.configureTestingModule({
-      imports: [
-        WorkAllocationComponentsModule,
-        CdkTableModule
-      ],
+      imports: [WorkAllocationComponentsModule, CdkTableModule],
       declarations: [TaskListComponent, WrapperComponent],
       providers: [
-        { provide: WorkAllocationTaskService, useValue: mockWorkAllocationService },
-        { provide: Router, useValue: mockRouter }
-      ]
+        {
+          provide: WorkAllocationTaskService,
+          useValue: mockWorkAllocationService,
+        },
+        { provide: Router, useValue: mockRouter },
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(WrapperComponent);
     wrapper = fixture.componentInstance;
@@ -79,31 +91,39 @@ describe('TaskListComponent', () => {
     wrapper.taskServiceConfig = getTaskService();
     mockWorkAllocationService.getTask.and.returnValue(of({}));
     fixture.detectChanges();
-  }));
-
-  it('should return the fields as an array with a \'manage\' entry, so that we can' +
-    'display the manage column in the table.', async () => {
-
-    const fields = ['caseReference', 'caseName', 'caseCategory', 'location', 'task', 'dueDate'];
-    const fieldsWithManage = [...fields, 'manage'];
-
-    expect(component.addManageColumn(fields)).toEqual(fieldsWithManage);
   });
 
-  it('should return the columns to be displayed by the Angular Component Dev Kit table.', async () => {
+  it(
+    "should return the fields as an array with a 'manage' entry, so that we can" +
+      'display the manage column in the table.',
+    async () => {
+      const fields = [
+        'caseReference',
+        'caseName',
+        'caseCategory',
+        'location',
+        'task',
+        'dueDate',
+      ];
+      const fieldsWithManage = [...fields, 'manage'];
 
+      expect(component.addManageColumn(fields)).toEqual(fieldsWithManage);
+    }
+  );
+
+  it('should return the columns to be displayed by the Angular Component Dev Kit table.', async () => {
     // create mock getDisplayedColumn variables
     const taskFieldConfig = getFields();
-    const fields = taskFieldConfig.map(field => field.name);
+    const fields = taskFieldConfig.map((field) => field.name);
     const displayedColumns = component.addManageColumn(fields);
 
     // test actual function against mock variables
-    expect(component.getDisplayedColumn(taskFieldConfig)).toEqual(displayedColumns);
-
+    expect(component.getDisplayedColumn(taskFieldConfig)).toEqual(
+      displayedColumns
+    );
   });
 
   it('should take in the field name and trigger a new Request to the API to get a sorted result set.', async () => {
-
     // mock the emitter and dispatch the connected event
     spyOn(component.sortEvent, 'emit');
     const element = fixture.debugElement.nativeElement;
@@ -117,7 +137,6 @@ describe('TaskListComponent', () => {
   });
 
   it('should allow sorting for different columns.', async () => {
-
     // mock the emitter and dispatch the connected event
     spyOn(component.sortEvent, 'emit');
     let element = fixture.debugElement.nativeElement;
@@ -297,7 +316,6 @@ describe('TaskListComponent', () => {
     const firstActionId: string = firstAction.id;
     const secondActionId: string = secondAction.id;
 
-
     // mock the emitter and click the first manage button
     spyOn(component.actionEvent, 'emit');
     const element = fixture.debugElement.nativeElement;
@@ -313,7 +331,7 @@ describe('TaskListComponent', () => {
     expect(component.actionEvent.emit).toHaveBeenCalled();
     let task = firstTask;
     let action = firstAction;
-    expect(component.actionEvent.emit).toHaveBeenCalledWith({task, action});
+    expect(component.actionEvent.emit).toHaveBeenCalledWith({ task, action });
 
     // check the emitter had been called and that it gets called with the second invoked task action
     const secondAnchor = element.querySelector(`#action_${secondActionId}`);
@@ -322,7 +340,7 @@ describe('TaskListComponent', () => {
     expect(component.actionEvent.emit).toHaveBeenCalled();
     task = firstTask;
     action = secondAction;
-    expect(component.actionEvent.emit).toHaveBeenCalledWith({task, action});
+    expect(component.actionEvent.emit).toHaveBeenCalledWith({ task, action });
 
     // click the second button in order to show the last action anchor
     secondButton.dispatchEvent(new Event('click'));
@@ -335,7 +353,7 @@ describe('TaskListComponent', () => {
     expect(component.actionEvent.emit).toHaveBeenCalled();
     task = secondTask;
     action = secondAction;
-    expect(component.actionEvent.emit).toHaveBeenCalledWith({task, action});
+    expect(component.actionEvent.emit).toHaveBeenCalledWith({ task, action });
   });
 
   it('should allow a check to verify whether column sorted.', async () => {
@@ -375,32 +393,39 @@ describe('TaskListComponent', () => {
     const id = '12345678';
 
     it('should select appropriate task from location hash', () => {
-      spyOnProperty(mockRouter, 'url', 'get').and.returnValue(`taskList#manage_${id}`);
+      spyOnProperty(mockRouter, 'url', 'get').and.returnValue(
+        `taskList#manage_${id}`
+      );
       const navigateCallsBefore = mockRouter.navigateCalls.length;
       const task = { id } as Task;
-      wrapper.tasks = [ task ];
+      wrapper.tasks = [task];
       fixture.detectChanges();
       expect(component.getSelectedTask()).toEqual(task);
-      expect(mockRouter.navigateCalls.length).toBeGreaterThan(navigateCallsBefore);
+      expect(mockRouter.navigateCalls.length).toBeGreaterThan(
+        navigateCallsBefore
+      );
       const lastNavigateCall = mockRouter.navigateCalls.pop();
       expect(lastNavigateCall).toBeDefined();
-      expect(lastNavigateCall.commands).toEqual([ 'taskList' ]);
+      expect(lastNavigateCall.commands).toEqual(['taskList']);
       expect(lastNavigateCall.extras).toEqual({ fragment: `manage_${id}` });
     });
 
     it('should handle a location hash for a task that does not exist', () => {
-      spyOnProperty(mockRouter, 'url', 'get').and.returnValue(`taskList#manage_${id}`);
+      spyOnProperty(mockRouter, 'url', 'get').and.returnValue(
+        `taskList#manage_${id}`
+      );
       const navigateCallsBefore = mockRouter.navigateCalls.length;
       const task = { id: '99999999' } as Task;
-      wrapper.tasks = [ task ];
+      wrapper.tasks = [task];
       fixture.detectChanges();
       expect(component.getSelectedTask()).toBeNull();
-      expect(mockRouter.navigateCalls.length).toBeGreaterThan(navigateCallsBefore);
+      expect(mockRouter.navigateCalls.length).toBeGreaterThan(
+        navigateCallsBefore
+      );
       const lastNavigateCall = mockRouter.navigateCalls.pop();
       expect(lastNavigateCall).toBeDefined();
-      expect(lastNavigateCall.commands).toEqual([ 'taskList' ]);
+      expect(lastNavigateCall.commands).toEqual(['taskList']);
       expect(lastNavigateCall.extras).toBeUndefined();
     });
   });
-
 });

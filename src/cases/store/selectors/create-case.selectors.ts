@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-
 import * as fromFeature from '../../store/reducers';
 
 export const getCreateCaseState = createSelector(
@@ -11,4 +10,3 @@ export const getCreateCaseFilterState = createSelector(
   getCreateCaseState,
   fromFeature.getCaseFiltersState
 );
-

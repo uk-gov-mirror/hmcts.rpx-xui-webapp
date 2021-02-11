@@ -1,7 +1,6 @@
 import * as fromNocAction from './noc.action';
 
 describe('Noc Actions', () => {
-
   describe('ChangeNavigation', () => {
     it('should create an action', () => {
       const action = new fromNocAction.ChangeNavigation(null);
@@ -113,5 +112,4 @@ describe('Noc Actions', () => {
       expect(action.type).toBe(fromNocAction.SET_SUBMISSION_FAILURE);
     });
   });
-
 });

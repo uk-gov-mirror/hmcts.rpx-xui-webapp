@@ -6,11 +6,12 @@ import { NocApproveStatus } from '../models/noc-approve-status.interface';
 
 @Injectable()
 export class NocService {
-
   constructor(private readonly http: HttpClient) {}
 
   public getNoCQuestions(caseId: string): Observable<NocQuestion[]> {
-    return this.http.get<NocQuestion[]>(`api/noc/nocQuestions?caseId=${caseId}`);
+    return this.http.get<NocQuestion[]>(
+      `api/noc/nocQuestions?caseId=${caseId}`
+    );
   }
 
   public validateNoCAnswers(nocEvent: NocEvent): Observable<boolean> {
@@ -18,6 +19,9 @@ export class NocService {
   }
 
   public submitNoCEvent(nocEvent: NocEvent): Observable<NocApproveStatus> {
-    return this.http.post<NocApproveStatus>('api/noc/submitNoCEvents', nocEvent);
+    return this.http.post<NocApproveStatus>(
+      'api/noc/submitNoCEvents',
+      nocEvent
+    );
   }
 }

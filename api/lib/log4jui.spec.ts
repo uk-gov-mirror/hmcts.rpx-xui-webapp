@@ -1,37 +1,36 @@
 import * as chai from 'chai'
 import { expect } from 'chai'
+import * as log4js from 'log4js'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-
-chai.use(sinonChai)
-
-import * as log4js from 'log4js'
 import * as log4jui from './log4jui'
 import { leftPad } from './log4jui'
 import { isJUILogger } from './models'
+
+chai.use(sinonChai)
 
 describe('log4jui', () => {
     let sandbox
     let spyObj
 
-    beforeEach( () => {
-      sandbox = sinon.createSandbox()
-      spyObj = {
-        addContext: sandbox.spy(),
-        error: sandbox.spy(),
-        info: sandbox.spy(),
-        warn: sandbox.spy(),
-      }
-      sandbox.stub(log4js, 'getLogger').returns(spyObj)
+    beforeEach(() => {
+        sandbox = sinon.createSandbox()
+        spyObj = {
+            addContext: sandbox.spy(),
+            error: sandbox.spy(),
+            info: sandbox.spy(),
+            warn: sandbox.spy(),
+        }
+        sandbox.stub(log4js, 'getLogger').returns(spyObj)
     })
 
-    afterEach( () => {
-      sandbox.restore()
+    afterEach(() => {
+        sandbox.restore()
     })
 
     describe('getLogger', () => {
-        beforeEach( () => {
+        beforeEach(() => {
             sandbox.restore()
         })
         it('Should  return an instance of JUILogger', () => {
@@ -59,7 +58,7 @@ describe('log4jui', () => {
     })
 
     describe('error', () => {
-        it('should log an error with log4js',  () => {
+        it('should log an error with log4js', () => {
             const logger = log4jui.getLogger('test')
             logger.error('warning')
             expect(spyObj.error).to.be.calledWith('warning')
@@ -79,5 +78,4 @@ describe('log4jui', () => {
             expect(leftPad(str, 8)).to.equal(result)
         })
     })
-
 })

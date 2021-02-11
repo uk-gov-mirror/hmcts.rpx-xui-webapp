@@ -4,10 +4,9 @@ import { AlertService } from '@hmcts/ccd-case-ui-toolkit';
 
 @Component({
   selector: 'exui-case-details-home',
-  templateUrl: './case-details-home.component.html'
+  templateUrl: './case-details-home.component.html',
 })
 export class CaseDetailsHomeComponent implements OnInit {
-
   private readonly extras: NavigationExtras;
 
   constructor(
@@ -22,10 +21,14 @@ export class CaseDetailsHomeComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.extras && this.extras.state && this.extras.state.showMessage && this.extras.state.messageText) {
+    if (
+      this.extras &&
+      this.extras.state &&
+      this.extras.state.showMessage &&
+      this.extras.state.messageText
+    ) {
       this.alertService.success(this.extras.state.messageText);
     }
-    this.activatedRoute.data.subscribe(data => data);
+    this.activatedRoute.data.subscribe((data) => data);
   }
-
 }

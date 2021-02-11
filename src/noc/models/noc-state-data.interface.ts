@@ -5,13 +5,13 @@ import { NocQuestion } from './noc-question.interface';
 import { NocState } from './noc-state.enum';
 
 export interface NocStateData {
-    state: NocState;
-    caseReference: string;
-    lastError?: NocHttpError;
-    questions: NocQuestion[];
-    answers: NocAnswer[];
-    reason?: string;
-    affirmationAgreed: boolean;
-    options: NocOptions;
-    validationErrors?: {};
+  state: NocState;
+  caseReference: string;
+  lastError?: NocHttpError;
+  questions: NocQuestion[];
+  answers: NocAnswer[];
+  reason?: string;
+  affirmationAgreed: boolean;
+  options: NocOptions;
+  validationErrors?: {};
 }

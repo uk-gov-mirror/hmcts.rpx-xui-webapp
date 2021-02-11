@@ -1,22 +1,20 @@
 Button = require('./webdriver-components/button.js');
 TextField = require('./webdriver-components/textField.js');
 
-class AppealCreatedPage{
-
+class AppealCreatedPage {
   constructor() {
     this.header = '.page .heading-h1';
     this.submitButton = new Button('button[type=submit]');
     this.previousButton = new Button('button[type=button]');
     this.cancelButton = new Button('.cancel a');
-    this.eventSummary = element(by.css("#field-trigger-summary"));
-    this.eventDescription = element(by.css("#field-trigger-description"));
-
+    this.eventSummary = element(by.css('#field-trigger-summary'));
+    this.eventDescription = element(by.css('#field-trigger-description'));
   }
   /**
    * Enter random text into the Text field
    * @returns EUIStringField Object
    */
-  async enterIntoTextFieldEvent(value){
+  async enterIntoTextFieldEvent(value) {
     await this.eventSummary.sendKeys(value);
     //await this.password.sendKeys(password);
   }
@@ -25,7 +23,7 @@ class AppealCreatedPage{
    * Enter random text into the Text field
    * @returns EUIStringField Object
    */
-  async enterIntoTextFieldEventDes(value){
+  async enterIntoTextFieldEventDes(value) {
     await this.eventDescription.sendKeys(value);
   }
 
@@ -33,7 +31,7 @@ class AppealCreatedPage{
    * Final button to cancel the case/event
    * @returns {Promise<void>}
    */
-  async clickCancelButton(){
+  async clickCancelButton() {
     await this.cancelButton.click();
   }
 
@@ -41,12 +39,11 @@ class AppealCreatedPage{
    * Final button to previous the case/event
    * @returns {Promise<void>}
    */
-  async clickPreviousButton(){
+  async clickPreviousButton() {
     await this.previousButton.click();
   }
 
-
-  async getPageHeader(){
+  async getPageHeader() {
     return await $(this.header).getText();
   }
 
@@ -54,11 +51,10 @@ class AppealCreatedPage{
     await this.submitButton.click();
   }
 
-  async amOnPage(){
+  async amOnPage() {
     let header = await this.getPageHeader();
-    return header === 'Appeal created'
+    return header === 'Appeal created';
   }
-
 }
 
 module.exports = AppealCreatedPage;

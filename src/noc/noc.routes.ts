@@ -13,14 +13,14 @@ export const ROUTES: Routes = [
       {
         path: '',
         component: null,
-        canActivate: [ HealthCheckGuard, FeatureToggleGuard ],
+        canActivate: [HealthCheckGuard, FeatureToggleGuard],
         data: {
           title: 'HMCTS Manage cases | Notice of Change',
-          needsFeaturesEnabled: [ AppConstants.FEATURE_NAMES.noticeOfChange ],
-          featureDisabledRedirect: '/'
-        }
-      }
-    ]
+          needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.noticeOfChange],
+          featureDisabledRedirect: '/',
+        },
+      },
+    ],
   },
 ];
 

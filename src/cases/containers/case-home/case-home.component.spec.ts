@@ -2,8 +2,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AlertService, CaseUIToolkitModule,
-  ErrorNotifierService, HttpError, NavigationOrigin
+  AlertService,
+  CaseUIToolkitModule,
+  ErrorNotifierService,
+  HttpError,
+  NavigationOrigin,
 } from '@hmcts/ccd-case-ui-toolkit';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { reducers } from 'src/app/store';
@@ -13,8 +16,15 @@ import * as fromFeature from '../../store';
 describe('CaseHomeComponent', () => {
   let component: CaseHomeComponent;
   let fixture: ComponentFixture<CaseHomeComponent>;
-  const mockAlertService = jasmine.createSpyObj('alertService', ['success', 'setPreserveAlerts', 'error']);
-  const mockErrorNotifierService = jasmine.createSpyObj('ErrorNotifierService', ['announceError']);
+  const mockAlertService = jasmine.createSpyObj('alertService', [
+    'success',
+    'setPreserveAlerts',
+    'error',
+  ]);
+  const mockErrorNotifierService = jasmine.createSpyObj(
+    'ErrorNotifierService',
+    ['announceError']
+  );
   let store: Store<fromFeature.State>;
   let storeDispatchMock: any;
 
@@ -24,19 +34,20 @@ describe('CaseHomeComponent', () => {
       imports: [
         RouterTestingModule,
         CaseUIToolkitModule,
-        StoreModule.forRoot({...reducers, cases: combineReducers(fromFeature.reducers)}),
+        StoreModule.forRoot({
+          ...reducers,
+          cases: combineReducers(fromFeature.reducers),
+        }),
       ],
       declarations: [CaseHomeComponent],
       providers: [
         { provide: AlertService, useValue: mockAlertService },
-        { provide: ErrorNotifierService, useValue: mockErrorNotifierService }
-      ]
-    })
-      .compileComponents();
+        { provide: ErrorNotifierService, useValue: mockErrorNotifierService },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-
     store = TestBed.get(Store);
     storeDispatchMock = spyOn(store, 'dispatch');
 
@@ -46,10 +57,9 @@ describe('CaseHomeComponent', () => {
   });
 
   describe('paramHandler', () => {
-
     it('should create params for DRAFT_DELETED', () => {
       const navigation = {
-        action: NavigationOrigin.DRAFT_DELETED
+        action: NavigationOrigin.DRAFT_DELETED,
       };
       const result = component.paramHandler(navigation);
       const resultingKeys = Object.keys(result);
@@ -63,7 +73,7 @@ describe('CaseHomeComponent', () => {
 
     it('should create params for ERROR_DELETING_DRAFT', () => {
       const navigation = {
-        action: NavigationOrigin.ERROR_DELETING_DRAFT
+        action: NavigationOrigin.ERROR_DELETING_DRAFT,
       };
       const result = component.paramHandler(navigation);
       const resultingKeys = Object.keys(result);
@@ -72,7 +82,7 @@ describe('CaseHomeComponent', () => {
 
     it('should create params for DRAFT_RESUMED', () => {
       const navigation = {
-        action: NavigationOrigin.DRAFT_RESUMED
+        action: NavigationOrigin.DRAFT_RESUMED,
       };
       const result = component.paramHandler(navigation);
       const resultingKeys = Object.keys(result);
@@ -91,10 +101,10 @@ describe('CaseHomeComponent', () => {
         relativeTo: {
           snapshot: {
             params: {
-              cid: 'cid'
-            }
-          }
-        }
+              cid: 'cid',
+            },
+          },
+        },
       };
       const result = component.paramHandler(navigation);
       const resultingKeys = Object.keys(result);
@@ -109,7 +119,7 @@ describe('CaseHomeComponent', () => {
 
     it('should create params for NO_READ_ACCESS_REDIRECTION', () => {
       const navigation = {
-        action: NavigationOrigin.NO_READ_ACCESS_REDIRECTION
+        action: NavigationOrigin.NO_READ_ACCESS_REDIRECTION,
       };
       const result = component.paramHandler(navigation);
       const resultingKeys = Object.keys(result);
@@ -126,10 +136,10 @@ describe('CaseHomeComponent', () => {
         relativeTo: {
           snapshot: {
             params: {
-              cid: 'cid'
-            }
-          }
-        }
+              cid: 'cid',
+            },
+          },
+        },
       };
       const result = component.paramHandler(navigation);
       const resultingKeys = Object.keys(result);
@@ -138,10 +148,9 @@ describe('CaseHomeComponent', () => {
   });
 
   describe('actionDispatcher', () => {
-
     it('should dispatch an action', () => {
       const params = {
-        path: []
+        path: [],
       };
       component.actionDispatcher(params);
 
@@ -150,7 +159,6 @@ describe('CaseHomeComponent', () => {
   });
 
   describe('handleError', () => {
-
     it('should handle error', () => {
       const error: HttpError = new HttpError();
       error.status = 400;
@@ -158,7 +166,9 @@ describe('CaseHomeComponent', () => {
 
       component.handleError(error, triggerId);
 
-      expect(mockErrorNotifierService.announceError).toHaveBeenCalledWith(error);
+      expect(mockErrorNotifierService.announceError).toHaveBeenCalledWith(
+        error
+      );
       expect(mockAlertService.error).toHaveBeenCalledWith(error.message);
     });
   });

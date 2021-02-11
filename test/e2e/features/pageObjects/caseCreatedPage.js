@@ -1,15 +1,13 @@
 class CaseCreatedPage {
-
   constructor() {
     this.header = element(by.xpath('//h1'));
-
   }
 
-  async getPageHeader(){
+  async getPageHeader() {
     return await $(this.header).getText();
   }
 
-  async amOnPage(){
+  async amOnPage() {
     return this.header.isDisplayed();
   }
 }

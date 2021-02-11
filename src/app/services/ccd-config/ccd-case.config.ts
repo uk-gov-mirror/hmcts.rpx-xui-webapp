@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {AbstractAppConfig, CaseEditorConfig} from '@hmcts/ccd-case-ui-toolkit';
-import {AppConfigService} from '../config/configuration.services';
-
+import { Injectable } from '@angular/core';
+import {
+  AbstractAppConfig,
+  CaseEditorConfig,
+} from '@hmcts/ccd-case-ui-toolkit';
+import { AppConfigService } from '../config/configuration.services';
 
 /**
  * see more:
@@ -11,10 +13,9 @@ import {AppConfigService} from '../config/configuration.services';
 
 @Injectable()
 export class AppConfig extends AbstractAppConfig {
-
   protected config: CaseEditorConfig;
 
-  constructor(private appConfigService: AppConfigService) {
+  constructor(private readonly appConfigService: AppConfigService) {
     super();
     this.config = this.appConfigService.getEditorConfiguration() || {};
   }

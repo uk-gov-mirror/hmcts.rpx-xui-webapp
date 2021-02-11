@@ -15,10 +15,10 @@ nodejs:
   cpuLimits: 2000m
   memoryRequests: 512Mi
   memoryLimits: 2048Mi
-  autoscaling:        # Default is false
-    enabled: true 
+  autoscaling: # Default is false
+    enabled: true
     minReplicas: 13
-    maxReplicas: 22    # Required setting
+    maxReplicas: 22 # Required setting
     targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
   environment:
     REFORM_TEAM: rpx

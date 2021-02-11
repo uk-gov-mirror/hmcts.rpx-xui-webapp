@@ -18,15 +18,10 @@ describe('NocCheckYourAnswersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ NocCheckYourAnswersComponent ],
-      imports: [
-        UtilsModule
-      ],
-      providers: [
-        provideMockStore()
-      ]
-    })
-    .compileComponents();
+      declarations: [NocCheckYourAnswersComponent],
+      imports: [UtilsModule],
+      providers: [provideMockStore()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -45,11 +40,18 @@ describe('NocCheckYourAnswersComponent', () => {
   });
 
   it('should assign the input value of our component', () => {
-    const answers: NocAnswer[] = [{
-      question_id: 'Question_123456', value: 'bob', question_text: of('What is your first name?')
-    }, {
-      question_id: 'Question_678910', value: 'the builder', question_text: of('What is your last name?')
-    }];
+    const answers: NocAnswer[] = [
+      {
+        question_id: 'Question_123456',
+        value: 'bob',
+        question_text: of('What is your first name?'),
+      },
+      {
+        question_id: 'Question_678910',
+        value: 'the builder',
+        question_text: of('What is your last name?'),
+      },
+    ];
     const answers$ = of(answers);
     component.qAndA$ = answers$;
     fixture.detectChanges();
@@ -58,7 +60,9 @@ describe('NocCheckYourAnswersComponent', () => {
 
   it('should navToRef', () => {
     component.navToRef();
-    expect(spyOnDispatchToStore).toHaveBeenCalledWith(new fromFeature.ChangeNavigation(NocState.START));
+    expect(spyOnDispatchToStore).toHaveBeenCalledWith(
+      new fromFeature.ChangeNavigation(NocState.START)
+    );
   });
 
   it('should navToQAndA', () => {
@@ -68,6 +72,8 @@ describe('NocCheckYourAnswersComponent', () => {
       value: 'James',
     };
     component.navToQAndA(answer);
-    expect(spyOnDispatchToStore).toHaveBeenCalledWith(new fromFeature.ChangeNavigation(NocState.QUESTION));
+    expect(spyOnDispatchToStore).toHaveBeenCalledWith(
+      new fromFeature.ChangeNavigation(NocState.QUESTION)
+    );
   });
 });

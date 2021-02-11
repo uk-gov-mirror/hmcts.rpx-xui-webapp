@@ -1,9 +1,6 @@
 import * as exceptionFormatter from 'exception-formatter'
 import { getConfigValue } from '../configuration'
-import {
-  MAX_LOG_LINE,
-} from '../configuration/references'
-
+import { MAX_LOG_LINE } from '../configuration/references'
 import { shorten, valueOrNull } from '../lib/util'
 import * as log4jui from './log4jui'
 

@@ -15,11 +15,9 @@ describe('CaseShareCompleteComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ CaseShareCompleteComponent ],
-      imports: [ RouterTestingModule ],
-      providers: [
-        provideMockStore(),
-      ]
+      declarations: [CaseShareCompleteComponent],
+      imports: [RouterTestingModule],
+      providers: [provideMockStore()],
     }).compileComponents();
     store = TestBed.get(Store);
     fixture = TestBed.createComponent(CaseShareCompleteComponent);
@@ -32,41 +30,48 @@ describe('CaseShareCompleteComponent', () => {
   });
 
   it('should check if pending', () => {
-    const sharedCases = [{
-      caseId: '9417373995765133',
-      caseTitle: 'Sam Green Vs Williams Lee',
-      sharedWith: [
-        {
-          idamId: 'u666666',
-          firstName: 'Kate',
-          lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
-        }],
-      pendingUnshares: [
-        {
-          idamId: 'u777777',
-          firstName: 'Nick',
-          lastName: 'Rodrigues',
-          email: 'nick.rodrigues@lambbrooks.com'
-        }]
-    }];
+    const sharedCases = [
+      {
+        caseId: '9417373995765133',
+        caseTitle: 'Sam Green Vs Williams Lee',
+        sharedWith: [
+          {
+            idamId: 'u666666',
+            firstName: 'Kate',
+            lastName: 'Grant',
+            email: 'kate.grant@lambbrooks.com',
+          },
+        ],
+        pendingUnshares: [
+          {
+            idamId: 'u777777',
+            firstName: 'Nick',
+            lastName: 'Rodrigues',
+            email: 'nick.rodrigues@lambbrooks.com',
+          },
+        ],
+      },
+    ];
     component.isLoading = true;
     const returnValue = component.checkIfIncomplete(sharedCases);
     expect(returnValue).toEqual('PENDING');
   });
 
   it('should check if complete', () => {
-    const sharedCases = [{
-      caseId: '9417373995765133',
-      caseTitle: 'Sam Green Vs Williams Lee',
-      sharedWith: [
-        {
-          idamId: 'u666666',
-          firstName: 'Kate',
-          lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
-        }]
-    }];
+    const sharedCases = [
+      {
+        caseId: '9417373995765133',
+        caseTitle: 'Sam Green Vs Williams Lee',
+        sharedWith: [
+          {
+            idamId: 'u666666',
+            firstName: 'Kate',
+            lastName: 'Grant',
+            email: 'kate.grant@lambbrooks.com',
+          },
+        ],
+      },
+    ];
     component.isLoading = true;
     const returnValue = component.checkIfIncomplete(sharedCases);
     expect(returnValue).toEqual('COMPLETE');
@@ -81,8 +86,9 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
-        }]
+          email: 'kate.grant@lambbrooks.com',
+        },
+      ],
     };
     const case2 = {
       caseId: '9417373995765133',
@@ -92,8 +98,9 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
-        }]
+          email: 'kate.grant@lambbrooks.com',
+        },
+      ],
     };
     const case3 = {
       caseId: '9417373995765133',
@@ -103,8 +110,9 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
-        }]
+          email: 'kate.grant@lambbrooks.com',
+        },
+      ],
     };
     expect(component.showUserAccessBlock(case1)).toBeFalsy();
     expect(component.showUserAccessBlock(case2)).toBeTruthy();

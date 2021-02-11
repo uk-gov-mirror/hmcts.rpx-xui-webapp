@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-
 import { InformationMessage } from '../../models/comms';
 import { InfoMessageCommService } from '../../services';
 
 @Component({
   selector: 'exui-info-message-container',
-  templateUrl: './info-message-container.component.html'
+  templateUrl: './info-message-container.component.html',
 })
 export class InfoMessageContainerComponent implements OnInit {
-
   public showInfoMessage: boolean = false;
   public infoMessages: InformationMessage[];
 
@@ -31,7 +29,7 @@ export class InfoMessageContainerComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.resetMessages();
       }
@@ -41,7 +39,7 @@ export class InfoMessageContainerComponent implements OnInit {
   }
 
   public subscribeToInfoMessageCommService(): void {
-    this.messageService.infoMessageChangeEmitted$.subscribe(messages => {
+    this.messageService.infoMessageChangeEmitted$.subscribe((messages) => {
       this.infoMessages = messages;
       this.showInfoMessage = (messages || []).length > 0;
     });

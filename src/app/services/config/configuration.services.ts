@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { throwError } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { catchError, take } from 'rxjs/operators';
+import { ConfigurationModel } from '../../models/configuration.model';
 import * as fromApp from '../../store';
-import {Store, select} from '@ngrx/store';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {ConfigurationModel} from '../../models/configuration.model';
-import {catchError, take} from 'rxjs/operators';
-import {throwError} from 'rxjs';
 
 /**
  *  Configuration Services responsible for fetching initial config data needed for app to run
@@ -14,43 +13,45 @@ import {throwError} from 'rxjs';
  */
 @Injectable()
 export class AppConfigService {
-
-  constructor(private http: HttpClient,  private store: Store<fromApp.State>) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store<fromApp.State>
+  ) {}
   private configuration: ConfigurationModel | any;
   /**
    * Loading configuration json file
    */
-  load(): Observable<any> {
+  public load(): Observable<any> {
     const jsonFile = `assets/config/config.json`;
-    return this.http.get(jsonFile).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(jsonFile).pipe(catchError(this.handleError));
   }
   /**
    * Getting configuration from the store
    * and setting it to private var
    */
-  setConfiguration() {
-    this.store.pipe(select(fromApp.getAppFeatures), take(1)).subscribe(config => {
-      this.configuration = config;
-    });
+  public setConfiguration() {
+    this.store
+      .pipe(select(fromApp.getAppFeatures), take(1))
+      .subscribe((config) => {
+        this.configuration = config;
+      });
   }
   /**
    * Returning features config
    */
-  getFeatureToggle() {
+  public getFeatureToggle() {
     return this.configuration.features;
   }
   /**
    * Returning caseEditorConfig config
    */
-  getEditorConfiguration() {
+  public getEditorConfiguration() {
     return this.configuration.caseEditorConfig;
   }
   /**
    * Returning urls config
    */
-  getRoutesConfig() {
+  public getRoutesConfig() {
     return this.configuration.urls;
   }
 
@@ -63,13 +64,10 @@ export class AppConfigService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+      );
     }
     // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.');
   }
-
-
 }

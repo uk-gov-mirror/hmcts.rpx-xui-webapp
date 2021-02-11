@@ -1,95 +1,87 @@
-import * as chai from 'chai';
-import {expect} from 'chai';
-import 'mocha';
-import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
-import {mockReq, mockRes} from 'sinon-express-mock';
+import * as chai from 'chai'
+import { expect } from 'chai'
+import 'mocha'
+import * as sinon from 'sinon'
+import * as sinonChai from 'sinon-chai'
+import { mockReq, mockRes } from 'sinon-express-mock'
+import { http } from '../lib/http'
+import { ALL_LOCATIONS } from './constants/locations'
+import { getLocationById, getLocations } from './locationController'
 
-import {http} from '../lib/http';
-import {ALL_LOCATIONS} from './constants/locations';
-import {baseUrl, getLocationById, getLocations} from './locationController';
-
-chai.use(sinonChai);
+chai.use(sinonChai)
 describe('workAllocation', () => {
+    const SUCCESS_RESPONSE = { status: 200, data: ALL_LOCATIONS }
+    let sandbox: sinon.SinonSandbox
+    let next: any
+    let spy: any
+    let res: any
 
-  const SUCCESS_RESPONSE = {status: 200, data: ALL_LOCATIONS};
-  let sandbox: sinon.SinonSandbox;
-  let next: any;
-  let spy: any;
-  let res: any;
+    const GET = 'get'
 
-  const GET = 'get';
+    beforeEach(() => {
+        sandbox = sinon.createSandbox()
+        next = sandbox.spy()
+        res = mockRes(SUCCESS_RESPONSE)
+    })
 
-  beforeEach(() => {
+    afterEach(() => {
+        sandbox.restore()
+    })
 
-    sandbox = sinon.createSandbox();
-    next = sandbox.spy();
-    res = mockRes(SUCCESS_RESPONSE);
-  });
+    describe('getLocationById', () => {
+        const LOCATION_ID = 42
 
-  afterEach(() => {
-    sandbox.restore();
-  });
+        it('should make a get request and respond appropriately', async () => {
+            const req = mockReq({
+                params: {
+                    locationId: LOCATION_ID,
+                },
+            })
+            const response = mockRes()
 
-  describe('getLocationById', () => {
+            await getLocationById(req, response, next)
 
-    const LOCATION_ID = 42;
+            expect(response.send).to.have.been.calledWith(sinon.match(SUCCESS_RESPONSE.data))
+        })
 
-    it('should make a get request and respond appropriately', async () => {
+        it('should handle an exception being thrown', async () => {
+            spy = sandbox.stub(http, GET).resolves(res)
+            const req = mockReq({
+                params: {
+                    locationId: LOCATION_ID,
+                },
+            })
+            const response = mockRes()
 
-      const req = mockReq({
-        params: {
-          locationId: LOCATION_ID,
-        },
-      });
-      const response = mockRes();
+            response.send.throws()
 
-      await getLocationById(req, response, next);
+            await getLocationById(req, response, next)
 
-      expect(response.send).to.have.been.calledWith(sinon.match(SUCCESS_RESPONSE.data));
-    });
+            expect(next).to.have.been.calledWith()
+        })
+    })
 
-    it('should handle an exception being thrown', async () => {
-      spy = sandbox.stub(http, GET).resolves(res);
-      const req = mockReq({
-        params: {
-          locationId: LOCATION_ID,
-        },
-      });
-      const response = mockRes();
+    describe('getLocations', () => {
+        it('should make a get request and respond appropriately', async () => {
+            spy = sandbox.stub(http, GET).resolves(res)
+            const req = mockReq()
+            const response = mockRes()
 
-      response.send.throws();
+            await getLocations(req, response, next)
 
-      await getLocationById(req, response, next);
+            expect(response.send).to.have.been.calledWith(sinon.match(SUCCESS_RESPONSE.data))
+        })
 
-      expect(next).to.have.been.calledWith();
-    });
-  });
+        it('should handle an exception being thrown', async () => {
+            spy = sandbox.stub(http, GET).resolves(res)
+            const req = mockReq()
+            const response = mockRes()
 
-  describe('getLocations', () => {
+            response.send.throws()
 
-    it('should make a get request and respond appropriately', async () => {
+            await getLocationById(req, response, next)
 
-      spy = sandbox.stub(http, GET).resolves(res);
-      const req = mockReq();
-      const response = mockRes();
-
-      await getLocations(req, response, next);
-
-      expect(response.send).to.have.been.calledWith(sinon.match(SUCCESS_RESPONSE.data));
-    });
-
-    it('should handle an exception being thrown', async () => {
-
-      spy = sandbox.stub(http, GET).resolves(res);
-      const req = mockReq();
-      const response = mockRes();
-
-      response.send.throws();
-
-      await getLocationById(req, response, next);
-
-      expect(next).to.have.been.calledWith();
-    });
-  });
-});
+            expect(next).to.have.been.calledWith()
+        })
+    })
+})

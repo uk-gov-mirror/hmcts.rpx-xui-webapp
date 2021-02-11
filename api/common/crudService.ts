@@ -36,19 +36,19 @@ export async function handlePost<T>(path: string, body: T, req: EnhancedRequest,
         const headers = setHeaders(req)
         return await http.post(path, body, { headers })
     } catch (e) {
-       next(e)
+        next(e)
     }
 }
 
 export async function handlePostNonNext<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
-  try {
-    logger.info('handle post with non next:', path)
-    const headers = setHeaders(req)
-    return await http.post(path, body, { headers })
-  } catch (e) {
-    logger.error(e.status, e.statusText, JSON.stringify(e.data))
-    throw e
-  }
+    try {
+        logger.info('handle post with non next:', path)
+        const headers = setHeaders(req)
+        return await http.post(path, body, { headers })
+    } catch (e) {
+        logger.error(e.status, e.statusText, JSON.stringify(e.data))
+        throw e
+    }
 }
 
 /**
@@ -59,16 +59,16 @@ export async function handlePostNonNext<T>(path: string, body: T, req: EnhancedR
  * @returns {Promise<AxiosResponse>}
  */
 export async function handlePostBlob<T>(path: string, body: T, req: EnhancedRequest, next: NextFunction): Promise<AxiosResponse> {
-  try {
-    logger.info('handle post blob:', path)
-    const headers = setHeaders(req)
-    return await http.post(path, body, {
-      headers,
-      responseType: 'arraybuffer',
-    })
-  } catch (e) {
-    next(e)
-  }
+    try {
+        logger.info('handle post blob:', path)
+        const headers = setHeaders(req)
+        return await http.post(path, body, {
+            headers,
+            responseType: 'arraybuffer',
+        })
+    } catch (e) {
+        next(e)
+    }
 }
 
 /**
@@ -79,7 +79,6 @@ export async function handlePostBlob<T>(path: string, body: T, req: EnhancedRequ
  * @returns {Promise<AxiosResponse>}
  */
 export async function handlePut<T>(path: string, body: T, req: EnhancedRequest, next: NextFunction): Promise<AxiosResponse> {
-
     try {
         logger.info('handle put:', path)
         const headers = setHeaders(req)
@@ -87,7 +86,6 @@ export async function handlePut<T>(path: string, body: T, req: EnhancedRequest, 
     } catch (e) {
         next(e)
     }
-
 }
 
 /**

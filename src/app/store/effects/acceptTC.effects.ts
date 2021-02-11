@@ -11,17 +11,17 @@ export class AcceptTcEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly acceptTcService: AcceptTermsService
-  ) { }
+  ) {}
 
   @Effect()
   public loadHasAccepted$ = this.actions$.pipe(
     ofType(acceptTandCActions.LOAD_HAS_ACCEPTED_TC),
     switchMap((action: any) => {
       return this.acceptTcService.getIsUserAccepted(action.payload).pipe(
-        map(userId => {
-            return new acceptTandCActions.LoadHasAcceptedTCSuccess(userId);
+        map((userId) => {
+          return new acceptTandCActions.LoadHasAcceptedTCSuccess(userId);
         }),
-        catchError(() => of(new fromRoot.Go({ path: ['/service-down']})))
+        catchError(() => of(new fromRoot.Go({ path: ['/service-down'] })))
       );
     })
   );
@@ -31,10 +31,10 @@ export class AcceptTcEffects {
     ofType(acceptTandCActions.ACCEPT_T_AND_C),
     switchMap((action: any) => {
       return this.acceptTcService.postUserAccepted(action.payload).pipe(
-        map(accepted => {
-            return new acceptTandCActions.AcceptTandCSuccess(accepted);
+        map((accepted) => {
+          return new acceptTandCActions.AcceptTandCSuccess(accepted);
         }),
-        catchError(error => of(new fromRoot.Go({ path: ['/service-down'] })))
+        catchError((error) => of(new fromRoot.Go({ path: ['/service-down'] })))
       );
     })
   );

@@ -3,14 +3,14 @@
   "extension": ["ts"],
   "package": "./package.json",
   "reporter": "mochawesome",
- "reporterOptions": {
-   "reportDir" : "reports/tests/api_functional/",
-   "reportFilename": "XUI_MC_API_Functional_Tests"
- },
- "reportDir": "reports/tests/api_functional/",
-"reportFilename": "XUI_MC_API_Functional_Tests",
+  "reporterOptions": {
+    "reportDir": "reports/tests/api_functional/",
+    "reportFilename": "XUI_MC_API_Functional_Tests"
+  },
+  "reportDir": "reports/tests/api_functional/",
+  "reportFilename": "XUI_MC_API_Functional_Tests",
   "slow": 75,
   "timeout": 60000,
   "ui": "bdd",
-  "spec" : ["./test/integration/tests/*.spec.ts"]
+  "spec": ["./test/integration/tests/*.spec.ts"]
 }

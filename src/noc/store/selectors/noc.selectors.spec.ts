@@ -20,11 +20,10 @@ describe('Noc selectors', () => {
   describe('getNocState', () => {
     it('should return noc navigation state', () => {
       let result;
-      store.pipe(select(getNocState)).subscribe(value => {
+      store.pipe(select(getNocState)).subscribe((value) => {
         result = value;
       });
       expect(result).toEqual(initialState);
     });
   });
-
 });

@@ -3,11 +3,9 @@ import { AppConstants } from './app.constants';
 import { NavItemsModel } from './models/nav-item.model';
 
 export class AppUtils {
-
   public static getEnvironment(url: string): string {
     const regex = 'pr-|localhost|aat|demo|ithc|perftest';
     const matched = url.match(regex);
-
 
     if (matched && matched[0]) {
       switch (matched[0]) {
@@ -35,7 +33,10 @@ export class AppUtils {
    * @param url - '/cases'
    */
   public static showNavItems(url: string): boolean {
-    return url.indexOf('accept-terms-and-conditions') < 0 && url.indexOf('terms-and-conditions') < 0;
+    return (
+      url.indexOf('accept-terms-and-conditions') < 0 &&
+      url.indexOf('terms-and-conditions') < 0
+    );
   }
 
   /**
@@ -65,11 +66,14 @@ export class AppUtils {
   /**
    * Set the active property on the navigation items.
    */
-  public static setActiveLink(items: NavItemsModel[], currentUrl: string): NavItemsModel[] {
-    return items.map(item => {
+  public static setActiveLink(
+    items: NavItemsModel[],
+    currentUrl: string
+  ): NavItemsModel[] {
+    return items.map((item) => {
       return {
         ...item,
-        active: item.href === currentUrl
+        active: item.href === currentUrl,
       };
     });
   }
@@ -82,8 +86,10 @@ export class AppUtils {
    * @return - 01
    */
   public static pad(num: string, padNum = 2): string {
-    const val = (num !== undefined && num !== null) ? num.toString() : '';
-    return val.length >= padNum ? val : new Array(padNum - val.length + 1).join('0') + val;
+    const val = num !== undefined && num !== null ? num.toString() : '';
+    return val.length >= padNum
+      ? val
+      : new Array(padNum - val.length + 1).join('0') + val;
   }
 
   /**

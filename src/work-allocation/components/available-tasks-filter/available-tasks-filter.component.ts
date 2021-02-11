@@ -1,7 +1,14 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckboxListComponent } from '@hmcts/rpx-xui-common-lib';
-
 import { SessionStorageService } from '../../../app/services';
 import { Location } from '../../models/dtos';
 import { LocationDataService } from '../../services';
@@ -11,10 +18,9 @@ import { FilterConstants } from '../constants';
 @Component({
   selector: 'exui-available-tasks-filter',
   templateUrl: './available-tasks-filter.component.html',
-  styleUrls: ['available-tasks-filter.component.scss']
+  styleUrls: ['available-tasks-filter.component.scss'],
 })
 export class AvailableTasksFilterComponent implements OnInit {
-
   @ViewChild(CheckboxListComponent)
   public readonly locationFilter: CheckboxListComponent<Location>;
   @ViewChild('filterDetails')
@@ -44,7 +50,9 @@ export class AvailableTasksFilterComponent implements OnInit {
    * Locations have changed. The new selection is emitted with the event
    * but can also be retrieved from component.selection.
    */
-  @Output() public selectionChanged: EventEmitter<Location[]> = new EventEmitter<Location[]>();
+  @Output() public selectionChanged: EventEmitter<
+    Location[]
+  > = new EventEmitter<Location[]>();
 
   /**
    * Take in the locationService so we can navigate when actions are clicked.
@@ -55,21 +63,25 @@ export class AvailableTasksFilterComponent implements OnInit {
     private readonly router: Router
   ) {}
 
-
   public ngOnInit(): void {
-    let preselection: Location[] = [ FilterConstants.Defaults.LOCATION ];
+    let preselection: Location[] = [FilterConstants.Defaults.LOCATION];
     // See if we have anything stored in the session for the filter.
-    const stored: string = this.sessionStorageService.getItem(FilterConstants.Session.AvailableTasks);
+    const stored: string = this.sessionStorageService.getItem(
+      FilterConstants.Session.AvailableTasks
+    );
     if (stored) {
-      preselection = [ ...JSON.parse(stored) ];
+      preselection = [...JSON.parse(stored)];
     }
     this.preselection = preselection;
     // Get the locations for the checkbox filter component.
-    this.locationService.getLocations().subscribe(locations => {
-      this.locations = [ ...locations ];
-    }, error => {
-      handleFatalErrors(error.status, this.router, WILDCARD_SERVICE_DOWN);
-    });
+    this.locationService.getLocations().subscribe(
+      (locations) => {
+        this.locations = [...locations];
+      },
+      (error) => {
+        handleFatalErrors(error.status, this.router, WILDCARD_SERVICE_DOWN);
+      }
+    );
   }
 
   public onSelectionChange(): void {
@@ -92,9 +104,12 @@ export class AvailableTasksFilterComponent implements OnInit {
    * Also save the applied filter to the session storage.
    */
   public applyFilter(): void {
-    this.selection = [ ...this.locationFilter.selection ];
+    this.selection = [...this.locationFilter.selection];
     const toStore: string = JSON.stringify(this.selection);
-    this.sessionStorageService.setItem(FilterConstants.Session.AvailableTasks, toStore);
+    this.sessionStorageService.setItem(
+      FilterConstants.Session.AvailableTasks,
+      toStore
+    );
     this.selectionChanged.emit(this.selection);
   }
 

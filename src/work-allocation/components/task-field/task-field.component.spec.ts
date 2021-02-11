@@ -1,13 +1,15 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TaskFieldType, TaskView } from './../../enums';
 import { Task, TaskFieldConfig } from './../../models/tasks';
 import { WorkAllocationComponentsModule } from './../work-allocation.components.module';
 import { TaskFieldComponent } from './task-field.component';
 
 @Component({
-  template: `<exui-task-field [config]="config" [task]="task"></exui-task-field>`
+  template: `<exui-task-field
+    [config]="config"
+    [task]="task"
+  ></exui-task-field>`,
 })
 class WrapperComponent {
   @ViewChild(TaskFieldComponent) public appComponentRef: TaskFieldComponent;
@@ -16,7 +18,6 @@ class WrapperComponent {
 }
 
 describe('WorkAllocation', () => {
-
   describe('TaskFieldComponent', () => {
     let component: TaskFieldComponent;
     let wrapper: WrapperComponent;
@@ -27,16 +28,15 @@ describe('WorkAllocation', () => {
         name,
         type,
         columnLabel: name,
-        views: TaskView.ALL_VIEWS
+        views: TaskView.ALL_VIEWS,
       };
     }
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [ WrapperComponent ],
-        imports: [ WorkAllocationComponentsModule ]
-      })
-      .compileComponents();
+        declarations: [WrapperComponent],
+        imports: [WorkAllocationComponentsModule],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -51,7 +51,10 @@ describe('WorkAllocation', () => {
       expect(fixture.debugElement.nativeElement.innerText).toBe('');
 
       // Set up the config and the task.
-      const config: TaskFieldConfig = getConfig('caseName', TaskFieldType.STRING);
+      const config: TaskFieldConfig = getConfig(
+        'caseName',
+        TaskFieldType.STRING
+      );
       const task: Task = {
         id: 'The task ID',
         caseReference: 'The case reference',
@@ -60,7 +63,7 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(),
-        actions: []
+        actions: [],
       };
 
       // Add the config and it should still be empty (because there's no task).
@@ -81,7 +84,10 @@ describe('WorkAllocation', () => {
 
     it('should handle a STRING type', () => {
       // Set up the config and the task.
-      const config: TaskFieldConfig = getConfig('caseReference', TaskFieldType.STRING);
+      const config: TaskFieldConfig = getConfig(
+        'caseReference',
+        TaskFieldType.STRING
+      );
       const task: Task = {
         id: 'The task ID',
         caseReference: 'The case reference',
@@ -90,14 +96,16 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(),
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the case reference).
       component.config = config;
       component.task = task;
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toBe(task.caseReference);
+      expect(fixture.debugElement.nativeElement.innerText).toBe(
+        task.caseReference
+      );
 
       // Change the value of task.caseReference.
       task.caseReference = 'Bob';
@@ -112,10 +120,15 @@ describe('WorkAllocation', () => {
 
     it('should handle a DATE_DUE type', () => {
       // No DueDateComponent shown yet.
-      expect(fixture.debugElement.nativeElement.querySelector('.due-date')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.due-date')
+      ).toBeNull();
 
       // Set up the config and the task.
-      const config: TaskFieldConfig = getConfig('dueDate', TaskFieldType.DATE_DUE);
+      const config: TaskFieldConfig = getConfig(
+        'dueDate',
+        TaskFieldType.DATE_DUE
+      );
       const task: Task = {
         id: 'The task ID',
         caseReference: 'The case reference',
@@ -124,17 +137,21 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(),
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the due date component).
       component.config = config;
       component.task = task;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('.due-date');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        '.due-date'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe('TODAY');
-      expect(element.getAttribute('aria-label')).toBe('This task is due to be completed today');
+      expect(element.getAttribute('aria-label')).toBe(
+        'This task is due to be completed today'
+      );
 
       // Change the value of task.dueDate.
       task.dueDate = new Date(task.dueDate.getTime() - 86400000); // Yesterday.
@@ -142,12 +159,16 @@ describe('WorkAllocation', () => {
       expect(element).not.toBeNull();
       element = fixture.debugElement.nativeElement.querySelector('.due-date');
       expect(element.textContent.trim()).toBe('+1 day');
-      expect(element.getAttribute('aria-label')).toBe('This task is 1 day past its due date');
+      expect(element.getAttribute('aria-label')).toBe(
+        'This task is 1 day past its due date'
+      );
 
       // Clear out the value of task.dueDate and we should no longer have the control.
       task.dueDate = undefined;
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.querySelector('.due-date')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.due-date')
+      ).toBeNull();
 
       // Add it back for a moment...
       task.dueDate = new Date(new Date().getTime() - 86400000); // Yesterday.
@@ -155,17 +176,24 @@ describe('WorkAllocation', () => {
       expect(element).not.toBeNull();
       element = fixture.debugElement.nativeElement.querySelector('.due-date');
       expect(element.textContent.trim()).toBe('+1 day');
-      expect(element.getAttribute('aria-label')).toBe('This task is 1 day past its due date');
+      expect(element.getAttribute('aria-label')).toBe(
+        'This task is 1 day past its due date'
+      );
 
       // Set the value of task.dueDate to be null.
       task.dueDate = null;
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.querySelector('.due-date')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.due-date')
+      ).toBeNull();
     });
 
     it('should handle a DATE_AGE_DAYS type', () => {
       // Set up the config and the task.
-      const config: TaskFieldConfig = getConfig('dueDate', TaskFieldType.DATE_AGE_DAYS);
+      const config: TaskFieldConfig = getConfig(
+        'dueDate',
+        TaskFieldType.DATE_AGE_DAYS
+      );
       const task: Task = {
         id: 'The task ID',
         caseReference: 'The case reference',
@@ -174,7 +202,7 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(), // TODAY
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the days from today).
@@ -220,7 +248,7 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(2020, 10, 6, 1, 2, 3), // Month of 10 = November as it's 0-based.
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the due date).
@@ -242,7 +270,10 @@ describe('WorkAllocation', () => {
 
     it('should handle a DATETIME type', () => {
       // Set up the config and the task.
-      const config: TaskFieldConfig = getConfig('dueDate', TaskFieldType.DATETIME);
+      const config: TaskFieldConfig = getConfig(
+        'dueDate',
+        TaskFieldType.DATETIME
+      );
       const task: Task = {
         id: 'The task ID',
         caseReference: 'The case reference',
@@ -251,19 +282,23 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(2020, 10, 6, 1, 2, 3), // Month of 10 = November as it's 0-based.
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the due date and time).
       component.config = config;
       component.task = task;
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toBe('06/11/2020 01:02');
+      expect(fixture.debugElement.nativeElement.innerText).toBe(
+        '06/11/2020 01:02'
+      );
 
       // Change the value of task.dueDate.
       task.dueDate = new Date(2020, 11, 15, 14, 15, 16); // Month of 11 = December.
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toBe('15/12/2020 14:15');
+      expect(fixture.debugElement.nativeElement.innerText).toBe(
+        '15/12/2020 14:15'
+      );
 
       // Clear out the value of task.dueDate.
       task.dueDate = undefined;
@@ -283,7 +318,7 @@ describe('WorkAllocation', () => {
         taskName: 'The task name',
         dueDate: new Date(),
         happy: true,
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the result for "happy").
@@ -357,7 +392,7 @@ describe('WorkAllocation', () => {
         taskName: 'The task name',
         dueDate: new Date(),
         pi: Math.PI,
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the integer value of "pi").
@@ -421,7 +456,7 @@ describe('WorkAllocation', () => {
         taskName: 'The task name',
         dueDate: new Date(),
         pi: Math.PI,
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing "pi" rounded to 2 decimal places).
@@ -491,14 +526,16 @@ describe('WorkAllocation', () => {
         taskName: 'The task name',
         dueDate: new Date(),
         actions: [],
-        link: HMCTS_URL
+        link: HMCTS_URL,
       };
 
       // Add the task and it should work (showing the due date component).
       component.config = config;
       component.task = task;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(HMCTS_URL);
       expect(element.getAttribute('href')).toBe(HMCTS_URL);
@@ -550,7 +587,9 @@ describe('WorkAllocation', () => {
       const EXAMPLE2_IMAGE: string = '/assets/images/govuk-crest.png';
 
       // No image shown yet.
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
 
       // Set up the config and the task.
       const config: TaskFieldConfig = getConfig('image', TaskFieldType.IMAGE);
@@ -563,19 +602,21 @@ describe('WorkAllocation', () => {
         taskName: 'The task name',
         dueDate: new Date(),
         actions: [],
-        image: EXAMPLE1_IMAGE
+        image: EXAMPLE1_IMAGE,
       };
 
       // Add the task and it should work (showing the image component).
       component.config = config;
       component.task = task;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('img');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'img'
+      );
       expect(element).not.toBeNull();
       expect(element.getAttribute('src')).toBe(EXAMPLE1_IMAGE);
       expect(element.getAttribute('alt')).toBe('Image');
 
-       // Change the value of task.image
+      // Change the value of task.image
       task['image'] = EXAMPLE2_IMAGE;
       fixture.detectChanges();
       expect(element).not.toBeNull();
@@ -586,7 +627,9 @@ describe('WorkAllocation', () => {
       // Clear out the value of task.image and we should no longer have the anchor.
       task['image'] = undefined;
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
 
       // Add it back for a moment...
       task['image'] = EXAMPLE1_IMAGE;
@@ -599,7 +642,9 @@ describe('WorkAllocation', () => {
       // Make task.image null.
       task['image'] = null;
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
 
       // Add it back for a moment...
       task['image'] = EXAMPLE1_IMAGE;
@@ -614,7 +659,9 @@ describe('WorkAllocation', () => {
       delete task['image'];
       fixture.detectChanges();
       expect(task.hasOwnProperty('image')).toBeFalsy();
-      expect(fixture.debugElement.nativeElement.querySelector('img')).toBeNull();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('img')
+      ).toBeNull();
     });
 
     it('should handle a CASE_REFERENCE type', () => {
@@ -622,7 +669,10 @@ describe('WorkAllocation', () => {
       expect(fixture.debugElement.nativeElement.querySelector('a')).toBeNull();
 
       // Set up the config and the task.
-      const config: TaskFieldConfig = getConfig('caseReference', TaskFieldType.CASE_REFERENCE);
+      const config: TaskFieldConfig = getConfig(
+        'caseReference',
+        TaskFieldType.CASE_REFERENCE
+      );
       const task: Task = {
         id: 'The task ID',
         caseReference: 'The case reference',
@@ -631,17 +681,21 @@ describe('WorkAllocation', () => {
         location: 'The location',
         taskName: 'The task name',
         dueDate: new Date(),
-        actions: []
+        actions: [],
       };
 
       // Add the task and it should work (showing the link).
       component.config = config;
       component.task = task;
       fixture.detectChanges();
-      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector('a');
+      let element: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+        'a'
+      );
       expect(element).not.toBeNull();
       expect(element.textContent.trim()).toBe(task.caseReference);
-      expect(element.getAttribute('href')).toBe(`/cases/case-details/Thecasereference`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `/cases/case-details/Thecasereference`
+      ); // No spaces
 
       // Change the value of task.caseReference.
       task.caseReference = 'NEW CASE REFERENCE';
@@ -649,7 +703,9 @@ describe('WorkAllocation', () => {
       expect(element).not.toBeNull();
       element = fixture.debugElement.nativeElement.querySelector('a');
       expect(element.textContent.trim()).toBe('NEW CASE REFERENCE');
-      expect(element.getAttribute('href')).toBe(`/cases/case-details/NEWCASEREFERENCE`); // No spaces
+      expect(element.getAttribute('href')).toBe(
+        `/cases/case-details/NEWCASEREFERENCE`
+      ); // No spaces
 
       // Clear out the value of task.link and we should no longer have the anchor.
       task.caseReference = undefined;
@@ -662,7 +718,9 @@ describe('WorkAllocation', () => {
       expect(element).not.toBeNull();
       element = fixture.debugElement.nativeElement.querySelector('a');
       expect(element.textContent.trim()).toBe('The case reference');
-      expect(element.getAttribute('href')).toBe(`/cases/case-details/Thecasereference`);
+      expect(element.getAttribute('href')).toBe(
+        `/cases/case-details/Thecasereference`
+      );
 
       // Make task.link null.
       task.caseReference = null;
@@ -724,5 +782,4 @@ describe('WorkAllocation', () => {
       expect(output).toBeNull();
     });
   });
-
 });

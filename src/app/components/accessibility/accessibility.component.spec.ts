@@ -9,9 +9,8 @@ describe('AccessibilityComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ AccessibilityComponent ]
-    })
-    .compileComponents();
+      declarations: [AccessibilityComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -23,5 +22,4 @@ describe('AccessibilityComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

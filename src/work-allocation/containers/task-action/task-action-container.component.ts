@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { ConfigConstants } from '../../components/constants';
-import { InfoMessage, InfoMessageType, TaskActionType, TaskService, TaskSort } from '../../enums';
+import {
+  InfoMessage,
+  InfoMessageType,
+  TaskActionType,
+  TaskService,
+  TaskSort,
+} from '../../enums';
 import { InformationMessage } from '../../models/comms';
 import { TaskFieldConfig, TaskServiceConfig } from '../../models/tasks';
-import { InfoMessageCommService, WorkAllocationTaskService } from '../../services';
+import {
+  InfoMessageCommService,
+  WorkAllocationTaskService,
+} from '../../services';
 import { ACTION } from '../../services/work-allocation-task.service';
 import { handleFatalErrors } from '../../utils';
 
@@ -18,10 +26,10 @@ interface RouteData {
 
 @Component({
   selector: 'exui-task-action-container',
-  templateUrl: 'task-action-container.component.html'
+  templateUrl: 'task-action-container.component.html',
 })
 export class TaskActionContainerComponent implements OnInit {
-  public tasks: any [];
+  public tasks: any[];
   public sortedBy: any;
   public showManage: boolean = false;
 
@@ -56,12 +64,12 @@ export class TaskActionContainerComponent implements OnInit {
     // Set up the default sorting.
     this.sortedBy = {
       fieldName: this.taskServiceConfig.defaultSortFieldName,
-      order: this.taskServiceConfig.defaultSortDirection
+      order: this.taskServiceConfig.defaultSortDirection,
     };
 
     // Get the task from the route, which will have been put there by the resolver.
     const { task } = this.route.snapshot.data.task;
-    this.tasks = [ task ];
+    this.tasks = [task];
     this.routeData = this.route.snapshot.data as RouteData;
     if (!this.routeData.actionTitle) {
       this.routeData.actionTitle = `${this.routeData.verb} task`;
@@ -87,14 +95,17 @@ export class TaskActionContainerComponent implements OnInit {
     }
 
     if (action) {
-      this.taskService.performActionOnTask(this.tasks[0].id, action).subscribe(() => {
-        this.reportSuccessAndReturn();
-      }, error => {
-        const handledStatus = handleFatalErrors(error.status, this.router);
-        if (handledStatus > 0) {
-          this.reportUnavailableErrorAndReturn();
+      this.taskService.performActionOnTask(this.tasks[0].id, action).subscribe(
+        () => {
+          this.reportSuccessAndReturn();
+        },
+        (error) => {
+          const handledStatus = handleFatalErrors(error.status, this.router);
+          if (handledStatus > 0) {
+            this.reportUnavailableErrorAndReturn();
+          }
         }
-      });
+      );
     }
   }
 
@@ -112,7 +123,10 @@ export class TaskActionContainerComponent implements OnInit {
 
   private reportUnavailableErrorAndReturn(): void {
     this.returnWithMessage(
-      { type: InfoMessageType.WARNING, message: InfoMessage.TASK_NO_LONGER_AVAILABLE },
+      {
+        type: InfoMessageType.WARNING,
+        message: InfoMessage.TASK_NO_LONGER_AVAILABLE,
+      },
       { badRequest: true }
     );
   }
@@ -121,6 +135,8 @@ export class TaskActionContainerComponent implements OnInit {
     if (message) {
       this.messageService.nextMessage(message);
     }
-    this.router.navigateByUrl(this.returnUrl, { state: { ...state, retainMessages: true } });
+    this.router.navigateByUrl(this.returnUrl, {
+      state: { ...state, retainMessages: true },
+    });
   }
 }

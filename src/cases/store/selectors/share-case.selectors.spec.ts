@@ -18,25 +18,34 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     it('should return search state', () => {
-      const caseListComponent = new CaseListComponent(store, null, null, null, null, null);
-      caseListComponent.selectedCases = [{
-        case_id: '1',
-        case_fields: {
-          solsSolicitorAppReference: 'James123'
-        }
-      }, {
-        case_id: '2',
-        case_fields: {
-          solsSolicitorAppReference: 'Steve321'
-        }
-      }];
+      const caseListComponent = new CaseListComponent(
+        store,
+        null,
+        null,
+        null,
+        null,
+        null
+      );
+      caseListComponent.selectedCases = [
+        {
+          case_id: '1',
+          case_fields: {
+            solsSolicitorAppReference: 'James123',
+          },
+        },
+        {
+          case_id: '2',
+          case_fields: {
+            solsSolicitorAppReference: 'Steve321',
+          },
+        },
+      ];
       caseListComponent.shareCaseSubmit();
       let result = [];
-      store.pipe(select(getShareCaseListState)).subscribe(value => {
+      store.pipe(select(getShareCaseListState)).subscribe((value) => {
         result = value;
       });
       expect(result.length).toEqual(2);
     });
   });
-
 });

@@ -3,70 +3,80 @@ import { AppConstants } from './app.constants';
 import { NavItemsModel } from './models/nav-item.model';
 
 describe('getEnvironment', () => {
-
   it('should return the prod environment for a blank url.', () => {
-    expect(AppUtils.getEnvironment('')).toEqual(AppConstants.ENVIRONMENT_NAMES.prod);
+    expect(AppUtils.getEnvironment('')).toEqual(
+      AppConstants.ENVIRONMENT_NAMES.prod
+    );
   });
 
   it('should return the aat environment for a aat url.', () => {
-    expect(AppUtils.getEnvironment('https://xui-webapp-aat.service.core-compute-aat.internal')).toEqual(
-      AppConstants.ENVIRONMENT_NAMES.aat);
+    expect(
+      AppUtils.getEnvironment(
+        'https://xui-webapp-aat.service.core-compute-aat.internal'
+      )
+    ).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
   });
 
   it('should return the aat environment for a localhost url.', () => {
     expect(AppUtils.getEnvironment('https://localhost:3000')).toEqual(
-      AppConstants.ENVIRONMENT_NAMES.aat);
+      AppConstants.ENVIRONMENT_NAMES.aat
+    );
   });
 
   it('should return the aat environment for a PR url.', () => {
-    expect(AppUtils.getEnvironment('https://xui-mo-webapp-pr-84.service.core-compute-preview.internal')).toEqual(
-      AppConstants.ENVIRONMENT_NAMES.aat);
+    expect(
+      AppUtils.getEnvironment(
+        'https://xui-mo-webapp-pr-84.service.core-compute-preview.internal'
+      )
+    ).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
   });
 
   it('should return the demo environment for a demo url.', () => {
-    expect(AppUtils.getEnvironment('https://xui-mo-webapp-demo.service.core-compute-demo.internal')).toEqual(
-      AppConstants.ENVIRONMENT_NAMES.demo);
+    expect(
+      AppUtils.getEnvironment(
+        'https://xui-mo-webapp-demo.service.core-compute-demo.internal'
+      )
+    ).toEqual(AppConstants.ENVIRONMENT_NAMES.demo);
   });
 
   it('should return the ithc environment for a ithc url.', () => {
     expect(AppUtils.getEnvironment('ithc')).toEqual(
-      AppConstants.ENVIRONMENT_NAMES.ithc);
+      AppConstants.ENVIRONMENT_NAMES.ithc
+    );
   });
 
   it('should return the perftest environment for a perftest url.', () => {
     expect(AppUtils.getEnvironment('perftest')).toEqual(
-      AppConstants.ENVIRONMENT_NAMES.perftest);
+      AppConstants.ENVIRONMENT_NAMES.perftest
+    );
   });
-
 });
 
 describe('showNavItems', () => {
-
   it('should show only appropriate navigation items', () => {
     expect(AppUtils.showNavItems('SomeItems')).toEqual(true);
     expect(AppUtils.showNavItems('accept-terms-and-conditions')).toEqual(false);
   });
-
 });
 
 describe('removeJsonPrefix', () => {
-
   it('should take in the User Roles string from cookie and return the string without the j: prefix.', () => {
-
-    const userRolesString = 'j:["pui-organisation-manager","caseworker-publiclaw",' +
+    const userRolesString =
+      'j:["pui-organisation-manager","caseworker-publiclaw",' +
       '"caseworker-divorce-financialremedy-solicitor","caseworker"]';
 
     const expectedUserRolesString = userRolesString.replace('j:', '');
 
-    expect(AppUtils.removeJsonPrefix(userRolesString)).toEqual(expectedUserRolesString);
+    expect(AppUtils.removeJsonPrefix(userRolesString)).toEqual(
+      expectedUserRolesString
+    );
   });
 });
 
 describe('getCookieRolesAsArray', () => {
-
   it('should take in the User Roles string (which comes from the cookie), and return an Array of User Roles.', () => {
-
-    const userRoles = '["pui-organisation-manager","caseworker-publiclaw",' +
+    const userRoles =
+      '["pui-organisation-manager","caseworker-publiclaw",' +
       '"caseworker-divorce-financialremedy-solicitor","caseworker"]';
 
     expect(AppUtils.getCookieRolesAsArray(userRoles)).toEqual([
@@ -79,12 +89,11 @@ describe('getCookieRolesAsArray', () => {
 });
 
 describe('setActiveLink', () => {
-
   it('should correctly flag an item as being active', () => {
     const ITEMS: NavItemsModel[] = [
       { href: '/a', active: false, text: 'A' },
       { href: '/b', active: false, text: 'B' },
-      { href: '/c', active: false, text: 'C' }
+      { href: '/c', active: false, text: 'C' },
     ];
     const CURRENT_URL: string = '/a';
     const result = AppUtils.setActiveLink(ITEMS, CURRENT_URL);
@@ -101,7 +110,7 @@ describe('setActiveLink', () => {
     const ITEMS: NavItemsModel[] = [
       { href: '/a', active: true, text: 'A' },
       { href: '/b', active: false, text: 'B' },
-      { href: '/c', active: false, text: 'C' }
+      { href: '/c', active: false, text: 'C' },
     ];
     const CURRENT_URL: string = '/b';
     const result = AppUtils.setActiveLink(ITEMS, CURRENT_URL);
@@ -119,7 +128,7 @@ describe('setActiveLink', () => {
     const ITEMS: NavItemsModel[] = [
       { href: '/a', active: true, text: 'A' },
       { href: '/b', active: false, text: 'B' },
-      { href: '/c', active: false, text: 'C' }
+      { href: '/c', active: false, text: 'C' },
     ];
     const CURRENT_URL: string = '/d';
     const result = AppUtils.setActiveLink(ITEMS, CURRENT_URL);
