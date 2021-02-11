@@ -18,7 +18,7 @@ export class MediaViewerWrapperComponent implements OnInit {
   public mediaAnnotationApiUrl = '';
   public toolbarButtons = { showPrint: true };
   public caseId = "";
-  public caseJurisdiction = '';
+  public caseJurisdiction = "";
 
   public icpJurisdictions$: Observable<string[]>;
   public icpEnabled$: Observable<boolean>;
