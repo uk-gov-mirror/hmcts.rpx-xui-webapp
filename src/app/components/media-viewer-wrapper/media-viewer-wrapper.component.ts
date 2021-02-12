@@ -9,7 +9,7 @@ const MEDIA_VIEWER = 'media-viewer-info';
   selector: 'exui-media-viewer',
   templateUrl: './media-viewer-wrapper.component.html',
   styleUrls: ['./media-viewer-wrapper.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class MediaViewerWrapperComponent implements OnInit {
   public mediaURL = '';
@@ -18,7 +18,7 @@ export class MediaViewerWrapperComponent implements OnInit {
   public mediaAnnotationApiUrl = '';
   public toolbarButtons = { showPrint: true };
   public caseId = '';
-  public caseJurisdiction = '';
+  public caseJurisdiction = "";
 
   public icpJurisdictions$: Observable<string[]>;
   public icpEnabled$: Observable<boolean>;
