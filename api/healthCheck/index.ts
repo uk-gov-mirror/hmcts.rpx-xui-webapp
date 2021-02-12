@@ -1,11 +1,11 @@
-import * as express from 'express'
-import { healthEndpoints } from '../configuration/health'
-import { http } from '../lib/http'
-import * as log4jui from '../lib/log4jui'
-export const router = express.Router({ mergeParams: true })
+import * as express from 'express';
+import { healthEndpoints } from '../configuration/health';
+import { http } from '../lib/http';
+import * as log4jui from '../lib/log4jui';
+export const router = express.Router({ mergeParams: true });
 
-router.get('/', healthCheckRoute)
-const logger = log4jui.getLogger('outgoing')
+router.get('/', healthCheckRoute);
+const logger = log4jui.getLogger('outgoing');
 
 /*
     Any feature that requires a health check
@@ -16,13 +16,13 @@ const logger = log4jui.getLogger('outgoing')
 */
 
 const healthCheckEndpointDictionary = {
-    '/cases': ['ccdComponentApi'], // keep parent paths on top of children
-    '/cases/case-create': ['ccdComponentApi'],
-    '/cases/case-details': ['ccdComponentApi'],
-    '/cases/case-filter': ['ccdComponentApi'],
-    '/cases/case-search': ['ccdComponentApi'],
-    '/cases/case-share': ['ccdComponentApi'],
-}
+  '/cases': ['ccdComponentApi'], // keep parent paths on top of children
+  '/cases/case-create': ['ccdComponentApi'],
+  '/cases/case-details': ['ccdComponentApi'],
+  '/cases/case-filter': ['ccdComponentApi'],
+  '/cases/case-search': ['ccdComponentApi'],
+  '/cases/case-share': ['ccdComponentApi'],
+};
 
 /*
     Health check endpoints are retrieved from
@@ -35,48 +35,48 @@ const healthCheckEndpointDictionary = {
     endpoint may be different from a regular endpoint
 */
 export function getPromises(path): any[] {
-    const Promises = []
-    /* Checking whether path can be simplified, ie route has parameters*/
-    const dictionaryKeys = Object.keys(healthCheckEndpointDictionary).reverse()
-    for (const key of dictionaryKeys) {
-        if (path.indexOf(key) > -1) {
-            path = key
-            break
-        }
+  const Promises = [];
+  /* Checking whether path can be simplified, ie route has parameters*/
+  const dictionaryKeys = Object.keys(healthCheckEndpointDictionary).reverse();
+  for (const key of dictionaryKeys) {
+    if (path.indexOf(key) > -1) {
+      path = key;
+      break;
     }
-    if (healthCheckEndpointDictionary[path]) {
-        healthCheckEndpointDictionary[path].forEach((endpoint) => {
-            // TODO: Have health config for this.
-            logger.info('healthEndpoints', endpoint)
-            logger.info(healthEndpoints()[endpoint])
-            Promises.push(http.get(healthEndpoints()[endpoint]))
-        })
-    }
-    return Promises
+  }
+  if (healthCheckEndpointDictionary[path]) {
+    healthCheckEndpointDictionary[path].forEach((endpoint) => {
+      // TODO: Have health config for this.
+      logger.info('healthEndpoints', endpoint);
+      logger.info(healthEndpoints()[endpoint]);
+      Promises.push(http.get(healthEndpoints()[endpoint]));
+    });
+  }
+  return Promises;
 }
 
 export async function healthCheckRoute(req, res) {
-    try {
-        const path = req.query.path
-        let PromiseArr = []
-        let response = { healthState: true }
+  try {
+    const path = req.query.path;
+    let PromiseArr = [];
+    let response = { healthState: true };
 
-        if (path !== '') {
-            PromiseArr = getPromises(path)
-        }
-
-        // comment out following block to bypass actual check
-        await Promise.all(PromiseArr)
-            .then()
-            .catch(() => {
-                response = { healthState: false }
-            })
-
-        logger.info('response::', response)
-        res.send(response)
-    } catch (error) {
-        logger.info('error', { healthState: false })
-        res.status(error.status).send({ healthState: false })
+    if (path !== '') {
+      PromiseArr = getPromises(path);
     }
+
+    // comment out following block to bypass actual check
+    await Promise.all(PromiseArr)
+      .then()
+      .catch(() => {
+        response = { healthState: false };
+      });
+
+    logger.info('response::', response);
+    res.send(response);
+  } catch (error) {
+    logger.info('error', { healthState: false });
+    res.status(error.status).send({ healthState: false });
+  }
 }
-export default router
+export default router;

@@ -1,20 +1,37 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "rulesDirectory": ["codelyzer"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier",
+    "tslint-config-prettier"
+  ],
+  "rulesDirectory": [
+    "codelyzer"
+  ],
   "rules": {
-    "array-type": { "severity": "warning", "options": ["array"] },
+    "array-type": {
+      "severity": "warning",
+      "options": [
+        "array"
+      ]
+    },
     "arrow-parens": false,
     "directive-selector": false,
     "component-selector": false,
     "deprecation": {
       "severity": "warn"
     },
-    "import-blacklist": [true, "rxjs/Rx"],
+    "import-blacklist": [
+      true,
+      "rxjs/Rx"
+    ],
     "interface-name": false,
     "max-classes-per-file": false,
     "member-access": {
       "severity": "warning",
-      "options": ["check-accessor", "check-parameter-property"]
+      "options": [
+        "check-accessor",
+        "check-parameter-property"
+      ]
     },
     "member-ordering": [
       true,
@@ -28,7 +45,14 @@
       }
     ],
     "no-consecutive-blank-lines": false,
-    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
     "no-empty": false,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
@@ -37,7 +61,9 @@
     "no-var-requires": false,
     "no-string-literal": false,
     "object-literal-sort-keys": false,
-    "ordered-imports": { "severity": "warning" },
+    "ordered-imports": {
+      "severity": "warning"
+    },
     "trailing-comma": false,
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
@@ -49,25 +75,56 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-
     "variable-name": {
-      "options": ["require-const-for-all-caps"],
+      "options": [
+        "require-const-for-all-caps"
+      ],
       "severity": "warning"
     },
-    "adjacent-overload-signatures": { "severity": "warning" },
-    "curly": { "severity": "warning" },
-    "no-duplicate-imports": { "severity": "warning" },
-    "no-duplicate-super": { "severity": "warning" },
-    "no-duplicate-switch-case": { "severity": "warning" },
-    "no-duplicate-variable": { "severity": "warning" },
-    "no-unused-expression": { "severity": "warning" },
-    "no-unused-variable": { "severity": "warning" },
-    "switch-default": { "severity": "warning" },
-    "triple-equals": { "severity": "warning" },
-    "prefer-readonly": { "severity": "warning" },
-    "arrow-return-shorthand": { "severity": "warning" },
-    "class-name": { "severity": "warning" },
-    "prefer-method-signature": { "severity": "warning" },
-    "prefer-template": { "severity": "warning" }
+    "adjacent-overload-signatures": {
+      "severity": "warning"
+    },
+    "curly": {
+      "severity": "warning"
+    },
+    "no-duplicate-imports": {
+      "severity": "warning"
+    },
+    "no-duplicate-super": {
+      "severity": "warning"
+    },
+    "no-duplicate-switch-case": {
+      "severity": "warning"
+    },
+    "no-duplicate-variable": {
+      "severity": "warning"
+    },
+    "no-unused-expression": {
+      "severity": "warning"
+    },
+    "no-unused-variable": {
+      "severity": "warning"
+    },
+    "switch-default": {
+      "severity": "warning"
+    },
+    "triple-equals": {
+      "severity": "warning"
+    },
+    "prefer-readonly": {
+      "severity": "warning"
+    },
+    "arrow-return-shorthand": {
+      "severity": "warning"
+    },
+    "class-name": {
+      "severity": "warning"
+    },
+    "prefer-method-signature": {
+      "severity": "warning"
+    },
+    "prefer-template": {
+      "severity": "warning"
+    }
   }
 }

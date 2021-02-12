@@ -1,45 +1,45 @@
 const ASSIGN = {
-    id: 'assign',
-    title: 'Assign task',
-}
+  id: 'assign',
+  title: 'Assign task',
+};
 const CANCEL = {
-    id: 'cancel',
-    title: 'Cancel task',
-}
+  id: 'cancel',
+  title: 'Cancel task',
+};
 const CLAIM = {
-    id: 'claim',
-    title: 'Assign to me',
-}
+  id: 'claim',
+  title: 'Assign to me',
+};
 const COMPLETE = {
-    id: 'complete',
-    title: 'Mark as done',
-}
+  id: 'complete',
+  title: 'Mark as done',
+};
 const RELEASE = {
-    id: 'unclaim',
-    title: 'Unassign task',
-}
+  id: 'unclaim',
+  title: 'Unassign task',
+};
 const CLAIM_AND_GO = {
-    id: 'claim-and-go',
-    title: 'Assign to me and go to case',
-}
+  id: 'claim-and-go',
+  title: 'Assign to me and go to case',
+};
 const GO = {
-    id: 'go',
-    title: 'Go to case',
-}
+  id: 'go',
+  title: 'Go to case',
+};
 
 /**
  * This should become "assign" as there's no actual "reassign" API call.
  */
 const REASSIGN = {
-    id: 'reassign',
-    title: 'Reassign task',
-}
+  id: 'reassign',
+  title: 'Reassign task',
+};
 
 export const ACTIONS = {
-    ASSIGN,
-    CANCEL,
-    CLAIM,
-    COMPLETE,
-    REASSIGN,
-    RELEASE,
-}
+  ASSIGN,
+  CANCEL,
+  CLAIM,
+  COMPLETE,
+  REASSIGN,
+  RELEASE,
+};

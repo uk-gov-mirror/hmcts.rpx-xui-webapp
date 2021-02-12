@@ -1,8 +1,8 @@
 {
-    "exit": true,
-    "bail": true,
-    "slow": 1000,
-    "recursive": true,
-    "spec": ["**/*.spec.ts"],
-    "exclude": ["**/pact/**"]
+  "exit": true,
+  "bail": true,
+  "slow": 1000,
+  "recursive": true,
+  "spec": ["**/*.spec.ts"],
+  "exclude": ["**/pact/**"]
 }

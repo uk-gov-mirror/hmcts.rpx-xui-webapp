@@ -4,15 +4,11 @@
   "engines": {
     "node": ">=12.13.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "prettier --write --ignore-unknown & ng lint --fix"
-    }
-  },
   "scripts": {
     "nuke": "rm -rf dist",
     "build": "yarn build:prod && yarn build:node",
     "pre-push": "yarn lint && yarn build:prod && ng test --code-coverage",
+    "prettier": "prettier --write \"**/*.{js,json,css,scss,less,md,ts,html,component.html}\"",
     "start": "node ./dist/rpx-exui/api/server.bundle.js",
     "start:local": "cd api && yarn start",
     "build:node": "cd api && yarn build",
@@ -28,7 +24,8 @@
     "build:ng": "ng build",
     "build:docker": "docker build -t xui .",
     "lint": "yarn lint:ng && yarn lint:node",
-    "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
+    "p:fix": "prettier --config ./.prettierrc.json --write .",
+    "p:check": "prettier --config ./.prettierrc.json --check .",
     "test": "cd api && yarn coverage && cd .. && yarn test:ng",
     "test:ng": "ng test",
     "test:ng:watch": "ng test --watch=true",
@@ -173,6 +170,7 @@
     "cucumber-html-reporter": "^4.0.5",
     "cucumber-pretty": "1.5.0",
     "cucumberjs-allure-reporter": "1.0.3",
+    "eslint-config-airbnb-typescript-prettier": "^4.1.0",
     "husky": "^5.0.9",
     "jasmine-core": "~2.99.1",
     "jasmine-marbles": "^0.5.0",
@@ -184,6 +182,7 @@
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-spec-reporter": "^0.0.32",
+    "lint-staged": "10.5.4",
     "mocha": "^8.2.1",
     "ngrx-store-freeze": "^0.2.4",
     "node-fetch": "^2.6.1",
@@ -223,5 +222,15 @@
     "**/**/serialize-javascript": "^3.1.0",
     "**/**/ini": "^1.3.6",
     "**/**/chromedriver": "^87.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,scss,less,md,ts,html,component.html}": [
+      "prettier --write"
+    ]
   }
 }
